@@ -6,13 +6,8 @@ var SRC_PATH = 'src/public/**/*.stylus';
 var DST_PATH = 'lib/public/';
 
 module.exports = function (opts) {
-    gulp.task('stylus', function () { return buildStylus(true); });
-    gulp.task('stylus-release', function () { return buildStylus(false); });
-    gulp.task('stylus-watch', function () {
-        gulp.watch(SRC_PATH, function () {
-            runSequence('stylus', 'serve-reload');
-        });
-    });
+    gulp.task('stylus:build', function () { return buildStylus(true); });
+    gulp.task('stylus:release', function () { return buildStylus(false); });
 };
 
 function buildStylus(debug) {

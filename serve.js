@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var browserSync = require('browser-sync');
 
 module.exports = function () {
-    gulp.task('serve', function () {
+    gulp.task('serve:init', function () {
         browserSync.init(null, {
             server: {
                 baseDir: 'lib/public/'

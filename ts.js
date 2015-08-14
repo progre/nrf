@@ -5,18 +5,22 @@ var tslint = require('gulp-tslint');
 var stylish = require('gulp-tslint-stylish');
 var typescript = require('gulp-typescript');
 var plumber = require('gulp-plumber');
-var mergeStream = require('merge-stream');
 
 module.exports = function (opts) {
     opts = opts || {};
-    opts.src = opts.src || ['src/**/*.ts'];
+    opts.src = opts.src || ['src/**/*.ts', '!src/test/**'];
     opts.dest = opts.dest || 'lib/';
+    opts.configPath = opts.configPath || 'src/tsconfig.json';
 
-    gulp.task('ts', function (callback) {
-        runSequence('ts:lint', 'ts:build', callback);
+    var project = typescript.createProject(opts.configPath, {
+        typescript: require('typescript')
+    });
+
+    gulp.task('ts:build', function (callback) {
+        runSequence('ts:lint', 'ts:compile', callback);
     });
     gulp.task('ts:release', function (callback) {
-        runSequence('ts:lint', 'ts:release-build', callback);
+        runSequence('ts:lint', 'ts:release-compile', callback);
     });
 
     gulp.task('ts:lint', function () {
@@ -30,27 +34,16 @@ module.exports = function (opts) {
             }));
     });
 
-    gulp.task('ts:build', function () {
+    gulp.task('ts:compile', function () {
         return gulp.src(opts.src)
             .pipe(sourcemaps.init())
-            .pipe(typescript(umdProject()))
+            .pipe(typescript(project))
             .pipe(sourcemaps.write())
             .pipe(gulp.dest(opts.dest));
     });
-    gulp.task('ts:release-build', function () {
+    gulp.task('ts:release-compile', function () {
         return gulp.src(opts.src)
-            .pipe(typescript(umdProject()))
+            .pipe(typescript(project))
             .pipe(gulp.dest(opts.dest));
     });
 };
-
-function umdProject() {
-    return typescript.createProject({
-        target: 'ES5',
-        module: 'umd',
-        noImplicitAny: true,
-        declarationFiles: true,
-        noEmitOnError: true,
-        typescript: require('typescript')
-    });
-}

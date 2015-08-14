@@ -13,6 +13,10 @@ module.exports = function (opts) {
     opts.src = opts.src || 'src/test/';
     opts.dest = opts.dest || 'lib/test/';
 
+    var project = typescript.createProject(opts.configPath, {
+        typescript: require('typescript')
+    });
+
     gulp.task('test:clean', function (callback) {
         del(opts.dest, callback);
     });
@@ -20,7 +24,7 @@ module.exports = function (opts) {
     gulp.task('test:power-assert', ['test:clean'], function () {
         return gulp.src(opts.src)
             .pipe(sourcemaps.init())
-            .pipe(typescript(umdProject()))
+            .pipe(typescript(project))
             .pipe(espower())
             .pipe(concat('all_test.js'))
             .pipe(sourcemaps.write())
@@ -33,14 +37,3 @@ module.exports = function (opts) {
             .pipe(mocha());
     });
 };
-
-function umdProject() {
-    return typescript.createProject({
-        target: 'ES5',
-        module: 'umd',
-        noImplicitAny: true,
-        declarationFiles: true,
-        noEmitOnError: true,
-        typescript: require('typescript')
-    });
-}
