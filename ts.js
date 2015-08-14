@@ -9,8 +9,8 @@ var mergeStream = require('merge-stream');
 
 module.exports = function (opts) {
     opts = opts || {};
-    opts.commonjs = opts.commonjs || [{ src: ['src/**/*.ts'], dest: 'lib/' }];
-    opts.amd = opts.amd;
+    opts.src = opts.src || ['src/**/*.ts'];
+    opts.dest = opts.dest || 'lib/';
 
     gulp.task('ts', function (callback) {
         runSequence('ts:lint', 'ts:build', callback);
@@ -20,10 +20,8 @@ module.exports = function (opts) {
     });
 
     gulp.task('ts:lint', function () {
-        var glob = opts.commonjs
-            .map(function (x) { return x.src; })
-            .reduce(function (p, c) { return p.concat(c); }, []);
-        return gulp.src(glob)
+        return gulp.src(opts.src)
+            .pipe(plumber())
             .pipe(tslint())
             .pipe(tslint.report(stylish, {
                 emitError: false,
@@ -33,27 +31,23 @@ module.exports = function (opts) {
     });
 
     gulp.task('ts:build', function () {
-        return mergeStream(opts.commonjs.map(function (x) {
-            return gulp.src(x.src)
-                .pipe(sourcemaps.init())
-                .pipe(typescript(tsProject()))
-                .pipe(sourcemaps.write())
-                .pipe(gulp.dest(x.dest));
-        }));
+        return gulp.src(opts.src)
+            .pipe(sourcemaps.init())
+            .pipe(typescript(umdProject()))
+            .pipe(sourcemaps.write())
+            .pipe(gulp.dest(opts.dest));
     });
     gulp.task('ts:release-build', function () {
-        return mergeStream(opts.commonjs.map(function (x) {
-            return gulp.src(x.src)
-                .pipe(typescript(tsProject()))
-                .pipe(gulp.dest(x.dest));
-        }));
+        return gulp.src(opts.src)
+            .pipe(typescript(umdProject()))
+            .pipe(gulp.dest(opts.dest));
     });
 };
 
-function tsProject() {
+function umdProject() {
     return typescript.createProject({
         target: 'ES5',
-        module: 'commonjs',
+        module: 'umd',
         noImplicitAny: true,
         declarationFiles: true,
         noEmitOnError: true,
