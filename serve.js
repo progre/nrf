@@ -35,6 +35,6 @@ module.exports = function (opts) {
         server.run(['lib/app.js']);
         setTimeout(function () {
             browserSync.reload();
-        }, 500);
+        }, 1000);
     });
 };

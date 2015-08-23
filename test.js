@@ -12,6 +12,7 @@ module.exports = function (opts) {
     opts = opts || {};
     opts.src = opts.src || 'src/test/';
     opts.dest = opts.dest || 'lib/test/';
+    opts.configPath = opts.configPath || 'src/tsconfig.json';
 
     var project = typescript.createProject(opts.configPath, {
         typescript: require('typescript')
@@ -22,7 +23,7 @@ module.exports = function (opts) {
     });
 
     gulp.task('test:power-assert', ['test:clean'], function () {
-        return gulp.src(opts.src)
+        return gulp.src(opts.src + '**/*.ts')
             .pipe(sourcemaps.init())
             .pipe(typescript(project))
             .pipe(espower())
