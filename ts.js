@@ -1,18 +1,31 @@
-var gulp = require('gulp');
-var runSequence = require('run-sequence').use(gulp);
-var sourcemaps = require('gulp-sourcemaps');
-var tslint = require('gulp-tslint');
-var stylish = require('gulp-tslint-stylish');
-var typescript = require('gulp-typescript');
-var plumber = require('gulp-plumber');
+'use strict';
+let fs = require('fs');
+let gulp = require('gulp');
+let browserify = require('browserify');
+let runSequence = require('run-sequence').use(gulp);
+let mergeStream = require('merge-stream');
+let streamToPromise = require('stream-to-promise');
+let source = require('vinyl-source-stream');
+let sourcemaps = require('gulp-sourcemaps');
+let tslint = require('gulp-tslint');
+let stylish = require('gulp-tslint-stylish');
+let typescript = require('gulp-typescript');
+let plumber = require('gulp-plumber');
 
 module.exports = function (opts) {
     opts = opts || {};
-    opts.src = opts.src || ['src/**/*.ts', '!src/test/**'];
-    opts.dest = opts.dest || 'lib/';
-    opts.configPath = opts.configPath || 'src/tsconfig.json';
+    opts.lint = opts.lint || ['src/**/*.ts'];
+    opts.umd = opts.umd || {
+        src: ['src/**/*.ts', '!src/test/**', '!src/public/script/**'],
+        dest: 'lib/',
+        configPath: 'src/tsconfig.json'
+    }
+    opts.browserify = opts.browserify || {
+        src: 'src/public/script/main.ts',
+        dest: ['lib/public/script/', 'main.js']
+    }
 
-    var project = typescript.createProject(opts.configPath, {
+    let project = typescript.createProject(opts.umd.configPath, {
         typescript: require('typescript')
     });
 
@@ -24,7 +37,7 @@ module.exports = function (opts) {
     });
 
     gulp.task('ts:lint', function () {
-        return gulp.src(opts.src)
+        return gulp.src(opts.lint)
             .pipe(plumber())
             .pipe(tslint())
             .pipe(tslint.report(stylish, {
@@ -34,16 +47,53 @@ module.exports = function (opts) {
             }));
     });
 
-    gulp.task('ts:compile', function () {
-        return gulp.src(opts.src)
+    gulp.task('ts:compile:umd', function () {
+        return gulp.src(opts.umd.src)
             .pipe(sourcemaps.init())
             .pipe(typescript(project))
             .pipe(sourcemaps.write())
-            .pipe(gulp.dest(opts.dest));
+            .pipe(gulp.dest(opts.umd.dest));
     });
-    gulp.task('ts:release-compile', function () {
-        return gulp.src(opts.src)
-            .pipe(typescript(project))
-            .pipe(gulp.dest(opts.dest));
+
+    gulp.task('ts:compile:browserify', function (callback) {
+        fs.exists(opts.browserify.src, function (exists) {
+            if (!exists) {
+                callback();
+                return;
+            }
+            browserify({
+                entries: [opts.browserify.src],
+                plugin: ['tsify'],
+                debug: true
+            })
+                .bundle()
+                .pipe(plumber())
+                .pipe(source(opts.browserify.dest[1]))
+                .pipe(gulp.dest(opts.browserify.dest[0]))
+                .on('end', callback);
+        });
+    });
+
+    gulp.task('ts:compile', ['ts:compile:umd', 'ts:compile:browserify']);
+
+    gulp.task('ts:release-compile', function (callback) {
+        fs.exists(opts.browserify.src, function (exists) {
+            let tasks = [
+                gulp.src(opts.umd.src)
+                    .pipe(typescript(project))
+                    .pipe(gulp.dest(opts.umd.dest))
+            ];
+            if (exists) {
+                tasks.push(
+                    browserify({
+                        entries: [opts.browserify.src],
+                        plugin: ['tsify']
+                    })
+                        .bundle()
+                        .pipe(source(opts.browserify.dest[1]))
+                        .pipe(gulp.dest(opts.browserify.dest[0])));
+            }
+            mergeStream(tasks).on('end', callback);
+        });
     });
 };
