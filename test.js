@@ -18,8 +18,8 @@ module.exports = function (opts) {
         typescript: require('typescript')
     });
 
-    gulp.task('test:clean', function (callback) {
-        del(opts.dest, callback);
+    gulp.task('test:clean', function () {
+        return del(opts.dest);
     });
 
     gulp.task('test:power-assert', ['test:clean'], function () {
