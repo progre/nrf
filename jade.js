@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var runSequence = require('run-sequence').use(gulp);
 var jade = require('gulp-jade');
+var plumber = require('gulp-plumber');
 
 var SRC_PATH = 'src/public/**/*.jade';
 var DST_PATH = 'lib/public/';
@@ -15,6 +16,7 @@ module.exports = function (opts) {
 
 function buildJade(debug) {
     return gulp.src(SRC_PATH)
+        .pipe(plumber())
         .pipe(jade({ data: {
             debug: debug,
              base: ''

@@ -55,22 +55,32 @@ module.exports = function (opts) {
             .pipe(gulp.dest(opts.umd.dest));
     });
 
-    gulp.task('ts:compile:browserify', function (callback) {
-        fs.exists(opts.browserify.src, function (exists) {
-            if (!exists) {
-                callback();
-                return;
-            }
-            browserify({
-                entries: [opts.browserify.src],
-                plugin: ['tsify'],
-                debug: true
-            })
-                .bundle()
-                .pipe(plumber())
-                .pipe(source(opts.browserify.dest[1]))
-                .pipe(gulp.dest(opts.browserify.dest[0]))
-                .on('end', callback);
+    gulp.task('ts:compile:browserify', function () {
+        return new Promise(function (resolve, reject) {
+            fs.exists(opts.browserify.src, function (exists) {
+                if (!exists) {
+                    resolve();
+                    return;
+                }
+                let id = setTimeout(function () {
+                    reject(new Error('Timeout'));
+                }, 10 * 1000);
+                browserify({
+                    entries: [opts.browserify.src],
+                    debug: true,
+                })
+                    .plugin('tsify', {
+                        typescript: require('typescript')
+                    })
+                    .bundle()
+                    .on('error', function (err) { console.error(err.message); })
+                    .pipe(source(opts.browserify.dest[1]))
+                    .pipe(gulp.dest(opts.browserify.dest[0]))
+                    .on('end', function () {
+                        clearTimeout(id);
+                        resolve();
+                    });
+            });
         });
     });
 
