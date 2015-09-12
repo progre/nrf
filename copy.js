@@ -2,7 +2,7 @@ var gulp = require('gulp');
 
 module.exports = function (opts) {
     opts = opts || {};
-    opts.src = opts.src || ['src/**/*.*(gif|js|json|png)', '!tsconfig.json'];
+    opts.src = opts.src || ['src/**/*', '!tsconfig.json', '!**/*.ts'];
     opts.dest = opts.dest || 'lib/';
 
     gulp.task('copy:copy', function () {
