@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-var runSequence = require('run-sequence').use(gulp);
 var jade = require('gulp-jade');
 var plumber = require('gulp-plumber');
 

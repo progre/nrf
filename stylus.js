@@ -1,4 +1,3 @@
-var runSequence = require('run-sequence');
 var gulp = require('gulp');
 var stylus = require('gulp-stylus');
 

@@ -1,6 +1,5 @@
 var gulp = require('gulp');
 var del = require('del');
-var runSequence = require('run-sequence').use(gulp);
 var espower = require('gulp-espower');
 var mocha = require('gulp-mocha');
 var plumber = require('gulp-plumber');

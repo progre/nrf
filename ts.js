@@ -2,7 +2,6 @@
 let fs = require('fs');
 let gulp = require('gulp');
 let browserify = require('browserify');
-let runSequence = require('run-sequence').use(gulp);
 let mergeStream = require('merge-stream');
 let streamToPromise = require('stream-to-promise');
 let source = require('vinyl-source-stream');
