@@ -29,6 +29,11 @@ module.exports = function (opts) {
         typescript: require('typescript')
     });
 
+    let releaseProject = typescript.createProject(opts.umd.configPath, {
+        removeComments: true,
+        typescript: require('typescript')
+    });
+
     gulp.task('ts:build', function (callback) {
         runSequence('ts:lint', 'ts:compile', callback);
     });
@@ -55,6 +60,12 @@ module.exports = function (opts) {
             .pipe(gulp.dest(opts.umd.dest));
     });
 
+    gulp.task('ts:release-compile:umd', function () {
+        return gulp.src(opts.umd.src)
+            .pipe(typescript(releaseProject))
+            .pipe(gulp.dest(opts.umd.dest));
+    });
+
     gulp.task('ts:compile:browserify', function () {
         return new Promise(function (resolve, reject) {
             fs.exists(opts.browserify.src, function (exists) {
@@ -67,7 +78,7 @@ module.exports = function (opts) {
                 }, 10 * 1000);
                 browserify({
                     entries: [opts.browserify.src],
-                    debug: true,
+                    debug: true
                 })
                     .plugin('tsify', {
                         typescript: require('typescript')
@@ -84,26 +95,36 @@ module.exports = function (opts) {
         });
     });
 
-    gulp.task('ts:compile', ['ts:compile:umd', 'ts:compile:browserify']);
-
-    gulp.task('ts:release-compile', function (callback) {
-        fs.exists(opts.browserify.src, function (exists) {
-            let tasks = [
-                gulp.src(opts.umd.src)
-                    .pipe(typescript(project))
-                    .pipe(gulp.dest(opts.umd.dest))
-            ];
-            if (exists) {
-                tasks.push(
-                    browserify({
-                        entries: [opts.browserify.src],
-                        plugin: ['tsify']
+    gulp.task('ts:release-compile:browserify', function () {
+        return new Promise(function (resolve, reject) {
+            fs.exists(opts.browserify.src, function (exists) {
+                if (!exists) {
+                    resolve();
+                    return;
+                }
+                let id = setTimeout(function () {
+                    reject(new Error('Timeout'));
+                }, 10 * 1000);
+                browserify({
+                    entries: [opts.browserify.src]
+                })
+                    .plugin('tsify', {
+                        removeComments: true,
+                        typescript: require('typescript')
                     })
-                        .bundle()
-                        .pipe(source(opts.browserify.dest[1]))
-                        .pipe(gulp.dest(opts.browserify.dest[0])));
-            }
-            mergeStream(tasks).on('end', callback);
+                    .bundle()
+                    .on('error', function (err) { console.error(err.message); })
+                    .pipe(source(opts.browserify.dest[1]))
+                    .pipe(gulp.dest(opts.browserify.dest[0]))
+                    .on('end', function () {
+                        clearTimeout(id);
+                        resolve();
+                    });
+            });
         });
     });
+
+    gulp.task('ts:compile', ['ts:compile:umd', 'ts:compile:browserify']);
+
+    gulp.task('ts:release-compile', ['ts:release-compile:umd', 'ts:release-compile:browserify']);
 };
