@@ -81,6 +81,7 @@ module.exports = function (opts) {
                     debug: true
                 })
                     .plugin('tsify', {
+                        target: 'ES5',
                         typescript: require('typescript')
                     })
                     .bundle()
@@ -109,6 +110,7 @@ module.exports = function (opts) {
                     entries: [opts.browserify.src]
                 })
                     .plugin('tsify', {
+                        target: 'ES5',
                         removeComments: true,
                         typescript: require('typescript')
                     })
