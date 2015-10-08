@@ -16,13 +16,13 @@ module.exports = function (opts) {
     opts = opts || {};
     opts.lint = opts.lint || ['src/**/*.ts'];
     opts.umd = opts.umd || {
-        src: ['src/**/*.ts', '!src/test/**', '!src/public/script/**'],
+        src: ['src/**/*.ts', '!src/test/**', '!src/public/js/**'],
         dest: 'lib/',
         configPath: 'src/tsconfig.json'
     };
     opts.browserify = opts.browserify || [{
-        src: 'src/public/script/main.ts',
-        dest: 'lib/public/script/'
+        src: 'src/public/js/main.ts',
+        dest: 'lib/public/js/'
     }];
 
     let project = typescript.createProject(opts.umd.configPath, {
