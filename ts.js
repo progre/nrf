@@ -20,17 +20,29 @@ module.exports = function (opts) {
         dest: 'lib/',
         configPath: 'src/tsconfig.json'
     };
-    opts.browserify = opts.browserify || [{
-        src: 'src/public/js/main.ts',
-        dest: 'lib/public/js/'
-    }];
+    opts.browserify = opts.browserify || {
+        files: [{
+            src: 'src/public/js/main.ts',
+            dest: 'lib/public/js/'
+        }],
+        configPath: 'src/public/js/tsconfig.json'
+    };
 
-    let project = typescript.createProject(opts.umd.configPath, {
-        typescript: require('typescript')
-    });
+    let project = {};
+    let releaseProject = {};
+    try {
+        project = typescript.createProject(opts.umd.configPath, {
+            typescript: require('typescript')
+        });
 
-    let releaseProject = typescript.createProject(opts.umd.configPath, {
-        removeComments: true,
+        releaseProject = typescript.createProject(opts.umd.configPath, {
+            removeComments: true,
+            typescript: require('typescript')
+        });
+    } catch (e) {
+    }
+
+    let browserifyProject = typescript.createProject(opts.browserify.configPath, {
         typescript: require('typescript')
     });
 
@@ -67,7 +79,7 @@ module.exports = function (opts) {
     });
 
     gulp.task('ts:compile:browserify', function () {
-        return Promise.all(opts.browserify.map(x => {
+        return Promise.all(opts.browserify.files.map(x => {
             new Promise(function (resolve, reject) {
                 fs.exists(x.src, function (exists) {
                     if (!exists) {
@@ -85,10 +97,7 @@ module.exports = function (opts) {
                         entries: [x.src],
                         debug: true
                     })
-                        .plugin('tsify', {
-                            target: 'ES5',
-                            typescript: require('typescript')
-                        })
+                        .plugin('tsify', browserifyProject)
                         .bundle()
                         .on('error', function (err) { console.error(err.message); })
                         .pipe(source(outputName))

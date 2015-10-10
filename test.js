@@ -13,9 +13,13 @@ module.exports = function (opts) {
     opts.dest = opts.dest || 'lib/test/';
     opts.configPath = opts.configPath || 'src/tsconfig.json';
 
-    var project = typescript.createProject(opts.configPath, {
-        typescript: require('typescript')
-    });
+    var project = {};
+    try {
+        project = typescript.createProject(opts.configPath, {
+            typescript: require('typescript')
+        });
+    } catch (e) {
+    }
 
     gulp.task('test:clean', function () {
         return del(opts.dest);
