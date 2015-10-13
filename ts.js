@@ -22,7 +22,7 @@ module.exports = function (opts) {
     };
     opts.browserify = opts.browserify || {
         files: [{
-            src: 'src/public/js/main.ts',
+            src: 'src/public/js/app.ts',
             dest: 'lib/public/js/'
         }],
         configPath: 'src/public/js/tsconfig.json'
