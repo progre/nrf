@@ -3,7 +3,6 @@ let path = require('path');
 let gulp = require('gulp');
 let browserify = require('browserify');
 let runSequence = require('run-sequence').use(gulp);
-let streamToPromise = require('stream-to-promise');
 let source = require('vinyl-source-stream');
 let plumber = require('gulp-plumber');
 let sourcemaps = require('gulp-sourcemaps');
