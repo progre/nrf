@@ -1,5 +1,4 @@
 'use strict';
-let fs = require('fs');
 let path = require('path');
 let gulp = require('gulp');
 let browserify = require('browserify');
@@ -11,6 +10,9 @@ let sourcemaps = require('gulp-sourcemaps');
 let stylish = require('gulp-tslint-stylish');
 let tslint = require('gulp-tslint');
 let typescript = require('gulp-typescript');
+let buffer = require('vinyl-buffer');
+let gulpif = require('gulp-if');
+let uglify = require('gulp-uglify');
 
 module.exports = function (opts) {
     opts = opts || {};
@@ -78,14 +80,12 @@ module.exports = function (opts) {
             .pipe(gulp.dest(opts.umd.dest));
     });
 
-    gulp.task('ts:compile:browserify', function () {
-        return Promise.all(opts.browserify.files.map(x => {
-            new Promise(function (resolve, reject) {
-                fs.exists(x.src, function (exists) {
-                    if (!exists) {
-                        resolve();
-                        return;
-                    }
+    gulp.task('ts:compile:browserify', createBrowserify(true));
+    gulp.task('ts:release-compile:browserify', createBrowserify(false));
+    function createBrowserify(debug) {
+        return () => {
+            Promise.all(opts.browserify.files.map(x => {
+                new Promise(function (resolve, reject) {
                     let id = setTimeout(function () {
                         resolve = () => { };
                         reject(new Error('Timeout'));
@@ -95,51 +95,24 @@ module.exports = function (opts) {
                     let outputName = basename.replace(new RegExp(path.extname(basename) + '$'), '.js');
                     browserify({
                         entries: [x.src],
-                        debug: true
+                        removeComments: !debug,
+                        debug: debug
                     })
                         .plugin('tsify', browserifyProject)
                         .bundle()
                         .on('error', function (err) { console.error(err.message); })
                         .pipe(source(outputName))
+                        .pipe(gulpif(!debug, buffer()))
+                        .pipe(gulpif(!debug, uglify()))
                         .pipe(gulp.dest(x.dest))
                         .on('end', function () {
                             clearTimeout(id);
                             resolve();
                         });
-                });
-            })
-        }));
-    });
-
-    gulp.task('ts:release-compile:browserify', function () {
-        return new Promise(function (resolve, reject) {
-            fs.exists(opts.browserify.src, function (exists) {
-                if (!exists) {
-                    resolve();
-                    return;
-                }
-                let id = setTimeout(function () {
-                    reject(new Error('Timeout'));
-                }, 10 * 1000);
-                browserify({
-                    entries: [opts.browserify.src]
                 })
-                    .plugin('tsify', {
-                        target: 'ES5',
-                        removeComments: true,
-                        typescript: require('typescript')
-                    })
-                    .bundle()
-                    .on('error', function (err) { console.error(err.message); })
-                    .pipe(source(opts.browserify.dest[1]))
-                    .pipe(gulp.dest(opts.browserify.dest[0]))
-                    .on('end', function () {
-                        clearTimeout(id);
-                        resolve();
-                    });
-            });
-        });
-    });
+            }));
+        };
+    }
 
     gulp.task('ts:compile', ['ts:compile:umd', 'ts:compile:browserify']);
 
