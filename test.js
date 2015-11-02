@@ -1,19 +1,18 @@
-var gulp = require('gulp');
-var del = require('del');
-var espower = require('gulp-espower');
-var mocha = require('gulp-mocha');
-var plumber = require('gulp-plumber');
-var sourcemaps = require('gulp-sourcemaps');
-var typescript = require('gulp-typescript');
-var concat = require('gulp-concat');
+const gulp = require('gulp');
+const del = require('del');
+const espower = require('gulp-espower');
+const mocha = require('gulp-mocha');
+const plumber = require('gulp-plumber');
+const sourcemaps = require('gulp-sourcemaps');
+const typescript = require('gulp-typescript');
+const concat = require('gulp-concat');
 
-module.exports = function (opts) {
-    opts = opts || {};
+module.exports = (opts = {}) => {
     opts.src = opts.src || 'src/test/';
     opts.dest = opts.dest || 'lib/test/';
     opts.configPath = opts.configPath || 'src/tsconfig.json';
 
-    var project = {};
+    let project = {};
     try {
         project = typescript.createProject(opts.configPath, {
             typescript: require('typescript')
@@ -21,11 +20,11 @@ module.exports = function (opts) {
     } catch (e) {
     }
 
-    gulp.task('test:clean', function () {
+    gulp.task('test:clean', () => {
         return del(opts.dest);
     });
 
-    gulp.task('test:power-assert', ['test:clean'], function () {
+    gulp.task('test:power-assert', ['test:clean'], () => {
         return gulp.src(opts.src + '**/*.ts')
             .pipe(sourcemaps.init())
             .pipe(typescript(project))
@@ -35,7 +34,7 @@ module.exports = function (opts) {
             .pipe(gulp.dest(opts.dest));
     });
 
-    gulp.task('test', ['test:power-assert'], function () {
+    gulp.task('test', ['test:power-assert'], () => {
         gulp.src(opts.dest + '**/*.js')
             .pipe(plumber())
             .pipe(mocha());

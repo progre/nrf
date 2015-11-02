@@ -1,12 +1,10 @@
-var gulp = require('gulp');
-var browserSync = require('browser-sync').create();
-var server = require('gulp-express');
+const gulp = require('gulp');
+const browserSync = require('browser-sync').create();
+const server = require('gulp-express');
 
-module.exports = function (opts) {
-    opts = opts || {};
-
-    gulp.task('serve:init', function (callback) {
-        var config;
+module.exports = (opts = {}) => {
+    gulp.task('serve:init', callback => {
+        let config;
         switch (opts.mode) {
             case 'proxy':
                 config = {
@@ -27,13 +25,13 @@ module.exports = function (opts) {
         browserSync.init(config, callback);
     });
 
-    gulp.task('serve:reload', function () {
+    gulp.task('serve:reload', () => {
         browserSync.reload();
     });
 
-    gulp.task('serve:reboot', function () {
+    gulp.task('serve:reboot', () => {
         server.run(['lib/app.js']);
-        setTimeout(function () {
+        setTimeout(() => {
             browserSync.reload();
         }, 1000);
     });

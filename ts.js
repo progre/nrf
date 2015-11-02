@@ -1,20 +1,19 @@
 'use strict';
-let path = require('path');
-let gulp = require('gulp');
-let browserify = require('browserify');
-let runSequence = require('run-sequence').use(gulp);
-let source = require('vinyl-source-stream');
-let plumber = require('gulp-plumber');
-let sourcemaps = require('gulp-sourcemaps');
-let stylish = require('gulp-tslint-stylish');
-let tslint = require('gulp-tslint');
-let typescript = require('gulp-typescript');
-let buffer = require('vinyl-buffer');
-let gulpif = require('gulp-if');
-let uglify = require('gulp-uglify');
+const path = require('path');
+const gulp = require('gulp');
+const browserify = require('browserify');
+const runSequence = require('run-sequence').use(gulp);
+const source = require('vinyl-source-stream');
+const plumber = require('gulp-plumber');
+const sourcemaps = require('gulp-sourcemaps');
+const stylish = require('gulp-tslint-stylish');
+const tslint = require('gulp-tslint');
+const typescript = require('gulp-typescript');
+const buffer = require('vinyl-buffer');
+const gulpif = require('gulp-if');
+const uglify = require('gulp-uglify');
 
-module.exports = function (opts) {
-    opts = opts || {};
+module.exports = (opts = {}) => {
     opts.lint = opts.lint || ['src/**/*.ts'];
     opts.umd = opts.umd || {
         src: ['src/**/*.ts', '!src/test/**', '!src/public/js/**'],
@@ -47,14 +46,14 @@ module.exports = function (opts) {
         typescript: require('typescript')
     });
 
-    gulp.task('ts:build', function (callback) {
+    gulp.task('ts:build', callback => {
         runSequence('ts:lint', 'ts:compile', callback);
     });
-    gulp.task('ts:release', function (callback) {
+    gulp.task('ts:release', callback => {
         runSequence('ts:lint', 'ts:release-compile', callback);
     });
 
-    gulp.task('ts:lint', function () {
+    gulp.task('ts:lint', () => {
         return gulp.src(opts.lint)
             .pipe(plumber())
             .pipe(tslint())
@@ -65,7 +64,7 @@ module.exports = function (opts) {
             }));
     });
 
-    gulp.task('ts:compile:umd', function () {
+    gulp.task('ts:compile:umd', () => {
         return gulp.src(opts.umd.src)
             .pipe(sourcemaps.init())
             .pipe(typescript(project))
@@ -73,7 +72,7 @@ module.exports = function (opts) {
             .pipe(gulp.dest(opts.umd.dest));
     });
 
-    gulp.task('ts:release-compile:umd', function () {
+    gulp.task('ts:release-compile:umd', () => {
         return gulp.src(opts.umd.src)
             .pipe(typescript(releaseProject))
             .pipe(gulp.dest(opts.umd.dest));
