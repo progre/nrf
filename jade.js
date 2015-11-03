@@ -1,3 +1,4 @@
+'use strict';
 const gulp = require('gulp');
 const jade = require('gulp-jade');
 const plumber = require('gulp-plumber');
@@ -5,7 +6,8 @@ const plumber = require('gulp-plumber');
 const SRC_PATH = 'src/public/**/*.jade';
 const DST_PATH = 'lib/public/';
 
-module.exports = (opts = {}) => {
+module.exports = opts => {
+    opts = opts || {};
     opts.raw = opts.raw || 'tmp/test/';
     opts.powered = opts.powered || 'lib/test/';
     gulp.task('jade:build', () => buildJade(true));

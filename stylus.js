@@ -1,10 +1,12 @@
+'use strict';
 const gulp = require('gulp');
 const stylus = require('gulp-stylus');
 
 const SRC_PATH = 'src/public/**/*.stylus';
 const DST_PATH = 'lib/public/';
 
-module.exports = (opts = {}) => {
+module.exports = opts => {
+    opts = opts || {};
     gulp.task('stylus:build', () => buildStylus(true));
     gulp.task('stylus:release', () => buildStylus(false));
 };

@@ -1,3 +1,4 @@
+'use strict';
 const gulp = require('gulp');
 const del = require('del');
 const espower = require('gulp-espower');
@@ -7,7 +8,8 @@ const sourcemaps = require('gulp-sourcemaps');
 const typescript = require('gulp-typescript');
 const concat = require('gulp-concat');
 
-module.exports = (opts = {}) => {
+module.exports = opts => {
+    opts = opts || {};
     opts.src = opts.src || 'src/test/';
     opts.dest = opts.dest || 'lib/test/';
     opts.configPath = opts.configPath || 'src/tsconfig.json';

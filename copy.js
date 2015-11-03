@@ -1,6 +1,8 @@
+'use strict';
 const gulp = require('gulp');
 
-module.exports = (opts = {}) => {
+module.exports = opts => {
+    opts = opts || {};
     opts.src = opts.src || ['src/**/*', '!**/tsconfig.json', '!**/*.*(jade|stylus|ts)'];
     opts.dest = opts.dest || 'lib/';
 

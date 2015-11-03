@@ -1,8 +1,10 @@
+'use strict';
 const gulp = require('gulp');
 const browserSync = require('browser-sync').create();
 const server = require('gulp-express');
 
-module.exports = (opts = {}) => {
+module.exports = opts => {
+    opts = opts || {};
     gulp.task('serve:init', callback => {
         let config;
         switch (opts.mode) {

@@ -1,18 +1,21 @@
+'use strict';
 const path = require('path');
-const gulp = require('gulp');
-const browserify = require('browserify');
-const runSequence = require('run-sequence').use(gulp);
+const typescript = require('typescript');
+const buffer = require('vinyl-buffer');
 const source = require('vinyl-source-stream');
+const browserify = require('browserify');
+const gulp = require('gulp');
+const runSequence = require('run-sequence').use(gulp);
 const plumber = require('gulp-plumber');
 const sourcemaps = require('gulp-sourcemaps');
 const stylish = require('gulp-tslint-stylish');
 const tslint = require('gulp-tslint');
-const typescript = require('gulp-typescript');
-const buffer = require('vinyl-buffer');
-const gulpif = require('gulp-if');
+const gulpTypescript = require('gulp-typescript');
+const gulpIf = require('gulp-if');
 const uglify = require('gulp-uglify');
 
-module.exports = (opts = {}) => {
+module.exports = opts => {
+    opts = opts || {};
     opts.lint = opts.lint || ['src/**/*.ts'];
     opts.umd = opts.umd || {
         src: ['src/**/*.ts', '!src/test/**', '!src/public/js/**'],
@@ -30,20 +33,22 @@ module.exports = (opts = {}) => {
     let project = {};
     let releaseProject = {};
     try {
-        project = typescript.createProject(opts.umd.configPath, {
-            typescript: require('typescript')
+        project = gulpTypescript.createProject(opts.umd.configPath, {
+            typescript
         });
-
-        releaseProject = typescript.createProject(opts.umd.configPath, {
+        releaseProject = gulpTypescript.createProject(opts.umd.configPath, {
             removeComments: true,
-            typescript: require('typescript')
+            typescript
         });
     } catch (e) {
     }
-
-    let browserifyProject = typescript.createProject(opts.browserify.configPath, {
-        typescript: require('typescript')
-    });
+    let browserifyProject = {};
+    try {
+        browserifyProject = gulpTypescript.createProject(opts.browserify.configPath, {
+            typescript
+        });
+    } catch (e) {
+    }
 
     gulp.task('ts:build', callback => {
         runSequence('ts:lint', 'ts:compile', callback);
@@ -66,14 +71,14 @@ module.exports = (opts = {}) => {
     gulp.task('ts:compile:umd', () => {
         return gulp.src(opts.umd.src)
             .pipe(sourcemaps.init())
-            .pipe(typescript(project))
+            .pipe(gulpTypescript(project))
             .pipe(sourcemaps.write())
             .pipe(gulp.dest(opts.umd.dest));
     });
 
     gulp.task('ts:release-compile:umd', () => {
         return gulp.src(opts.umd.src)
-            .pipe(typescript(releaseProject))
+            .pipe(gulpTypescript(releaseProject))
             .pipe(gulp.dest(opts.umd.dest));
     });
 
@@ -99,8 +104,8 @@ module.exports = (opts = {}) => {
                         .bundle()
                         .on('error', function (err) { console.error(err.message); })
                         .pipe(source(outputName))
-                        .pipe(gulpif(!debug, buffer()))
-                        .pipe(gulpif(!debug, uglify()))
+                        .pipe(gulpIf(!debug, buffer()))
+                        .pipe(gulpIf(!debug, uglify()))
                         .pipe(gulp.dest(x.dest))
                         .on('end', function () {
                             clearTimeout(id);
