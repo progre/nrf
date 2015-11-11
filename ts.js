@@ -11,6 +11,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const stylish = require('gulp-tslint-stylish');
 const tslint = require('gulp-tslint');
 const gulpTypescript = require('gulp-typescript');
+const babel = require('gulp-babel');
 const gulpIf = require('gulp-if');
 const uglify = require('gulp-uglify');
 
@@ -42,13 +43,13 @@ module.exports = opts => {
         });
     } catch (e) {
     }
-    let browserifyProject = {};
+    let browserifyProject = releaseProject;
     try {
-        browserifyProject = gulpTypescript.createProject(opts.browserify.configPath, {
-            typescript
-        });
+        browserifyProject = require('../' + opts.browserify.configPath).compilerOptions;
     } catch (e) {
+        browserifyProject = project.config.compilerOptions;
     }
+    browserifyProject.typescript = typescript;
 
     gulp.task('ts:build', callback => {
         runSequence('ts:lint', 'ts:compile', callback);
@@ -72,6 +73,7 @@ module.exports = opts => {
         return gulp.src(opts.umd.src)
             .pipe(sourcemaps.init())
             .pipe(gulpTypescript(project))
+            .pipe(babel())
             .pipe(sourcemaps.write())
             .pipe(gulp.dest(opts.umd.dest));
     });
@@ -79,6 +81,7 @@ module.exports = opts => {
     gulp.task('ts:release-compile:umd', () => {
         return gulp.src(opts.umd.src)
             .pipe(gulpTypescript(releaseProject))
+            .pipe(babel())
             .pipe(gulp.dest(opts.umd.dest));
     });
 
@@ -86,13 +89,8 @@ module.exports = opts => {
     gulp.task('ts:release-compile:browserify', createBrowserify(false));
     function createBrowserify(debug) {
         return () => {
-            Promise.all(opts.browserify.files.map(x => {
-                new Promise(function (resolve, reject) {
-                    let id = setTimeout(function () {
-                        resolve = () => { };
-                        reject(new Error('Timeout'));
-                    }, 10 * 1000);
-
+            return Promise.all(opts.browserify.files.map(x => {
+                return new Promise((resolve, reject) => {
                     let basename = path.basename(x.src);
                     let outputName = basename.replace(new RegExp(path.extname(basename) + '$'), '.js');
                     browserify({
@@ -101,16 +99,17 @@ module.exports = opts => {
                         debug: debug
                     })
                         .plugin('tsify', browserifyProject)
+                        .plugin('babelify')
                         .bundle()
-                        .on('error', function (err) { console.error(err.message); })
+                        .on('error', err => {
+                            console.error(err.message);
+                            reject();
+                        })
                         .pipe(source(outputName))
                         .pipe(gulpIf(!debug, buffer()))
                         .pipe(gulpIf(!debug, uglify()))
                         .pipe(gulp.dest(x.dest))
-                        .on('end', function () {
-                            clearTimeout(id);
-                            resolve();
-                        });
+                        .on('end', resolve);
                 })
             }));
         };
