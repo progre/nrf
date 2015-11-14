@@ -23,13 +23,12 @@ module.exports = opts => {
         dest: 'lib/',
         configPath: 'src/tsconfig.json'
     };
-    opts.browserify = opts.browserify || {
-        files: [{
-            src: 'src/public/js/app.ts',
-            dest: 'lib/public/js/'
-        }],
-        configPath: 'src/public/js/tsconfig.json'
-    };
+    opts.browserify = opts.browserify || {};
+    opts.browserify.files = opts.browserify.files || [{
+        src: 'src/public/js/app.ts',
+        dest: 'lib/public/js/'
+    }];
+    opts.browserify.configPath = opts.browserify.configPath || 'src/public/js/tsconfig.json';
 
     let project = {};
     let releaseProject = {};
@@ -73,7 +72,7 @@ module.exports = opts => {
         return gulp.src(opts.umd.src)
             .pipe(sourcemaps.init())
             .pipe(gulpTypescript(project))
-            .pipe(babel())
+            .pipe(babel({ plugins: ['transform-es2015-modules-commonjs'] }))
             .pipe(sourcemaps.write())
             .pipe(gulp.dest(opts.umd.dest));
     });
@@ -81,7 +80,7 @@ module.exports = opts => {
     gulp.task('ts:release-compile:umd', () => {
         return gulp.src(opts.umd.src)
             .pipe(gulpTypescript(releaseProject))
-            .pipe(babel())
+            .pipe(babel({ plugins: ['transform-es2015-modules-commonjs'] }))
             .pipe(gulp.dest(opts.umd.dest));
     });
 
@@ -99,7 +98,7 @@ module.exports = opts => {
                         debug: debug
                     })
                         .plugin('tsify', browserifyProject)
-                        .plugin('babelify')
+                        .plugin('babelify', { presets: ['es2015'] })
                         .bundle()
                         .on('error', err => {
                             console.error(err.message);
