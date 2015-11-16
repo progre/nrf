@@ -59,7 +59,7 @@ module.exports = opts => {
 
     gulp.task('ts:lint', () => {
         return gulp.src(opts.lint)
-            .pipe(plumber())
+            .pipe(plumber({ errorHandler: errorHandler }))
             .pipe(tslint())
             .pipe(tslint.report(stylish, {
                 emitError: false,
@@ -68,19 +68,28 @@ module.exports = opts => {
             }));
     });
 
+    const babelOptions = {
+        plugins: [
+            'transform-es2015-destructuring',
+            'transform-es2015-modules-commonjs'
+        ]
+    };
+
     gulp.task('ts:compile:umd', () => {
         return gulp.src(opts.umd.src)
+            .pipe(plumber({ errorHandler: errorHandler }))
             .pipe(sourcemaps.init())
             .pipe(gulpTypescript(project))
-            .pipe(babel({ plugins: ['transform-es2015-modules-commonjs'] }))
+            .pipe(babel(babelOptions))
             .pipe(sourcemaps.write())
             .pipe(gulp.dest(opts.umd.dest));
     });
 
     gulp.task('ts:release-compile:umd', () => {
         return gulp.src(opts.umd.src)
+            .pipe(plumber())
             .pipe(gulpTypescript(releaseProject))
-            .pipe(babel({ plugins: ['transform-es2015-modules-commonjs'] }))
+            .pipe(babel(babelOptions))
             .pipe(gulp.dest(opts.umd.dest));
     });
 
@@ -118,3 +127,10 @@ module.exports = opts => {
 
     gulp.task('ts:release-compile', ['ts:release-compile:umd', 'ts:release-compile:browserify']);
 };
+
+function errorHandler(e) {
+    console.error(e.toString());
+    if (e.codeFrame != null) {
+        console.error(e.codeFrame);
+    }
+}
