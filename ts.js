@@ -42,13 +42,12 @@ module.exports = opts => {
         });
     } catch (e) {
     }
-    let browserifyProject = releaseProject;
+    let browserifyProject;
     try {
         browserifyProject = require('../' + opts.browserify.configPath).compilerOptions;
     } catch (e) {
         browserifyProject = project.config.compilerOptions;
     }
-    browserifyProject.typescript = typescript;
 
     gulp.task('ts:build', callback => {
         runSequence('ts:lint', 'ts:compile', callback);
@@ -75,52 +74,43 @@ module.exports = opts => {
         ]
     };
 
-    gulp.task('ts:compile:umd', () => {
-        return gulp.src(opts.umd.src)
+    gulp.task('ts:compile:umd', createUmd(true));
+    gulp.task('ts:release-compile:umd', createUmd(false));
+    function createUmd(debug) {
+        return () => gulp.src(opts.umd.src)
             .pipe(plumber({ errorHandler: errorHandler }))
-            .pipe(sourcemaps.init())
+            .pipe(gulpIf(debug, sourcemaps.init()))
             .pipe(gulpTypescript(project))
             .pipe(babel(babelOptions))
-            .pipe(sourcemaps.write())
+            .pipe(gulpIf(debug, sourcemaps.write()))
             .pipe(gulp.dest(opts.umd.dest));
-    });
-
-    gulp.task('ts:release-compile:umd', () => {
-        return gulp.src(opts.umd.src)
-            .pipe(plumber())
-            .pipe(gulpTypescript(releaseProject))
-            .pipe(babel(babelOptions))
-            .pipe(gulp.dest(opts.umd.dest));
-    });
+    }
 
     gulp.task('ts:compile:browserify', createBrowserify(true));
     gulp.task('ts:release-compile:browserify', createBrowserify(false));
     function createBrowserify(debug) {
-        return () => {
-            return Promise.all(opts.browserify.files.map(x => {
-                return new Promise((resolve, reject) => {
-                    let basename = path.basename(x.src);
-                    let outputName = basename.replace(new RegExp(path.extname(basename) + '$'), '.js');
-                    browserify({
-                        entries: [x.src],
-                        removeComments: !debug,
-                        debug: debug
-                    })
-                        .plugin('tsify', browserifyProject)
-                        .plugin('babelify', { presets: ['es2015'] })
-                        .bundle()
-                        .on('error', err => {
-                            console.error(err.message);
-                            reject();
-                        })
-                        .pipe(source(outputName))
-                        .pipe(gulpIf(!debug, buffer()))
-                        .pipe(gulpIf(!debug, uglify()))
-                        .pipe(gulp.dest(x.dest))
-                        .on('end', resolve);
+        let files = opts.browserify.files;
+        return () => Promise.all(files.map(x => new Promise((resolve, reject) => {
+            let basename = path.basename(x.src);
+            let outputName = basename.replace(
+                new RegExp(path.extname(basename) + '$'), '.js');
+            browserify({
+                entries: x.src,
+                removeComments: !debug,
+                debug: debug
+            })
+                .plugin('tsify', browserifyProject)
+                .bundle()
+                .on('error', err => {
+                    console.error(err.toString());
+                    reject();
                 })
-            }));
-        };
+                .pipe(source(outputName))
+                .pipe(gulpIf(!debug, buffer()))
+                .pipe(gulpIf(!debug, uglify()))
+                .pipe(gulp.dest(x.dest))
+                .on('end', resolve);
+        })));
     }
 
     gulp.task('ts:compile', ['ts:compile:umd', 'ts:compile:browserify']);
