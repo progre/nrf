@@ -21,7 +21,7 @@ module.exports = opts => {
     opts.umd = opts.umd || {
         src: ['src/**/*.ts', '!src/test/**', '!src/public/js/**'],
         dest: 'lib/',
-        configPath: 'src/tsconfig.json'
+        configPath: 'tsconfig.json'
     };
     opts.browserify = opts.browserify || {};
     opts.browserify.files = opts.browserify.files || [{
