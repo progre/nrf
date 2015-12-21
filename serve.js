@@ -1,17 +1,17 @@
-'use strict';
-const gulp = require('gulp');
-const browserSync = require('browser-sync').create();
-const server = require('gulp-express');
+"use strict";
+const gulp = require("gulp");
+const browserSync = require("browser-sync").create();
+const server = require("gulp-express");
 
 module.exports = opts => {
     opts = opts || {};
-    gulp.task('serve:init', callback => {
+    gulp.task("serve:init", callback => {
         let config;
         switch (opts.mode) {
-            case 'proxy':
+            case "proxy":
                 config = {
                     proxy: {
-                        target: '127.0.0.1:8080',
+                        target: "127.0.0.1:8080",
                         ws: true
                     }
                 }
@@ -19,7 +19,7 @@ module.exports = opts => {
             default:
                 config = {
                     server: {
-                        baseDir: 'lib/public/'
+                        baseDir: "lib/public/"
                     }
                 }
                 break;
@@ -27,12 +27,12 @@ module.exports = opts => {
         browserSync.init(config, callback);
     });
 
-    gulp.task('serve:reload', () => {
+    gulp.task("serve:reload", () => {
         browserSync.reload();
     });
 
-    gulp.task('serve:reboot', () => {
-        server.run(['lib/app.js']);
+    gulp.task("serve:reboot", () => {
+        server.run(["lib/app.js"]);
         setTimeout(() => {
             browserSync.reload();
         }, 1000);
