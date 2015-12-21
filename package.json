@@ -1,0 +1,16 @@
+{
+  "name": "gulpfiles",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/progre/gulpfiles"
+  },
+  "author": "progre",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/progre/template-typescript/issues"
+  }
+}
