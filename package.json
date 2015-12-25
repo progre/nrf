@@ -1,17 +1,9 @@
 {
   "name": "template-typescript",
+  "description": "Project template.",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "build": "gulp build",
-    "test": "gulp test"
-  },
   "author": "progre",
-  "license": "MIT",
-  "files": [
-      "lib"
-  ],
+  "bugs": "https://github.com/progre/template-typescript/issues",
   "devDependencies": {
     "babel-preset-es2015": "^6.3.13",
     "browser-sync": "^2.10.1",
@@ -41,5 +33,19 @@
     "typescript": "^1.7.5",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "files": [
+    "lib"
+  ],
+  "homepage": "https://github.com/progre/template-typescript/",
+  "keywords": [
+    "template"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "repository": "https://github.com/progre/template-typescript.git",
+  "scripts": {
+    "build": "gulp build",
+    "test": "gulp test"
   }
 }
