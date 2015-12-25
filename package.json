@@ -24,7 +24,6 @@
     "gulp-tslint-stylish": "^1.1.1",
     "gulp-typescript": "^2.10.0",
     "gulp-uglify": "^1.5.1",
-    "gulpfiles": "file:gulp",
     "native-promisify": "^1.2.0",
     "path": "^0.12.7",
     "run-sequence": "^1.1.5",
@@ -43,6 +42,7 @@
   ],
   "license": "MIT",
   "main": "index.js",
+  "private": true,
   "repository": "https://github.com/progre/template-typescript.git",
   "scripts": {
     "build": "gulp build",
