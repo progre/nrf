@@ -117,11 +117,7 @@ module.exports = opts => {
                         .pipe(gulpIf(!debug, uglify()))
                         .pipe(gulp.dest(x.dest))
                         .on("end", resolve);
-                }))));
-
-        // let files = opts.browserify.files.filter(x => {
-        //     try { fs.accessSync(x.src, fs.R_OK); return true; } catch (e) { return false; }
-        // });
+                }))), () => { });
     }
 
     gulp.task("ts:compile", ["ts:compile:umd", "ts:compile:browserify"]);
