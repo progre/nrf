@@ -33,8 +33,8 @@ gulp.task("ts", callback => {
 
 gulp.task("watch", () => {
     gulp.watch("src/**/*.js", ["copy"]);
-    gulp.watch(["src/**/*.ts", "!src/test/"], ["ts"]);
+    gulp.watch(["src/**/*.ts?", "!src/test/"], ["ts"]);
     gulp.watch("src/**/*.jade", ["jade:build"]);
     gulp.watch("src/**/*.stylus", ["stylus:build"]);
-    gulp.watch("src/test/**/*.ts", ["test"]);
+    gulp.watch("src/test/**/*.ts?", ["test"]);
 });
