@@ -17,6 +17,7 @@ const gulpTypescript = require("gulp-typescript");
 const babel = require("gulp-babel");
 const gulpIf = require("gulp-if");
 const uglify = require("gulp-uglify");
+const babelify = require("babelify");
 
 module.exports = opts => {
     opts = opts || {};
@@ -107,6 +108,7 @@ module.exports = opts => {
                         debug: debug
                     })
                         .plugin("tsify", browserifyProject)
+                        .transform(babelify, { extensions: [".ts"], presets: ["es2015"] })
                         .bundle()
                         .on("error", err => {
                             console.error(err.toString());
