@@ -1,3 +1,4 @@
+"use strict";
 const gulp = require("gulp");
 const promisify = require("native-promisify");
 const exec = promisify(require("child_process").exec);
