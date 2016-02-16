@@ -4,6 +4,7 @@ const del = require("del");
 const runSequence = require("run-sequence");
 
 require("./gulp/copy")();
+require("./gulp/electron")();
 require("./gulp/jade")();
 require("./gulp/stylus")();
 require("./gulp/test")();
