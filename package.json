@@ -42,7 +42,7 @@
     "template"
   ],
   "license": "MIT",
-  "main": "index.js",
+  "main": "lib/index.js",
   "private": true,
   "repository": "https://github.com/progre/template-typescript.git",
   "scripts": {
