@@ -3,6 +3,7 @@ babelify
 browser-sync
 browserify
 del
+electron-packager
 gulp
 gulp-babel
 gulp-concat
