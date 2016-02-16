@@ -1,5 +1,5 @@
 sudo: false
 language: node_js
 node_js: 5
-before_test:
+before_script:
   - npm run build
