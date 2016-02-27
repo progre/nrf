@@ -21,9 +21,9 @@ const babelify = require("babelify");
 
 module.exports = opts => {
     opts = opts || {};
-    opts.lint = opts.lint || ["src/**/*.ts?"];
+    opts.lint = opts.lint || ["src/**/*.ts"];
     opts.umd = opts.umd || {
-        src: ["src/**/*.ts?", "!src/test/**", "!src/public/js/**"],
+        src: ["src/**/*.ts", "!src/test/**", "!src/public/js/**"],
         dest: "lib/",
         configPath: "tsconfig.json"
     };
@@ -85,7 +85,7 @@ module.exports = opts => {
             .pipe(gulpIf(debug, sourcemaps.init()))
             .pipe(gulpTypescript(project))
             .pipe(babel(babelOptions))
-            .pipe(gulpIf(debug, sourcemaps.write()))
+            .pipe(gulpIf(debug, sourcemaps.write(".")))
             .pipe(gulp.dest(opts.umd.dest));
     }
 
