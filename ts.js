@@ -72,10 +72,8 @@ module.exports = opts => {
     });
 
     const babelOptions = {
-        plugins: [
-            "transform-es2015-classes",
-            "transform-es2015-destructuring",
-            "transform-es2015-modules-commonjs"
+        presets: [
+            "modern-node/5.5"
         ]
     };
 

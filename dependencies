@@ -1,4 +1,5 @@
 babel-preset-es2015
+babel-preset-node
 babelify
 browser-sync
 browserify
@@ -22,6 +23,7 @@ gulp-uglify
 native-promisify
 path
 run-sequence
+source-map-support
 tsify
 tslint
 typescript
