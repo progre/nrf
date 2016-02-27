@@ -21,9 +21,9 @@ const babelify = require("babelify");
 
 module.exports = opts => {
     opts = opts || {};
-    opts.lint = opts.lint || ["src/**/*.ts"];
+    opts.lint = opts.lint || ["src/**/*.ts?"];
     opts.umd = opts.umd || {
-        src: ["src/**/*.ts", "!src/test/**", "!src/public/js/**"],
+        src: ["src/**/*.ts?", "!src/test/**", "!src/public/js/**"],
         dest: "lib/",
         configPath: "tsconfig.json"
     };
@@ -107,7 +107,7 @@ module.exports = opts => {
                         debug: debug
                     })
                         .plugin("tsify", browserifyProject)
-                        .transform(babelify, { extensions: [".ts"], presets: ["es2015"] })
+                        .transform(babelify, { extensions: [".ts", ".tsx"], presets: ["es2015"] })
                         .bundle()
                         .on("error", err => {
                             console.error(err.toString());
