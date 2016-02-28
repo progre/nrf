@@ -49,6 +49,7 @@ gulp.task("ts:release",
 
 function buildMain(release) {
     let babelOpts = {
+        sourceMaps: true,
         presets: ["modern-node/5.5"]
     };
     return gulp.src(main.src)
@@ -100,6 +101,7 @@ function createMainProject(release) {
         return gulpTypescript.createProject(
             main.configPath,
             {
+                sourceMap: true,
                 removeComments: release,
                 typescript
             });
