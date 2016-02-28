@@ -1,25 +1,28 @@
-"use strict";
-const gulp = require("gulp");
-const jade = require("gulp-jade");
-const plumber = require("gulp-plumber");
+import gulp from "gulp";
+import jade from "gulp-jade";
+import plumber from "gulp-plumber";
 
-const SRC_PATH = "src/public/**/*.jade";
-const DST_PATH = "lib/public/";
+export let src = "src/public/**/*.jade";
+export let dest = "lib/public/";
+export let raw = "tmp/test/";
+export let powered = "lib/test/";
 
-module.exports = opts => {
-    opts = opts || {};
-    opts.raw = opts.raw || "tmp/test/";
-    opts.powered = opts.powered || "lib/test/";
-    gulp.task("jade:build", () => buildJade(true));
-    gulp.task("jade:release", () => buildJade(false));
-};
+gulp.task("jade:debug", () => {
+    return build(false);
+});
 
-function buildJade(debug) {
-    return gulp.src(SRC_PATH)
+gulp.task("jade:release", () => {
+    return build(true);
+});
+
+function build(release) {
+    return gulp.src(src)
         .pipe(plumber())
-        .pipe(jade({ data: {
-            debug: debug,
-             base: ""
-        } }))
-        .pipe(gulp.dest(DST_PATH));
+        .pipe(jade({
+            data: {
+                debug: !release,
+                base: ""
+            }
+        }))
+        .pipe(gulp.dest(dest));
 }

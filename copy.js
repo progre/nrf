@@ -1,13 +1,9 @@
-"use strict";
-const gulp = require("gulp");
+import gulp from "gulp";
 
-module.exports = opts => {
-    opts = opts || {};
-    opts.src = opts.src || ["src/**/*", "!**/tsconfig.json", "!**/*.*(jade|stylus|ts|tsx)"];
-    opts.dest = opts.dest || "lib/";
+export let src = ["src/**/*", "!**/tsconfig.json", "!**/*.*(jade|stylus|ts|tsx)"];
+export let dest = "lib/";
 
-    gulp.task("copy:copy", () => {
-        return gulp.src(opts.src)
-            .pipe(gulp.dest(opts.dest));
-    });
-};
+gulp.task("copy:copy", () => {
+    return gulp.src(src)
+        .pipe(gulp.dest(dest));
+});

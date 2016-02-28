@@ -1,44 +1,52 @@
-"use strict";
-const gulp = require("gulp");
-const del = require("del");
-const espower = require("gulp-espower");
-const mocha = require("gulp-mocha");
-const plumber = require("gulp-plumber");
-const sourcemaps = require("gulp-sourcemaps");
-const typescript = require("gulp-typescript");
-const concat = require("gulp-concat");
+import gulp from "gulp";
+import del from "del";
+import concat from "gulp-concat";
+import espower from "gulp-espower";
+import gulpMocha from "gulp-mocha";
+import plumber from "gulp-plumber";
+import sourcemaps from "gulp-sourcemaps";
+import typescript from "gulp-typescript";
 
-module.exports = opts => {
-    opts = opts || {};
-    opts.src = opts.src || "src/test/";
-    opts.dest = opts.dest || "lib/test/";
-    opts.configPath = opts.configPath || "src/tsconfig.json";
+export let src = "src/test/**/*.ts";
+export let dest = "lib/test/";
+export let configPath = "src/tsconfig.json";
 
-    let project = {};
-    try {
-        project = typescript.createProject(opts.configPath, {
-            typescript: require("typescript")
+gulp.task("test:test", (callback) => {
+    clean().then(() => {
+        build().once("end", () => {
+            mocha().once("end", () => {
+                callback();
+            });
         });
+    });
+});
+
+function clean() {
+    return del(dest);
+}
+
+function build() {
+    return gulp.src(src)
+        .pipe(sourcemaps.init())
+        .pipe(typescript(createProject()))
+        .pipe(espower())
+        .pipe(concat("all_test.js"))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(dest));
+}
+
+function createProject() {
+    try {
+        return typescript.createProject(
+            configPath,
+            { typescript: require("typescript") });
     } catch (e) {
+        return {};
     }
+}
 
-    gulp.task("test:clean", () => {
-        return del(opts.dest);
-    });
-
-    gulp.task("test:power-assert", ["test:clean"], () => {
-        return gulp.src(opts.src + "**/*.ts")
-            .pipe(sourcemaps.init())
-            .pipe(typescript(project))
-            .pipe(espower())
-            .pipe(concat("all_test.js"))
-            .pipe(sourcemaps.write())
-            .pipe(gulp.dest(opts.dest));
-    });
-
-    gulp.task("test", ["test:power-assert"], () => {
-        gulp.src(opts.dest + "**/*.js")
-            .pipe(plumber())
-            .pipe(mocha());
-    });
-};
+function mocha() {
+    return gulp.src(dest + "**/*.js")
+        .pipe(plumber())
+        .pipe(gulpMocha());
+}

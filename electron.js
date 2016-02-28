@@ -55,6 +55,8 @@ function errorHandler(e) {
 
 function printStdout(stdout) {
     if (stdout.length > 0) {
+        /* eslint-disable no-console */
         console.log(stdout);
+        /* eslint-enable no-console */
     }
 }

@@ -8,6 +8,7 @@ electron-packager
 gulp
 gulp-babel
 gulp-concat
+gulp-eslint
 gulp-espower
 gulp-express
 gulp-if
@@ -22,7 +23,6 @@ gulp-typescript
 gulp-uglify
 native-promisify
 path
-run-sequence
 source-map-support
 tsify
 tslint
