@@ -49,7 +49,7 @@
   "private": true,
   "repository": "https://github.com/progre/template-typescript.git",
   "scripts": {
-    "build": "gulp build",
+    "build": "gulp release-build",
     "test": "gulp test:test"
   }
 }

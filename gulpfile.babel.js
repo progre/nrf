@@ -39,11 +39,12 @@ gulp.task("release-build",
 );
 
 gulp.task("watch", () => {
-    gulp.watch("src/**/*.js", gulp.series("copy:copy"));
-    gulp.watch(["src/**/*.ts*", "!src/test/**"], gulp.series("ts:debug", "test:test"));
-    gulp.watch("src/**/*.jade", gulp.series("jade:debug"));
-    gulp.watch("src/**/*.stylus", gulp.series("stylus:stylus"));
-    gulp.watch("src/test/**/*.ts", gulp.series("test:test"));
+    let opts = { debounceDelay: 3 * 1000 };
+    gulp.watch("src/**/*.js", gulp.series(begin, "copy:copy", end));
+    gulp.watch(["src/**/*.ts*", "!src/test/**"], opts, gulp.series(begin, "ts:debug", "test:test", end));
+    gulp.watch("src/**/*.jade", gulp.series(begin, "jade:debug", end));
+    gulp.watch("src/**/*.stylus", gulp.series(begin, "stylus:stylus", end));
+    gulp.watch("src/test/**/*.ts", opts, gulp.series(begin, "test:test", end));
 });
 
 gulp.task("default",
@@ -58,4 +59,14 @@ gulp.task("default",
 
 function clean() {
     return del("lib/");
+}
+
+function begin(callback) {
+    console.log("✂─────────────────────────────────────────────────…………");
+    callback();
+}
+
+function end(callback) {
+    console.log(".:*~*:._.:*~*:._.:*~*:._.:*~*:._.:*~*:._.:*~*:._.:*~*:._.:*~*:._.:*~*:._.:*~*:._");
+    callback();
 }
