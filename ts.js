@@ -49,8 +49,8 @@ gulp.task("ts:release",
 
 function buildMain(release) {
     let babelOpts = {
-        sourceMaps: true,
-        presets: ["modern-node/5.5"]
+        presets: ["modern-node/5.5"],
+        sourceMaps: true
     };
     return gulp.src(main.src)
         .pipe(gulpIf(!release, sourcemaps.init()))
@@ -84,7 +84,8 @@ function buildBrowserOne(src, dest, release) {
     };
     let babelOpts = {
         extensions: [".ts", ".tsx"],
-        presets: ["es2015"]
+        presets: ["es2015"],
+        sourceMaps: true
     };
     return browserify(browserifyOpts)
         .plugin("tsify", createBrowserProject(release))

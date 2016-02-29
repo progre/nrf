@@ -10,7 +10,10 @@ gulp.task("selflint:selflint", () => {
                 es6: true
             },
             extends: "eslint:recommended",
-            parser: "babel-eslint"
+            parser: "babel-eslint",
+            rules: {
+                "no-console": 0
+            }
         }))
         .pipe(eslint.format());
 });
