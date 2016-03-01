@@ -87,14 +87,30 @@ function buildBrowserOne(src, dest, release) {
         presets: ["es2015"],
         sourceMaps: true
     };
-    return browserify(browserifyOpts)
-        .plugin("tsify", createBrowserProject(release))
-        .transform(babelify, babelOpts)
-        .bundle()
-        .pipe(source(outputName))
-        .pipe(gulpIf(release, buffer()))
-        .pipe(gulpIf(release, uglify()))
-        .pipe(gulp.dest(dest));
+    return new Promise((resolve, reject) => {
+        let stream = browserify(browserifyOpts)
+            .plugin("tsify", createBrowserProject(release))
+            .transform(babelify, babelOpts)
+            .bundle()
+            .on("error", onError)
+            .on("end", onEnd)
+            .pipe(source(outputName))
+            .pipe(gulpIf(release, buffer()))
+            .pipe(gulpIf(release, uglify()))
+            .pipe(gulp.dest(dest));
+
+        function onError(e) {
+            stream.removeListener("error", onError);
+            stream.removeListener("end", onEnd);
+            reject(e);
+        }
+
+        function onEnd() {
+            stream.removeListener("error", onError);
+            stream.removeListener("end", onEnd);
+            resolve();
+        }
+    });
 }
 
 function createMainProject(release) {
@@ -124,5 +140,24 @@ function parallel(streams) {
         streams.map(maybeStream =>
             maybeStream instanceof Promise
                 ? maybeStream
-                : new Promise(resolve => maybeStream.on("end", resolve))));
+                : streamToPromise(maybeStream)));
+}
+
+function streamToPromise(stream) {
+    return new Promise((resolve, reject) => {
+        stream.on("error", onError);
+        stream.on("end", onEnd);
+
+        function onError(e) {
+            stream.removeListener("error", onError);
+            stream.removeListener("end", onEnd);
+            reject(e);
+        }
+
+        function onEnd() {
+            stream.removeListener("error", onError);
+            stream.removeListener("end", onEnd);
+            resolve();
+        }
+    });
 }
