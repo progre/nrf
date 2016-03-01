@@ -1,40 +1,20 @@
-"use strict";
-const gulp = require("gulp");
-const browserSync = require("browser-sync").create();
-const server = require("gulp-express");
+import gulp from "gulp";
+import {spawn} from "child_process";
+let server;
 
-module.exports = opts => {
-    opts = opts || {};
-    gulp.task("serve:init", callback => {
-        let config;
-        switch (opts.mode) {
-            case "proxy":
-                config = {
-                    proxy: {
-                        target: "127.0.0.1:8080",
-                        ws: true
-                    }
-                }
-                break;
-            default:
-                config = {
-                    server: {
-                        baseDir: "lib/public/"
-                    }
-                }
-                break;
-        }
-        browserSync.init(config, callback);
+gulp.task("serve:serve", async () => {
+    if (server != null) {
+        await (new Promise((resolve, reject) => {
+            server.on("close", resolve);
+            server.on("error", reject);
+            server.kill("SIGKILL");
+        }));
+    }
+    server = spawn("node", ["."]);
+    server.stdout.on("data", data => {
+        console.log(data.toString());
     });
-
-    gulp.task("serve:reload", () => {
-        browserSync.reload();
+    server.stderr.on("data", data => {
+        console.error(data.toString());
     });
-
-    gulp.task("serve:reboot", () => {
-        server.run(["lib/app.js"]);
-        setTimeout(() => {
-            browserSync.reload();
-        }, 1000);
-    });
-};
+});

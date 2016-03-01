@@ -10,7 +10,6 @@ gulp-babel
 gulp-concat
 gulp-eslint
 gulp-espower
-gulp-express
 gulp-if
 gulp-jade
 gulp-mocha
