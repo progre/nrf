@@ -1,5 +1,5 @@
 import gulp from "gulp";
-import {spawn} from "child_process";
+import {exec} from "child_process";
 let server;
 
 gulp.task("serve:serve", async () => {
@@ -7,10 +7,11 @@ gulp.task("serve:serve", async () => {
         await (new Promise((resolve, reject) => {
             server.on("close", resolve);
             server.on("error", reject);
+            server.stdin.end();
             server.kill("SIGKILL");
         }));
     }
-    server = spawn("node", ["."]);
+    server = exec("node", ["."]);
     server.stdout.on("data", data => {
         console.log(data.toString());
     });
