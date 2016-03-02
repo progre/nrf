@@ -1,7 +1,6 @@
 babel-preset-es2015
 babel-preset-modern-node
 babelify
-browser-sync
 browserify
 del
 electron-packager
