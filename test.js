@@ -9,7 +9,7 @@ import typescript from "gulp-typescript";
 
 export let src = "src/test/**/*.ts";
 export let dest = "lib/test/";
-export let configPath = "src/tsconfig.json";
+export let configPath = "tsconfig.json";
 
 gulp.task("test:test", (callback) => {
     clean().then(() => {
