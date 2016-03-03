@@ -1,6 +1,5 @@
 import gulp from "gulp";
 import del from "del";
-import concat from "gulp-concat";
 import espower from "gulp-espower";
 import gulpMocha from "gulp-mocha";
 import plumber from "gulp-plumber";
@@ -30,7 +29,6 @@ function build() {
         .pipe(sourcemaps.init())
         .pipe(typescript(createProject()))
         .pipe(espower())
-        .pipe(concat("all_test.js"))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(dest));
 }
