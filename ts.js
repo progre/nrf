@@ -69,7 +69,7 @@ async function buildBrowser(release) {
 
 async function getAvailableFiles(files) {
     let accessResults = await Promise.all(
-        files.map(x => access(x.src, fs.R_OK)));
+        files.map(x => access(x.src, fs.R_OK).catch(e => e)));
     return files.filter((_, i) => accessResults[i] == null);
 }
 
