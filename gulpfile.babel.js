@@ -4,7 +4,6 @@ import del from "del";
 import "./gulp/copy";
 import "./gulp/jade";
 import "./gulp/selflint";
-import "./gulp/serve";
 import "./gulp/stylus";
 import "./gulp/test";
 import "./gulp/ts";
@@ -43,7 +42,7 @@ gulp.task("watch", () => {
     let signal = false;
 
     gulp.watch("src/**/*.js", gulp.series(begin, "copy:copy", end));
-    gulp.watch(["src/**/*.ts*", "!src/test/**"], gulp.series(begin, "ts:debug", "test:test", "serve:serve", end));
+    gulp.watch(["src/**/*.ts*", "!src/test/**"], gulp.series(begin, "ts:debug", "test:test", end));
     gulp.watch("src/**/*.jade", gulp.series(begin, "jade:debug", end));
     gulp.watch("src/**/*.stylus", gulp.series(begin, "stylus:stylus", end));
     gulp.watch("src/test/**/*.ts", gulp.series(begin, "test:test", end));
@@ -77,7 +76,6 @@ gulp.task("default",
             "selflint:selflint",
             "build"
         ),
-        "serve:serve",
         "watch"
     )
 );
