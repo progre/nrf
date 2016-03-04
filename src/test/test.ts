@@ -1,6 +1,8 @@
-declare let describe: Function;
-declare let it: Function;
+/// <reference path="../../typings/test.d.ts" />
+import assert from "power-assert";
 
 describe("It", () => {
-    it("is so good!", () => { /* empty */ });
+    it("is so good!", () => {
+        assert(true);
+    });
 });
