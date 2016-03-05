@@ -20,6 +20,7 @@ gulp-tslint
 gulp-tslint-stylish
 gulp-typescript
 gulp-uglify
+licensify
 native-promisify
 path
 source-map-support
