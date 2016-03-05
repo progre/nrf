@@ -26,6 +26,7 @@
     "gulp-tslint-stylish": "^1.1.1",
     "gulp-typescript": "^2.12.1",
     "gulp-uglify": "^1.5.3",
+    "licensify": "^3.0.0",
     "native-promisify": "^1.2.0",
     "path": "^0.12.7",
     "power-assert": "^1.2.0",
