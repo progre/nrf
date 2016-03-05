@@ -1,8 +1,9 @@
 {
     "compilerOptions": {
+        "module": "commonjs",
         "noImplicitAny": true,
         "noEmitOnError": true,
-        "target": "es6"
+        "target": "es2015"
     },
     "exclude": [
         "lib",
