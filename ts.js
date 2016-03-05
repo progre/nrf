@@ -38,6 +38,12 @@ gulp.task("ts:debug",
         ])
     ));
 
+gulp.task("ts:browser",
+    gulp.parallel(
+        "tslint:tslint",
+        () => buildBrowser(false)
+    ));
+
 gulp.task("ts:release",
     gulp.parallel(
         "tslint:tslint",

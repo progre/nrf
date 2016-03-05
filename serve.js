@@ -1,5 +1,7 @@
 import gulp from "gulp";
 import {fork} from "child_process";
+import {create} from "browser-sync";
+const browserSync = create();
 let server;
 
 gulp.task("serve:serve", async () => {
@@ -13,6 +15,18 @@ gulp.task("serve:serve", async () => {
     server.on("error", () => {
         server = null;
     });
+});
+
+gulp.task("serve:browser", done => {
+    browserSync.init({
+        proxy: "127.0.0.1:3000"
+    });
+    done();
+});
+
+gulp.task("serve:reload", done => {
+    browserSync.reload();
+    done();
 });
 
 function stopServer() {
