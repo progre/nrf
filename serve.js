@@ -18,10 +18,12 @@ gulp.task("serve:serve", async () => {
 });
 
 gulp.task("serve:browser", done => {
-    browserSync.init({
-        proxy: "127.0.0.1:3000"
-    });
-    done();
+    setTimeout(() => {
+        browserSync.init({
+            proxy: "127.0.0.1:3000"
+        });
+        done();
+    }, 100);
 });
 
 gulp.task("serve:reload", done => {
