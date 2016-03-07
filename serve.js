@@ -23,7 +23,7 @@ gulp.task("serve:browser", done => {
             proxy: "127.0.0.1:3000"
         });
         done();
-    }, 100);
+    }, 1000);
 });
 
 gulp.task("serve:reload", done => {
