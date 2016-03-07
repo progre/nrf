@@ -1,4 +1,5 @@
 import gulp from "gulp";
+import gutil from "gulp-util";
 import del from "del";
 
 import "./gulp/copy";
@@ -49,7 +50,7 @@ gulp.task("watch", () => {
 
     function begin(callback) {
         if (signal) {
-            callback(new Error("Alread started."));
+            callback(new gutil.PluginError("begin", "Already started."));
             return;
         }
         signal = true;
