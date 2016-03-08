@@ -21,7 +21,7 @@ function build(release) {
         .pipe(jade({
             data: {
                 debug: !release,
-                base: ""
+                hash: (Math.floor(Math.random() * 10000000000000000)).toString()
             }
         }))
         .pipe(gulp.dest(dest));
