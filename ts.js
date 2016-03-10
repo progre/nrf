@@ -11,6 +11,7 @@ import babel from "gulp-babel";
 import webpack from "gulp-webpack";
 import uglify from "gulp-uglify";
 import saveLicense from "uglify-save-license";
+import clone from "clone";
 
 export let lint = tslint;
 export let main = {
@@ -23,7 +24,19 @@ export let browser = {
         src: "src/public/js/app.ts",
         dest: "lib/public/js/"
     }],
-    configPath: "src/public/js/tsconfig.json"
+    config: {
+        cache: true,
+        module: {
+            loaders: [{
+                test: /\.ts(x?)$/,
+                loader: "babel-loader?presets[]=es2015!ts-loader"
+            }]
+        },
+        resolve: {
+            extensions: ["", ".ts", ".tsx", ".js"]
+        },
+        ts: { typescript }
+    }
 };
 
 gulp.task("ts:debug",
@@ -66,25 +79,13 @@ function buildMain(release) {
 function buildBrowser(release) {
     return parallel(
         browser.files.map(file => {
-            let config = {
-                cache: true,
-                devtool: release ? null : "#eval-cheap-module-source-map",
-                module: {
-                    loaders: [{
-                        test: /\.ts(x?)$/,
-                        loader: "babel-loader?presets[]=es2015!ts-loader"
-                    }]
-                },
-                output: {
-                    filename: path.basename(file.src, path.extname(file.src)) + ".js"
-                },
-                resolve: {
-                    extensions: ["", ".ts", ".tsx", ".js"]
-                },
-                ts: {
-                    compilerOptions: { sourceMap: !release },
-                    typescript
-                }
+            let config = clone(browser.config);
+            config.devtool = release ? null : "#eval-cheap-module-source-map";
+            config.output = {
+                filename: path.basename(file.src, path.extname(file.src)) + ".js"
+            };
+            config.ts = {
+                compilerOptions: { sourceMap: !release }
             };
             return gulp.src(file.src)
                 .pipe(webpack(config))
