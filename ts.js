@@ -1,7 +1,4 @@
 import path from "path";
-import fs from "fs";
-import promisify from "native-promisify";
-const access = promisify(fs.access);
 import gulp from "gulp";
 import gulpIf from "gulp-if";
 import typescript from "typescript";
