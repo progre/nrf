@@ -4,6 +4,7 @@ import promisify from "native-promisify";
 const access = promisify(fs.access);
 import typescript from "typescript";
 // browserify
+import webpack from "gulp-webpack";
 import browserify from "browserify";
 import tsify from "tsify";
 import babelify from "babelify";
@@ -70,6 +71,25 @@ function buildMain(release) {
         .pipe(gulpIf(!release, sourcemaps.write()))
         .pipe(gulp.dest(main.dest));
 }
+
+gulp.task("ts:browser:debug", () => {
+    let config = {
+        resolve: {
+            extensions: ["", ".ts", ".tsx", ".js"]
+        },
+        module: {
+            loaders: [
+                { test: /\.ts(x?)$/, loader: "ts-loader" }
+            ]
+        },
+        output: {
+            filename: path.basename(browser.files[0].src) + ".js"
+        }
+    };
+    return gulp.src(browser.files[0].src)
+        .pipe(webpack(config))
+        .pipe(gulp.dest(browser.files[0].dest));
+});
 
 async function buildBrowser(release) {
     let availableFiles = await getAvailableFiles(browser.files);
