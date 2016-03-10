@@ -3,8 +3,10 @@ import fs from "fs";
 import promisify from "native-promisify";
 const access = promisify(fs.access);
 import typescript from "typescript";
-// browserify
+// webpack
 import webpack from "gulp-webpack";
+import saveLicense from "uglify-save-license";
+// browserify
 import browserify from "browserify";
 import tsify from "tsify";
 import babelify from "babelify";
@@ -72,26 +74,36 @@ function buildMain(release) {
         .pipe(gulp.dest(main.dest));
 }
 
-gulp.task("ts:browser:debug", () => {
-    let config = {
-        resolve: {
-            extensions: ["", ".ts", ".tsx", ".js"]
-        },
-        module: {
-            loaders: [
-                { test: /\.ts(x?)$/, loader: "ts-loader" }
-            ]
-        },
-        output: {
-            filename: path.basename(browser.files[0].src) + ".js"
-        }
-    };
-    return gulp.src(browser.files[0].src)
-        .pipe(webpack(config))
-        .pipe(gulp.dest(browser.files[0].dest));
-});
+function buildBrowser(release) {
+    return parallel(
+        browser.files.map(file => {
+            let config = {
+                cache: true,
+                devtool: release ? null : "#eval-cheap-module-source-map",
+                module: {
+                    loaders: [{
+                        test: /\.ts(x?)$/,
+                        loader: "babel-loader?presets[]=es2015!ts-loader"
+                    }]
+                },
+                output: {
+                    filename: path.basename(file.src, path.extname(file.src)) + ".js"
+                },
+                resolve: {
+                    extensions: ["", ".ts", ".tsx", ".js"]
+                },
+                ts: {
+                    compilerOptions: { sourceMap: !release }
+                }
+            };
+            return gulp.src(file.src)
+                .pipe(webpack(config))
+                .pipe(gulpIf(release, uglify({ preserveComments: saveLicense })))
+                .pipe(gulp.dest(file.dest));
+        }));
+}
 
-async function buildBrowser(release) {
+async function buildBrowserBrowserify(release) {
     let availableFiles = await getAvailableFiles(browser.files);
     return parallel(
         availableFiles.map(x => buildBrowserOne(x.src, x.dest, release))
