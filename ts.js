@@ -25,7 +25,7 @@ export let browser = {
         dest: "lib/public/js/"
     }],
     config: {
-        cache: true,
+        cache: false,
         module: {
             loaders: [{
                 test: /\.ts(x?)$/,
