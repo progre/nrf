@@ -25,7 +25,7 @@ export let browser = {
         dest: "lib/public/js/"
     }],
     config: {
-        cache: false,
+        cache: true,
         module: {
             loaders: [{
                 test: /\.ts(x?)$/,
@@ -76,9 +76,8 @@ function buildMain(release) {
         .pipe(gulp.dest(main.dest));
 }
 
-function buildBrowser(release) {
-    return parallel(
-        browser.files.map(file => {
+async function buildBrowser(release) {
+    for (let file of browser.files) {
             let config = clone(browser.config);
             config.devtool = release ? null : "#eval-cheap-module-source-map";
             config.output = {
@@ -87,11 +86,11 @@ function buildBrowser(release) {
             config.ts = {
                 compilerOptions: { sourceMap: !release }
             };
-            return gulp.src(file.src)
+            await streamToPromise(gulp.src(file.src)
                 .pipe(webpack(config))
                 .pipe(gulpIf(release, uglify({ preserveComments: saveLicense })))
-                .pipe(gulp.dest(file.dest));
-        }));
+                .pipe(gulp.dest(file.dest)));
+    }
 }
 
 function createMainProject(release) {
