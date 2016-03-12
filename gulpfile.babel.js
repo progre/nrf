@@ -1,6 +1,7 @@
 import gulp from "gulp";
 import gutil from "gulp-util";
 import del from "del";
+import {mkdir} from "fs";
 
 import "./gulp/copy";
 import "./gulp/jade";
@@ -9,9 +10,14 @@ import "./gulp/stylus";
 import "./gulp/test";
 import "./gulp/ts";
 
+gulp.task("clean", async (done) => {
+    await del("lib/");
+    mkdir("lib", done);
+});
+
 gulp.task("build",
     gulp.series(
-        clean,
+        "clean",
         gulp.parallel(
             "copy:copy",
             "jade:debug",
@@ -26,7 +32,7 @@ gulp.task("build",
 
 gulp.task("release-build",
     gulp.series(
-        clean,
+        "clean",
         gulp.parallel(
             "copy:copy",
             "jade:release",
@@ -80,7 +86,3 @@ gulp.task("default",
         "watch"
     )
 );
-
-function clean() {
-    return del("lib/");
-}
