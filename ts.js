@@ -77,19 +77,20 @@ function buildMain(release) {
 }
 
 async function buildBrowser(release) {
+    let config = clone(browser.config);
+    config.devtool = release ? null : "#eval-cheap-module-source-map";
+    config.ts = {
+        compilerOptions: { sourceMap: !release }
+    };
     for (let file of browser.files) {
-            let config = clone(browser.config);
-            config.devtool = release ? null : "#eval-cheap-module-source-map";
-            config.output = {
-                filename: path.basename(file.src, path.extname(file.src)) + ".js"
-            };
-            config.ts = {
-                compilerOptions: { sourceMap: !release }
-            };
-            await streamToPromise(gulp.src(file.src)
-                .pipe(webpack(config))
-                .pipe(gulpIf(release, uglify({ preserveComments: saveLicense })))
-                .pipe(gulp.dest(file.dest)));
+        let currentConfig = clone(config);
+        currentConfig.output = {
+            filename: path.basename(file.src, path.extname(file.src)) + ".js"
+        };
+        await streamToPromise(gulp.src(file.src)
+            .pipe(webpack(currentConfig))
+            .pipe(gulpIf(release, uglify({ preserveComments: saveLicense })))
+            .pipe(gulp.dest(file.dest)));
     }
 }
 
