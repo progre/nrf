@@ -1,11 +1,13 @@
 import gulp from "gulp";
 import gulpStylus from "gulp-stylus";
 
-export let src = "src/public/**/*.stylus";
-export let dest = "lib/public/";
+export let config = {
+    src: "src/**/*.stylus",
+    dest: "lib/"
+};
 
 gulp.task("stylus:stylus", () => {
-    return gulp.src(src)
+    return gulp.src(config.src)
         .pipe(gulpStylus())
-        .pipe(gulp.dest(dest));
+        .pipe(gulp.dest(config.dest));
 });

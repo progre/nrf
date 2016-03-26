@@ -13,39 +13,45 @@ import uglify from "gulp-uglify";
 import saveLicense from "uglify-save-license";
 import clone from "clone";
 
-export let lint = tslint;
-export let main = {
-    src: ["src/**/*.ts", "!src/test/**", "!src/public/js/**"],
-    dest: "lib/",
-    configPath: "tsconfig.json"
-};
-export let browser = {
-    files: [{
-        src: "src/public/js/app.ts",
-        dest: "lib/public/js/"
-    }],
-    config: {
-        cache: true,
-        module: {
-            loaders: [{
-                test: /\.ts(x?)$/,
-                loader: "babel-loader?presets[]=es2015!ts-loader"
-            }]
-        },
-        resolve: {
-            extensions: ["", ".ts", ".tsx", ".js"]
-        },
-        ts: { typescript }
+export const lint = tslint;
+export let config = {
+    main: {
+        src: ["src/**/*.ts", "!src/test/**", "!src/public/js/**"],
+        dest: "lib/",
+        configPath: "tsconfig.json"
+    },
+    browser: {
+        files: [{
+            src: "src/public/js/app.ts",
+            dest: "lib/public/js/"
+        }],
+        config: {
+            cache: true,
+            module: {
+                loaders: [{
+                    test: /\.ts(x?)$/,
+                    loader: "babel-loader?presets[]=es2015!ts-loader"
+                }]
+            },
+            resolve: { extensions: ["", ".ts", ".tsx", ".js"] },
+            ts: { typescript }
+        }
     }
 };
 
 gulp.task("ts:debug",
     gulp.parallel(
         "tslint:tslint",
-        () => parallel([
-            buildMain(false),
-            buildBrowser(false)
-        ])
+        () => {
+            let tasks = [];
+            if (config.main != null) {
+                tasks.push(buildMain(false));
+            }
+            if (config.browser != null) {
+                tasks.push(buildBrowser(false));
+            }
+            return parallel(tasks);
+        }
     ));
 
 gulp.task("ts:browser",
@@ -57,10 +63,16 @@ gulp.task("ts:browser",
 gulp.task("ts:release",
     gulp.parallel(
         "tslint:tslint",
-        () => parallel([
-            buildMain(true),
-            buildBrowser(true)
-        ])
+        () => {
+            let tasks = [];
+            if (config.main != null) {
+                tasks.push(buildMain(true));
+            }
+            if (config.browser != null) {
+                tasks.push(buildBrowser(true));
+            }
+            return parallel(tasks);
+        }
     ));
 
 function buildMain(release) {
@@ -68,22 +80,22 @@ function buildMain(release) {
         presets: ["modern-node/5.5"],
         sourceMaps: true
     };
-    return gulp.src(main.src)
+    return gulp.src(config.main.src)
         .pipe(gulpIf(!release, sourcemaps.init()))
         .pipe(gulpTypescript(createMainProject(release)))
         .pipe(babel(babelOpts))
         .pipe(gulpIf(!release, sourcemaps.write()))
-        .pipe(gulp.dest(main.dest));
+        .pipe(gulp.dest(config.main.dest));
 }
 
 async function buildBrowser(release) {
-    let config = clone(browser.config);
-    config.devtool = release ? null : "#eval-cheap-module-source-map";
-    config.ts = {
+    let localConfig = clone(config.browser.config);
+    localConfig.devtool = release ? null : "#eval-cheap-module-source-map";
+    localConfig.ts = {
         compilerOptions: { sourceMap: !release }
     };
-    for (let file of browser.files) {
-        let currentConfig = clone(config);
+    for (let file of config.browser.files) {
+        let currentConfig = clone(localConfig);
         currentConfig.output = {
             filename: path.basename(file.src, path.extname(file.src)) + ".js"
         };
@@ -97,7 +109,7 @@ async function buildBrowser(release) {
 function createMainProject(release) {
     try {
         return gulpTypescript.createProject(
-            main.configPath,
+            config.main.configPath,
             {
                 sourceMap: true,
                 removeComments: release,

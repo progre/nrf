@@ -2,10 +2,10 @@ import gulp from "gulp";
 import jade from "gulp-jade";
 import plumber from "gulp-plumber";
 
-export let src = "src/public/**/*.jade";
-export let dest = "lib/public/";
-export let raw = "tmp/test/";
-export let powered = "lib/test/";
+export let config = {
+    src: "src/**/*.jade",
+    dest: "lib/"
+};
 
 gulp.task("jade:debug", () => {
     return build(false);
@@ -16,7 +16,7 @@ gulp.task("jade:release", () => {
 });
 
 function build(release) {
-    return gulp.src(src)
+    return gulp.src(config.src)
         .pipe(plumber())
         .pipe(jade({
             data: {
@@ -24,5 +24,5 @@ function build(release) {
                 hash: (Math.floor(Math.random() * 10000000000000000)).toString()
             }
         }))
-        .pipe(gulp.dest(dest));
+        .pipe(gulp.dest(config.dest));
 }
