@@ -2,7 +2,7 @@ import gulp from "gulp";
 import gulpStylus from "gulp-stylus";
 
 export let config = {
-    src: "src/**/*.stylus",
+    src: "src/**/*.styl",
     dest: "lib/"
 };
 

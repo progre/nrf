@@ -1,7 +1,7 @@
 import gulp from "gulp";
 
 export let config = {
-    src: ["src/**/*", "!**/tsconfig.json", "!**/*.*(jade|stylus|ts|tsx)"],
+    src: ["src/**/*", "!**/tsconfig.json", "!**/*.*(jade|styl|ts|tsx)"],
     dest: "lib/"
 };
 
