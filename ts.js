@@ -1,17 +1,12 @@
-import path from "path";
 import gulp from "gulp";
 import gulpIf from "gulp-if";
-import typescript from "typescript";
-import * as tslint from "./tslint";
-// main
 import sourcemaps from "gulp-sourcemaps";
 import gulpTypescript from "gulp-typescript";
 import babel from "gulp-babel";
-// browser
-import webpack from "gulp-webpack";
-import uglify from "gulp-uglify";
-import saveLicense from "uglify-save-license";
-import clone from "clone";
+import typescript from "typescript";
+import {parallel} from "./util";
+import * as tslint from "./tslint";
+import {buildBrowser} from "./ts-browserify";
 
 export const lint = tslint;
 export let config = {
@@ -48,7 +43,7 @@ gulp.task("ts:debug",
                 tasks.push(buildMain(false));
             }
             if (config.browser != null) {
-                tasks.push(buildBrowser(false));
+                tasks.push(buildBrowser(false, config.browser, createBrowserProject(false)));
             }
             return parallel(tasks);
         }
@@ -69,7 +64,7 @@ gulp.task("ts:release",
                 tasks.push(buildMain(true));
             }
             if (config.browser != null) {
-                tasks.push(buildBrowser(true));
+                tasks.push(buildBrowser(true, config.browser, createBrowserProject(true)));
             }
             return parallel(tasks);
         }
@@ -88,24 +83,6 @@ function buildMain(release) {
         .pipe(gulp.dest(config.main.dest));
 }
 
-async function buildBrowser(release) {
-    let localConfig = clone(config.browser.config);
-    localConfig.devtool = release ? null : "#eval-cheap-module-source-map";
-    localConfig.ts = {
-        compilerOptions: { sourceMap: !release }
-    };
-    for (let file of config.browser.files) {
-        let currentConfig = clone(localConfig);
-        currentConfig.output = {
-            filename: path.basename(file.src, path.extname(file.src)) + ".js"
-        };
-        await streamToPromise(gulp.src(file.src)
-            .pipe(webpack(currentConfig))
-            .pipe(gulpIf(release, uglify({ preserveComments: saveLicense })))
-            .pipe(gulp.dest(file.dest)));
-    }
-}
-
 function createMainProject(release) {
     try {
         return gulpTypescript.createProject(
@@ -120,29 +97,10 @@ function createMainProject(release) {
     }
 }
 
-function parallel(streams) {
-    return Promise.all(
-        streams.map(maybeStream =>
-            maybeStream instanceof Promise
-                ? maybeStream
-                : streamToPromise(maybeStream)));
-}
-
-function streamToPromise(stream) {
-    return new Promise((resolve, reject) => {
-        stream.on("error", onError);
-        stream.on("end", onEnd);
-
-        function onError(e) {
-            stream.removeListener("error", onError);
-            stream.removeListener("end", onEnd);
-            reject(e);
-        }
-
-        function onEnd() {
-            stream.removeListener("error", onError);
-            stream.removeListener("end", onEnd);
-            resolve();
-        }
-    });
+function createBrowserProject(release) {
+    try {
+        return require("../" + config.browser.configPath).compilerOptions;
+    } catch (e) {
+        return createMainProject(release).config.compilerOptions;
+    }
 }

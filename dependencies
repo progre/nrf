@@ -1,5 +1,4 @@
 babel-eslint
-babel-loader
 babel-preset-es2015
 babel-preset-modern-node
 browser-sync
@@ -21,11 +20,22 @@ gulp-tslint
 gulp-tslint-stylish
 gulp-typescript
 gulp-uglify
-gulp-webpack
 native-promisify
 path
 source-map-support
-ts-loader
 tslint
 typescript
+
+// browserify
+babelify
+browserify
+licensify
+tsify
+vinyl-buffer
+vinyl-source-stream
+
+// webpack
+babel-loader
+gulp-webpack
+ts-loader
 uglify-save-license
