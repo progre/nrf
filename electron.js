@@ -1,4 +1,3 @@
-"use strict";
 const gulp = require("gulp");
 const promisify = require("native-promisify");
 const exec = promisify(require("child_process").exec);
@@ -7,20 +6,18 @@ const electronPackager = promisify(require("electron-packager"));
 const APP_NAME = require("../package.json").name;
 const ELECTRON_VER = "0.36.7";
 
-module.exports = () => {
-    gulp.task("electron:package", () => {
-        return mkdir("tmp").catch(errorHandler)
-            .then(() => mkdir("tmp/dest")).catch(errorHandler)
-            .then(() => exec("cp -r lib/ tmp/dest/lib")).then(printStdout)
-            .then(() => exec("cp LICENSE tmp/dest/")).then(printStdout)
-            .then(() => exec("cp package.json tmp/dest/")).then(printStdout)
-            .then(() => exec("cp README*.md tmp/dest/")).then(printStdout)
-            .then(() => exec("npm install --production", { cwd: "tmp/dest" })).then(printStdout)
-            .then(() => execPackageAndZip("tmp", "dest", "darwin", "x64", "src/res/icon.icns"))
-            .then(() => execPackageAndZip("tmp", "dest", "win32", "ia32", "src/res/icon_256.ico"))
-            .then(() => execPackageAndZip("tmp", "dest", "linux", "x64", null));
-    });
-};
+gulp.task("electron:package", () => {
+    return mkdir("tmp").catch(errorHandler)
+        .then(() => mkdir("tmp/dest")).catch(errorHandler)
+        .then(() => exec("cp -r lib/ tmp/dest/lib")).then(printStdout)
+        .then(() => exec("cp LICENSE tmp/dest/")).then(printStdout)
+        .then(() => exec("cp package.json tmp/dest/")).then(printStdout)
+        .then(() => exec("cp README*.md tmp/dest/")).then(printStdout)
+        .then(() => exec("npm install --production", { cwd: "tmp/dest" })).then(printStdout)
+        .then(() => execPackageAndZip("tmp", "dest", "darwin", "x64", "src/res/icon.icns"))
+        .then(() => execPackageAndZip("tmp", "dest", "win32", "ia32", "src/res/icon_256.ico"))
+        .then(() => execPackageAndZip("tmp", "dest", "linux", "x64", null));
+});
 
 function execPackageAndZip(cwd, path, platform, arch, icon) {
     let os = (() => {
