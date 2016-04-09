@@ -47,6 +47,7 @@
   ],
   "homepage": "https://github.com/progre/template-typescript/",
   "keywords": [
+    "electron",
     "template"
   ],
   "license": "MIT",
