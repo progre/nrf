@@ -1,5 +1,5 @@
-const gulp = require("gulp");
-const promisify = require("native-promisify");
+import gulp from "gulp";
+import promisify from "native-promisify";
 const exec = promisify(require("child_process").exec);
 const mkdir = promisify(require("fs").mkdir);
 const electronPackager = promisify(require("electron-packager"));
