@@ -4,7 +4,7 @@ const exec = promisify(require("child_process").exec);
 const mkdir = promisify(require("fs").mkdir);
 const electronPackager = promisify(require("electron-packager"));
 const APP_NAME = require("../package.json").name;
-const ELECTRON_VER = "0.36.7";
+const ELECTRON_VER = "0.37.5";
 
 gulp.task("electron:package", () => {
     return mkdir("tmp").catch(errorHandler)
