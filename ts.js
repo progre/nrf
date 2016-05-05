@@ -1,5 +1,6 @@
 import gulp from "gulp";
 import gulpIf from "gulp-if";
+import typings from "gulp-typings";
 import sourcemaps from "gulp-sourcemaps";
 import gulpTypescript from "gulp-typescript";
 import babel from "gulp-babel";
@@ -34,20 +35,29 @@ export let config = {
     }
 };
 
+gulp.task("ts:typings", () => {
+    return gulp.src("./typings.json")
+        .pipe(typings());
+});
+
 gulp.task("ts:debug",
-    gulp.parallel(
-        "tslint:tslint",
-        () => {
-            let tasks = [];
-            if (config.main != null) {
-                tasks.push(buildMain(false));
+    gulp.series(
+        "ts:typings",
+        gulp.parallel(
+            "tslint:tslint",
+            () => {
+                let tasks = [];
+                if (config.main != null) {
+                    tasks.push(buildMain(false));
+                }
+                if (config.browser != null) {
+                    tasks.push(buildBrowser(false, config.browser, createBrowserProject(false)));
+                }
+                return parallel(tasks);
             }
-            if (config.browser != null) {
-                tasks.push(buildBrowser(false, config.browser, createBrowserProject(false)));
-            }
-            return parallel(tasks);
-        }
-    ));
+        )
+    )
+);
 
 gulp.task("ts:browser",
     gulp.parallel(
@@ -56,19 +66,23 @@ gulp.task("ts:browser",
     ));
 
 gulp.task("ts:release",
-    gulp.parallel(
-        "tslint:tslint",
-        () => {
-            let tasks = [];
-            if (config.main != null) {
-                tasks.push(buildMain(true));
+    gulp.series(
+        "ts:typings",
+        gulp.parallel(
+            "tslint:tslint",
+            () => {
+                let tasks = [];
+                if (config.main != null) {
+                    tasks.push(buildMain(true));
+                }
+                if (config.browser != null) {
+                    tasks.push(buildBrowser(true, config.browser, createBrowserProject(true)));
+                }
+                return parallel(tasks);
             }
-            if (config.browser != null) {
-                tasks.push(buildBrowser(true, config.browser, createBrowserProject(true)));
-            }
-            return parallel(tasks);
-        }
-    ));
+        )
+    )
+);
 
 function buildMain(release) {
     let babelOpts = {
