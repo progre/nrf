@@ -1,4 +1,4 @@
-/// <reference path="../../typings/test.d.ts" />
+/// <reference path="../../typings/main.d.ts" />
 import * as assert from "power-assert";
 
 describe("It", () => {

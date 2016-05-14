@@ -1,0 +1,12 @@
+{
+  "name": "template-typescript",
+  "version": false,
+  "dependencies": {},
+  "ambientDependencies": {
+    "empower": "registry:dt/empower#0.0.0+20160317120654",
+    "mocha": "registry:dt/mocha#2.2.5+20160317120654",
+    "node": "registry:dt/node#4.0.0+20160501135006",
+    "power-assert": "registry:dt/power-assert#0.0.0+20160316155526",
+    "power-assert-formatter": "registry:dt/power-assert-formatter#0.0.0+20160317120654"
+  }
+}

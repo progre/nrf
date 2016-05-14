@@ -1,4 +1,4 @@
 {
     sourceMaps: true,
-    presets: [ "modern-node/5.5" ]
+    presets: [ "modern-node/6.0", "stage-3" ]
 }
