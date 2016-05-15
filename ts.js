@@ -14,24 +14,14 @@ export let config = {
     main: {
         src: ["src/**/*.ts", "!src/test/**", "!src/public/js/**"],
         dest: "lib/",
-        configPath: "tsconfig.json"
+        configPath: "src/tsconfig.json"
     },
     browser: {
         files: [{
             src: "src/public/js/app.ts",
             dest: "lib/public/js/"
         }],
-        config: {
-            cache: true,
-            module: {
-                loaders: [{
-                    test: /\.ts(x?)$/,
-                    loader: "babel-loader?presets[]=es2015!ts-loader"
-                }]
-            },
-            resolve: { extensions: ["", ".ts", ".tsx", ".js"] },
-            ts: { typescript }
-        }
+        configPath: "src/public/tsconfig.json"
     }
 };
 
