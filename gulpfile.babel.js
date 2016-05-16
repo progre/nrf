@@ -1,14 +1,14 @@
 import gulp from "gulp";
-import gutil from "gulp-util";
+import * as gutil from "gulp-util";
 import del from "del";
 import {mkdir} from "fs";
 
-import "./gulp/copy";
-import "./gulp/jade";
-import "./gulp/selflint";
-import "./gulp/stylus";
-import "./gulp/test";
-import "./gulp/ts";
+import "./gulp/copy.js";
+import "./gulp/jade.js";
+import "./gulp/selflint.js";
+import "./gulp/stylus.js";
+import "./gulp/test.js";
+import "./gulp/ts.js";
 
 gulp.task("clean", async (done) => {
     await del("lib/");
