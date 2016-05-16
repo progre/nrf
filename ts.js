@@ -5,9 +5,10 @@ import sourcemaps from "gulp-sourcemaps";
 import gulpTypescript from "gulp-typescript";
 import babel from "gulp-babel";
 import typescript from "typescript";
-import {parallel} from "./util";
-import * as tslint from "./tslint";
-import {buildBrowser} from "./ts-browserify";
+import {parallel} from "./util.js";
+import * as tslint from "./tslint.js";
+import {buildMain} from "./ts-main.js";
+import {buildBrowser} from "./ts-browserify.js";
 
 export const lint = tslint;
 export let config = {
@@ -35,16 +36,7 @@ gulp.task("ts:debug",
         "ts:typings",
         gulp.parallel(
             "tslint:tslint",
-            () => {
-                let tasks = [];
-                if (config.main != null) {
-                    tasks.push(buildMain(false));
-                }
-                if (config.browser != null) {
-                    tasks.push(buildBrowser(false, config.browser, createBrowserProject(false)));
-                }
-                return parallel(tasks);
-            }
+            function ts_build() { return build(false); }
         )
     )
 );
@@ -52,7 +44,7 @@ gulp.task("ts:debug",
 gulp.task("ts:browser",
     gulp.parallel(
         "tslint:tslint",
-        () => buildBrowser(false)
+        function ts_build_browser() { return buildBrowser(false); }
     ));
 
 gulp.task("ts:release",
@@ -60,51 +52,18 @@ gulp.task("ts:release",
         "ts:typings",
         gulp.parallel(
             "tslint:tslint",
-            () => {
-                let tasks = [];
-                if (config.main != null) {
-                    tasks.push(buildMain(true));
-                }
-                if (config.browser != null) {
-                    tasks.push(buildBrowser(true, config.browser, createBrowserProject(true)));
-                }
-                return parallel(tasks);
-            }
+            function ts_build() { return build(true); }
         )
     )
 );
 
-function buildMain(release) {
-    let babelOpts = {
-        presets: ["modern-node/5.5"],
-        sourceMaps: true
-    };
-    return gulp.src(config.main.src)
-        .pipe(gulpIf(!release, sourcemaps.init()))
-        .pipe(gulpTypescript(createMainProject(release)))
-        .pipe(babel(babelOpts))
-        .pipe(gulpIf(!release, sourcemaps.write()))
-        .pipe(gulp.dest(config.main.dest));
-}
-
-function createMainProject(release) {
-    try {
-        return gulpTypescript.createProject(
-            config.main.configPath,
-            {
-                sourceMap: true,
-                removeComments: release,
-                typescript
-            });
-    } catch (e) {
-        return {};
+function build(release) {
+    let tasks = [];
+    if (config.main != null) {
+        tasks.push(buildMain(config.main, release));
     }
-}
-
-function createBrowserProject(release) {
-    try {
-        return require("../" + config.browser.configPath).compilerOptions;
-    } catch (e) {
-        return createMainProject(release).config.compilerOptions;
+    if (config.browser != null) {
+        tasks.push(buildBrowser(config.browser, release));
     }
+    return parallel(tasks);
 }
