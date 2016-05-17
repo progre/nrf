@@ -1,10 +1,5 @@
 import gulp from "gulp";
-import gulpIf from "gulp-if";
 import typings from "gulp-typings";
-import sourcemaps from "gulp-sourcemaps";
-import gulpTypescript from "gulp-typescript";
-import babel from "gulp-babel";
-import typescript from "typescript";
 import {parallel} from "./util.js";
 import * as tslint from "./tslint.js";
 import {buildMain} from "./ts-main.js";
@@ -19,7 +14,7 @@ export let config = {
     },
     browser: {
         files: [{
-            src: "src/public/js/app.ts",
+            src: "src/public/js/index.ts",
             dest: "lib/public/js/"
         }],
         configPath: "src/public/tsconfig.json"
