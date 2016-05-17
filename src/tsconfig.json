@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "noEmitOnError": true,
+        "target": "es2015"
+    },
+    "exclude": [
+        "public"
+    ]
+}

@@ -1,11 +1,10 @@
 {
     "compilerOptions": {
-        "target": "es6"
+        "target": "es2015"
     },
     "exclude": [
         "lib",
         "node_modules",
-        "src",
-        "typings"
+        "src"
     ]
 }
