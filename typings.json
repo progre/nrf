@@ -4,6 +4,7 @@
   "dependencies": {},
   "ambientDependencies": {
     "empower": "registry:dt/empower#0.0.0+20160317120654",
+    "github-electron": "registry:dt/github-electron#0.37.8+20160509083739",
     "mocha": "registry:dt/mocha#2.2.5+20160317120654",
     "node": "registry:dt/node#4.0.0+20160501135006",
     "power-assert": "registry:dt/power-assert#0.0.0+20160316155526",
