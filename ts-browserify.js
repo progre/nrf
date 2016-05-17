@@ -73,9 +73,5 @@ function preserveComments(node, comment) {
 }
 
 function createBrowserProject(config) {
-    try {
-        return require("../" + config.browser.configPath).compilerOptions;
-    } catch (e) {
-        return {};
-    }
+    return require("../" + config.configPath).compilerOptions;
 }

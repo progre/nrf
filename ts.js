@@ -1,5 +1,4 @@
 import gulp from "gulp";
-import typings from "gulp-typings";
 import {parallel} from "./util.js";
 import * as tslint from "./tslint.js";
 import {buildMain} from "./ts-main.js";
@@ -21,18 +20,10 @@ export let config = {
     }
 };
 
-gulp.task("ts:typings", () => {
-    return gulp.src("./typings.json")
-        .pipe(typings());
-});
-
 gulp.task("ts:debug",
-    gulp.series(
-        "ts:typings",
-        gulp.parallel(
-            "tslint:tslint",
-            function ts_build() { return build(false); }
-        )
+    gulp.parallel(
+        "tslint:tslint",
+        function ts_build() { return build(false); }
     )
 );
 
@@ -43,12 +34,9 @@ gulp.task("ts:browser",
     ));
 
 gulp.task("ts:release",
-    gulp.series(
-        "ts:typings",
-        gulp.parallel(
-            "tslint:tslint",
-            function ts_build() { return build(true); }
-        )
+    gulp.parallel(
+        "tslint:tslint",
+        function ts_build() { return build(true); }
     )
 );
 

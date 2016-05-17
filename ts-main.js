@@ -1,7 +1,8 @@
+import typescript from "typescript";
 import gulp from "gulp";
 import gulpIf from "gulp-if";
 import sourcemaps from "gulp-sourcemaps";
-import typescript from "gulp-typescript";
+import gulpTypescript from "gulp-typescript";
 import babel from "gulp-babel";
 
 export function buildMain(config, release) {
@@ -11,22 +12,18 @@ export function buildMain(config, release) {
     };
     return gulp.src(config.src)
         .pipe(gulpIf(!release, sourcemaps.init()))
-        .pipe(typescript(createMainProject(config, release)))
+        .pipe(gulpTypescript(createMainProject(config, release)))
         .pipe(babel(babelOpts))
         .pipe(gulpIf(!release, sourcemaps.write()))
         .pipe(gulp.dest(config.dest));
 }
 
 function createMainProject(config, release) {
-    try {
-        return typescript.createProject(
-            config.configPath,
-            {
-                sourceMap: !release,
-                removeComments: release,
-                typescript
-            });
-    } catch (e) {
-        return {};
-    }
+    return gulpTypescript.createProject(
+        config.configPath,
+        {
+            sourceMap: !release,
+            removeComments: release,
+            typescript
+        });
 }
