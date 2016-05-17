@@ -1,3 +1,3 @@
-/// <reference path="../../../typings/browser.d.ts" />
+/// <reference path="../../../typings/index.d.ts" />
 import "babel-polyfill";
 console.log("It works!");

@@ -9,6 +9,7 @@ cache:
   directories:
     - node_modules
 script:
+  - npm run typings
   - npm run build
 before_deploy:
   - npm run package
