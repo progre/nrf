@@ -8,15 +8,13 @@ export const lint = tslint;
 export let config = {
     main: {
         src: ["src/**/*.ts", "!src/test/**", "!src/public/js/**"],
-        dest: "lib/",
-        configPath: "src/tsconfig.json"
+        dest: "lib/"
     },
     browser: {
         files: [{
             src: "src/public/js/index.ts",
             dest: "lib/public/js/"
-        }],
-        configPath: "src/public/tsconfig.json"
+        }]
     }
 };
 
