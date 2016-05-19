@@ -12,15 +12,15 @@ export function buildMain(config, release) {
     };
     return gulp.src(config.src)
         .pipe(gulpIf(!release, sourcemaps.init()))
-        .pipe(gulpTypescript(createMainProject(config, release)))
+        .pipe(gulpTypescript(createMainProject(release)))
         .pipe(babel(babelOpts))
         .pipe(gulpIf(!release, sourcemaps.write()))
         .pipe(gulp.dest(config.dest));
 }
 
-function createMainProject(config, release) {
+function createMainProject(release) {
     return gulpTypescript.createProject(
-        config.configPath,
+        "tsconfig.json",
         {
             sourceMap: !release,
             removeComments: release,

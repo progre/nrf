@@ -4,5 +4,8 @@
         "noImplicitAny": true,
         "noEmitOnError": true,
         "target": "es2015"
-    }
+    },
+    "files": [
+        "src/**"
+    ]
 }
