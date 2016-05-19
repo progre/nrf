@@ -5,7 +5,8 @@
         "noEmitOnError": true,
         "target": "es2015"
     },
-    "files": [
-        "src/**"
+    "exclude": [
+        "node_modules",
+        "typings"
     ]
 }

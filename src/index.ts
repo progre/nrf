@@ -18,5 +18,4 @@ async function main() {
     win.loadURL(`file://${__dirname}/public/index.html`);
 }
 
-main()
-    .catch(e => log4js.getLogger().error(e.stack != null ? e.stack : e));
+main().catch(e => log4js.getLogger().error(e.stack != null ? e.stack : e));
