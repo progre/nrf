@@ -1,6 +1,5 @@
 /// <reference path="../typings/index.d.ts" />
 try { require("source-map-support").install(); } catch (e) { /* empty */ }
-require("crash-reporter").start();
 const log4js = require("log4js");
 import {app, BrowserWindow} from "electron";
 
@@ -16,7 +15,7 @@ async function main() {
         resizable: true,
         show: true
     });
-    win.loadURL(`file://${__dirname}/../public/index.html`);
+    win.loadURL(`file://${__dirname}/public/index.html`);
 }
 
 main()
