@@ -52,8 +52,8 @@
   "private": true,
   "repository": "https://github.com/progre/template-typescript.git",
   "scripts": {
-    "typings": "typings install",
     "build": "gulp release-build",
-    "test": "gulp test:test"
+    "test": "gulp test:test",
+    "typings": "typings install"
   }
 }
