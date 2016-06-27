@@ -5,7 +5,7 @@
   "author": "progre",
   "bugs": "https://github.com/progre/template-typescript/issues",
   "dependencies": {
-    "log4js": "^0.6.36"
+    "log4js": "^0.6.37"
   },
   "devDependencies": {
     "babel-eslint": "^6.1.0",
@@ -16,7 +16,7 @@
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
     "del": "^2.2.1",
-    "electron-packager": "^7.0.1",
+    "electron-packager": "^7.1.0",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.0",
