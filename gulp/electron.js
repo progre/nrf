@@ -1,25 +1,27 @@
 import gulp from "gulp";
 import promisify from "native-promisify";
+import fetch from "node-fetch";
 const exec = promisify(require("child_process").exec);
 const mkdir = promisify(require("fs").mkdir);
 const electronPackager = promisify(require("electron-packager"));
 const APP_NAME = require("../package.json").name;
-const ELECTRON_VER = "1.1.0";
 
-gulp.task("electron:package", () => {
-    return mkdir("tmp").catch(errorHandler)
-        .then(() => mkdir("tmp/dest")).catch(errorHandler)
-        .then(() => exec("cp -r lib/ tmp/dest/lib")).then(printStdout)
-        .then(() => exec("cp LICENSE tmp/dest/")).then(printStdout)
-        .then(() => exec("cp package.json tmp/dest/")).then(printStdout)
-        .then(() => exec("cp README*.md tmp/dest/")).then(printStdout)
-        .then(() => exec("npm install --production", { cwd: "tmp/dest" })).then(printStdout)
-        .then(() => execPackageAndZip("tmp", "dest", "darwin", "x64", "src/res/icon.icns"))
-        .then(() => execPackageAndZip("tmp", "dest", "win32", "ia32", "src/res/icon_256.ico"))
-        .then(() => execPackageAndZip("tmp", "dest", "linux", "x64", null));
+gulp.task("electron:package", async () => {
+    let res = fetch("https://api.github.com/repos/electron/electron/releases/latest");
+    let version = res.json().tag_name.slice(1);
+    await mkdir("tmp").catch(errorHandler)
+    await mkdir("tmp/dest").catch(errorHandler);
+    await exec("cp -r lib/ tmp/dest/lib").then(printStdout);
+    await exec("cp LICENSE tmp/dest/").then(printStdout);
+    await exec("cp package.json tmp/dest/").then(printStdout);
+    await exec("cp README*.md tmp/dest/").then(printStdout);
+    await exec("npm install --production", { cwd: "tmp/dest" }).then(printStdout);
+    await execPackageAndZip(version, "tmp", "dest", "darwin", "x64", "src/res/icon.icns");
+    await execPackageAndZip(version, "tmp", "dest", "win32", "ia32", "src/res/icon_256.ico");
+    await execPackageAndZip(version, "tmp", "dest", "linux", "x64", null);
 });
 
-function execPackageAndZip(cwd, path, platform, arch, icon) {
+function execPackageAndZip(version, cwd, path, platform, arch, icon) {
     let os = (() => {
         switch (platform) {
             case "darwin": return "osx";
@@ -34,7 +36,7 @@ function execPackageAndZip(cwd, path, platform, arch, icon) {
             name: APP_NAME,
             platform,
             arch,
-            version: ELECTRON_VER,
+            version,
             icon,
             asar: true,
             out: cwd
