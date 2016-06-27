@@ -11,5 +11,5 @@ cache:
 script:
   - npm run typings
   - npm run build
-before_deploy:
+after_script:
   - npm run package
