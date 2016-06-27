@@ -37,7 +37,7 @@
     "native-promisify": "^1.2.0",
     "power-assert": "^1.4.1",
     "source-map-support": "^0.4.0",
-    "tsify": "^0.15.5",
+    "tsify": "^0.16.0",
     "tslint": "^3.10.2",
     "typescript": "^1.8.10",
     "typings": "^1.0.4",
@@ -57,9 +57,9 @@
   "private": true,
   "repository": "https://github.com/progre/template-typescript.git",
   "scripts": {
-    "typings": "typings install",
     "build": "gulp release-build",
     "package": "gulp electron:package",
-    "test": "gulp test:test"
+    "test": "gulp test:test",
+    "typings": "typings install"
   }
 }
