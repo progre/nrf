@@ -7,9 +7,9 @@ const electronPackager = promisify(require("electron-packager"));
 const APP_NAME = require("../package.json").name;
 
 gulp.task("electron:package", async () => {
-    let res = fetch("https://api.github.com/repos/electron/electron/releases/latest");
-    let version = res.json().tag_name.slice(1);
-    await mkdir("tmp").catch(errorHandler)
+    let res = await fetch("https://api.github.com/repos/electron/electron/releases/latest");
+    let version = (await res.json()).tag_name.slice(1);
+    await mkdir("tmp").catch(errorHandler);
     await mkdir("tmp/dest").catch(errorHandler);
     await exec("cp -r lib/ tmp/dest/lib").then(printStdout);
     await exec("cp LICENSE tmp/dest/").then(printStdout);
