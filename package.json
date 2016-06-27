@@ -35,6 +35,7 @@
     "gulp-util": "^3.0.7",
     "licensify": "^3.1.2",
     "native-promisify": "^1.2.0",
+    "node-fetch": "^1.5.3",
     "power-assert": "^1.4.1",
     "source-map-support": "^0.4.0",
     "tsify": "^0.16.0",
