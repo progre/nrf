@@ -21,6 +21,7 @@ gulp-tslint-stylish
 gulp-typescript
 gulp-uglify
 native-promisify
+node-fetch
 path
 source-map-support
 tslint
