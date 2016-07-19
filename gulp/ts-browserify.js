@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import typescript from "typescript";
 import promisify from "native-promisify";
 const access = promisify(fs.access);
 import gulp from "gulp";
@@ -11,7 +12,7 @@ import babelify from "babelify";
 import licensify from "licensify";
 import source from "vinyl-source-stream";
 import buffer from "vinyl-buffer";
-import {parallel} from "./util";
+import { parallel } from "./util";
 
 export async function buildBrowser(config, release) {
     let availableFiles = await getAvailableFiles(config.files);
@@ -73,5 +74,7 @@ function preserveComments(node, comment) {
 }
 
 function createBrowserProject() {
-    return require("../tsconfig.json").compilerOptions;
+    return Object.assign({},
+        require("../tsconfig.json").compilerOptions,
+        { typescript });
 }
