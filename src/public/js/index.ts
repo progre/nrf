@@ -1,8 +1,8 @@
 /// <reference path="../../../typings/index.d.ts" />
-import "babel-polyfill";
+import module from "./module.ts";
 
 async function main() {
-    console.log("It works!");
+    module();
 }
 
 main().catch(e => console.error(e.stack != null ? e.stack : e));
