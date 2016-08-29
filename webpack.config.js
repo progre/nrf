@@ -1,3 +1,5 @@
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+
 let common = {
     devtool: process.env.NODE_ENV === "production"
         ? null
@@ -19,7 +21,17 @@ module.exports = [
             },
             output: {
                 filename: "lib/public/js/[name].js"
-            }
+            },
+            plugins: [
+                new CopyWebpackPlugin(
+                    [{ from: "src/public/", to: "lib/public/" }],
+                    {
+                        ignore: [
+                            "test/",
+                            "*.ts"
+                        ]
+                    })
+            ]
         },
         common
     ),
