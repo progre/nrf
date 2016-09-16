@@ -13,6 +13,7 @@
     "babelify": "^7.3.0",
     "copy-webpack-plugin": "^3.0.1",
     "cross-env": "^2.0.0",
+    "mocha": "^3.0.2",
     "power-assert": "^1.4.1",
     "source-map-support": "^0.4.2",
     "ts-loader": "^0.8.2",
@@ -34,9 +35,9 @@
   "repository": "https://github.com/progre/template-typescript.git",
   "scripts": {
     "build": "cross-env NODE_ENV=development webpack --progress --color",
-    "watch": "cross-env NODE_ENV=development webpack --progress --color --watch",
+    "postinstall": "typings install || echo Skipped.",
     "release-build": "cross-env NODE_ENV=production webpack --progress --color --optimize-occurrence-order",
-    "test": "gulp test:test",
-    "typings": "typings install"
+    "test": "mocha lib/test/",
+    "watch": "cross-env NODE_ENV=development webpack --progress --color --watch"
   }
 }
