@@ -1,5 +1,6 @@
 /// <reference path="../typings/index.d.ts" />
 try { require("source-map-support").install(); } catch (e) { /* empty */ }
+import module from "./module.ts";
 const log4js = require("log4js");
 import {app, BrowserWindow} from "electron";
 
@@ -16,6 +17,7 @@ async function main() {
         show: true
     });
     win.loadURL(`file://${__dirname}/public/index.html`);
+    module();
 }
 
 main().catch(e => log4js.getLogger().error(e.stack != null ? e.stack : e));
