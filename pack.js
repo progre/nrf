@@ -3,7 +3,7 @@ const thenify = require("thenify");
 const exec = thenify(require("child_process").exec);
 const mkdir = thenify(require("fs").mkdir);
 const electronPackager = thenify(require("electron-packager"));
-const APP_NAME = require("../package.json").name;
+const APP_NAME = require("./package.json").name;
 
 fetch("https://api.github.com/repos/electron/electron/releases/latest")
     .then(res => res.json())
