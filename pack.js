@@ -1,5 +1,5 @@
-import fetch from "node-fetch";
-import * as thenify from "thenify";
+const fetch = require("node-fetch");
+const thenify = require("thenify");
 const exec = thenify(require("child_process").exec);
 const mkdir = thenify(require("fs").mkdir);
 const electronPackager = thenify(require("electron-packager"));
