@@ -65,6 +65,9 @@ module.exports = [
                     loader: "babel-loader?presets[]=modern-node!ts-loader"
                 }]
             },
+            node: {
+                __dirname: false
+            },
             output: {
                 filename: "lib/[name].js",
                 libraryTarget: "commonjs2"
