@@ -1,5 +1,5 @@
-import "../../../typings/index.d.ts";
-import module from "./module.ts";
+/// <reference path="../../../typings/index.d.ts" />
+import module from "./module";
 
 async function main() {
     module();

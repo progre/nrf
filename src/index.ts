@@ -1,6 +1,6 @@
-import "../typings/index.d.ts";
+/// <reference path="../typings/index.d.ts" />
 try { require("source-map-support").install(); } catch (e) { /* empty */ }
-import module from "./module.ts";
+import module from "./module";
 const log4js = require("log4js");
 import {app, BrowserWindow} from "electron";
 
