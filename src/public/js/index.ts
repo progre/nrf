@@ -1,4 +1,4 @@
-/// <reference path="../../../typings/index.d.ts" />
+import "../../../typings/index.d.ts";
 import module from "./module.ts";
 
 async function main() {

@@ -1,6 +1,6 @@
 {
     "extends": [
-        "tslint:latest"
+        "tslint:recommended"
     ],
     "rules": {
         "member-ordering": [
@@ -9,10 +9,8 @@
         "member-access": false,
         "no-bitwise": false,
         "no-namespace": false,
-        "no-reference": false,
         "no-var-requires": false,
         "object-literal-sort-keys": false,
-        "ordered-imports": false,
         "trailing-comma": [
             true,
             "never"
