@@ -24,10 +24,16 @@ module.exports = [
                 index: ["babel-polyfill", "./src/public/js/index.ts"]
             },
             module: {
-                loaders: [{
-                    test: /\.tsx?$/,
-                    loader: "babel-loader?presets[]=es2015!ts-loader"
-                }]
+                loaders: [
+                    {
+                        test: /\.js$/,
+                        loader: "babel-loader?presets[]=es2015"
+                    },
+                    {
+                        test: /\.tsx?$/,
+                        loader: "babel-loader?presets[]=es2015!ts-loader"
+                    }
+                ]
             },
             output: {
                 filename: "lib/public/js/[name].js"
