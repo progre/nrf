@@ -24,7 +24,7 @@ fetch("https://api.github.com/repos/electron/electron/releases/latest")
 function execPackageAndZip(version, cwd, path, platform, arch, icon) {
     let os = (() => {
         switch (platform) {
-            case "darwin": return "osx";
+            case "darwin": return "mac";
             case "win32": return "win";
             case "linux": return "linux";
         }
