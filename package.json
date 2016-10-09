@@ -24,7 +24,8 @@
     "typescript": "^2.0.3",
     "typings": "^1.4.0",
     "uglify-save-license": "^0.4.1",
-    "webpack": "^1.13.2"
+    "webpack": "^1.13.2",
+    "webpack-fail-plugin": "^1.0.5"
   },
   "files": [
     "lib"

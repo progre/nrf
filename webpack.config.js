@@ -1,25 +1,19 @@
 const webpack = require("webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const failPlugin = require("webpack-fail-plugin");
+const uglifySaveLicense = require("uglify-save-license");
+
+const isProduction = process.env.NODE_ENV === "production";
 
 let common = {
-    devtool: process.env.NODE_ENV === "production"
+    devtool: isProduction
         ? null
         : "#inline-eval-source-map",
-    plugin: process.env.NODE_ENV === "production"
-        ? [
-            new webpack.optimize.UglifyJsPlugin({
-                output: { comments: require("uglify-save-license") }
-            }),
-        ]
+    plugin: isProduction
+        ? [failPlugin]
         : [],
     resolve: { extensions: ["", ".ts", ".tsx", ".js"] },
-    ts: {
-        compilerOptions: {
-            "sourceMap": process.env.NODE_ENV === "production"
-                ? false
-                : true
-        }
-    }
+    ts: { compilerOptions: { "sourceMap": !isProduction } }
 };
 
 module.exports = [
@@ -47,8 +41,15 @@ module.exports = [
                             "*.ts",
                             "*.tsx"
                         ]
-                    })
+                    }),
             ])
+                .concat(isProduction
+                    ? [
+                        new webpack.optimize.UglifyJsPlugin({
+                            output: { comments: uglifySaveLicense }
+                        })
+                    ]
+                    : [])
         }
     ),
     Object.assign({},
