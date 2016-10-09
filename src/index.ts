@@ -5,4 +5,4 @@ async function main() {
     module();
 }
 
-main().catch(e => console.error(e.stack != null ? e.stack : e));
+main().catch(e => console.error(e.stack || e));
