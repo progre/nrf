@@ -10,6 +10,7 @@ log4js.configure({
 
 async function main() {
     await new Promise((resolve, reject) => app.once("ready", resolve));
+    app.on("window-all-closed", app.quit.bind(app));
     let win = new BrowserWindow({
         width: 800,
         height: 600,
