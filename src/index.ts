@@ -20,4 +20,4 @@ async function main() {
     module();
 }
 
-main().catch(e => log4js.getLogger().error(e.stack != null ? e.stack : e));
+main().catch(e => log4js.getLogger().error(e.stack || e));
