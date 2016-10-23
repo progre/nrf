@@ -18,6 +18,7 @@
     "power-assert": "^1.4.1",
     "source-map-support": "^0.4.5",
     "ts-loader": "^0.9.5",
+    "tslint": "^3.15.1",
     "typescript": "^2.0.3",
     "typings": "^1.4.0",
     "uglify-save-license": "^0.4.1",
