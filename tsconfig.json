@@ -4,10 +4,7 @@
         "noEmitOnError": true,
         "skipLibCheck": true,
         "strictNullChecks": true,
-        "target": "es2015",
-        "typeRoots": [
-            "./typings"
-        ]
+        "target": "es2015"
     },
     "exclude": [
         "node_modules",
