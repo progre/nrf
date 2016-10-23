@@ -1,0 +1,51 @@
+{
+  "name": "template-typescript",
+  "description": "Project template.",
+  "version": "1.0.0",
+  "author": "progre",
+  "bugs": "https://github.com/progre/template-typescript/issues",
+  "dependencies": {
+    "babel-polyfill": "^6.16.0",
+    "log4js": "^0.6.38"
+  },
+  "devDependencies": {
+    "babel-core": "^6.17.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-modern-node": "^3.2.0",
+    "copy-webpack-plugin": "^3.0.1",
+    "cross-env": "^3.1.3",
+    "electron-packager": "^8.1.0",
+    "mocha": "^3.1.2",
+    "node-fetch": "^1.6.3",
+    "power-assert": "^1.4.1",
+    "source-map-support": "^0.4.5",
+    "thenify": "^3.2.1",
+    "ts-loader": "^0.9.5",
+    "typescript": "^2.0.3",
+    "typings": "^1.4.0",
+    "uglify-save-license": "^0.4.1",
+    "webpack": "^1.13.2",
+    "webpack-fail-plugin": "^1.0.5"
+  },
+  "files": [
+    "lib"
+  ],
+  "homepage": "https://github.com/progre/template-typescript/",
+  "keywords": [
+    "electron",
+    "template"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "private": true,
+  "repository": "https://github.com/progre/template-typescript.git",
+  "scripts": {
+    "build": "cross-env NODE_ENV=development webpack --progress",
+    "package": "node pack.js",
+    "postinstall": "typings install || echo Skipped.",
+    "release-build": "cross-env NODE_ENV=production webpack --progress",
+    "test": "mocha lib/test/",
+    "watch": "cross-env NODE_ENV=development webpack --progress --watch"
+  }
+}

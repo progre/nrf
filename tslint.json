@@ -1,0 +1,31 @@
+{
+    "extends": [
+        "tslint:recommended"
+    ],
+    "rules": {
+        "member-ordering": [
+            false
+        ],
+        "member-access": false,
+        "no-bitwise": false,
+        "no-namespace": false,
+        "no-reference": false,
+        "no-var-requires": false,
+        "object-literal-sort-keys": false,
+        "trailing-comma": [
+            true,
+            "never"
+        ],
+        "variable-name": [
+            true,
+            "ban-keywords",
+            "check-format",
+            "allow-leading-underscore",
+            "allow-pascal-case"
+        ],
+        "whitespace": [
+            false,
+            "check-typecast"
+        ]
+    }
+}
