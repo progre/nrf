@@ -1,8 +1,9 @@
 /// <reference path="../typings/index.d.ts" />
 try { require("source-map-support").install(); } catch (e) { /* empty */ }
-import module from "./module";
-const log4js = require("log4js");
-import {app, BrowserWindow} from "electron";
+import { normalize } from "path";
+import * as log4js from "log4js";
+import { app, BrowserWindow } from "electron";
+import * as server from "./server";
 
 log4js.configure({
     appenders: [{ type: "console", layout: { type: "basic" } }]
@@ -18,7 +19,7 @@ async function main() {
         show: true
     });
     win.loadURL(`file://${__dirname}/public/index.html`);
-    module();
+    server.run(normalize(__dirname + "/.."));
 }
 
 main().catch(e => log4js.getLogger().error(e.stack || e));

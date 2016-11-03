@@ -1,9 +1,9 @@
 {
-  "name": "template-typescript",
-  "description": "Project template.",
+  "name": "nrf",
+  "description": "Next RTMP relay Frontend.",
   "version": "1.0.0",
   "author": "progre",
-  "bugs": "https://github.com/progre/template-typescript/issues",
+  "bugs": "https://github.com/progre/nrf/issues",
   "dependencies": {
     "babel-polyfill": "^6.16.0",
     "log4js": "^0.6.38"
@@ -32,7 +32,7 @@
   "files": [
     "lib"
   ],
-  "homepage": "https://github.com/progre/template-typescript/",
+  "homepage": "https://github.com/progre/nrf/",
   "keywords": [
     "electron",
     "template"

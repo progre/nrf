@@ -40,7 +40,10 @@ module.exports = [
             },
             plugins: common.plugin.concat([
                 new CopyWebpackPlugin(
-                    [{ from: "src/public/", to: "lib/public/" }],
+                    [
+                        { from: "src/public/", to: "lib/public/" },
+                        { from: "src/res/", to: "lib/res/" }
+                    ],
                     {
                         ignore: [
                             "test/",
