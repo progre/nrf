@@ -3,28 +3,41 @@ import Exe from "./exe";
 export default class Ffmpeg {
     private exe = new Exe();
 
+    private onStopHandler = () => {
+        setTimeout(
+            () => this.exe.restart(),
+            3000
+        );
+    };
+
     get isAlive() { return this.exe.isAlive; };
 
-    start(exePath: string, servers: string[]) {
+    start(exePath: string, port: number, servers: string[]) {
         if (exePath == null || exePath.length === 0) {
             exePath = "ffmpeg";
         }
-        this.exe.start(exePath, createArgs(servers));
+        this.exe.on("close", this.onStopHandler);
+        this.exe.start(exePath, createArgs(port, servers));
     }
 
     restart = this.exe.restart.bind(this.exe);
-    stop = this.exe.stop.bind(this.exe);
+
+    stop() {
+        this.exe.removeListener("close", this.onStopHandler);
+        this.exe.stop();
+    }
 }
 
-function createArgs(servers: string[]) {
+function createArgs(port: number, servers: string[]) {
     return [
-        "-re",
-        "-i", "rtmp://127.0.0.1/live",
-        "-c", "copy",
-        "-flags", "+global_header",
+        "-loglevel", "error",
+        "-i", `rtmp://127.0.0.1:${port}/live`,
+        "-map_metadata", "0",
+        "-copyts",
+        "-copy_unknown",
+        "-map", "0",
+        "-codec", "copy",
         "-f", "tee",
-        "-map", "0:0",
-        "-map", "0:1",
-        `"` + servers.map(x => `[f=flv]${x}`).join("|") + `"`
+        servers.map(x => `[f=flv]${x}`).join("|")
     ];
 }

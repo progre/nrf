@@ -7,7 +7,7 @@ events {
 rtmp {
     server {
         access_log off;
-        listen 1935;
+        listen ${port};
         application live {
             allow publish 10.0.0.0/8;
             allow publish 172.16.0.0/12;
@@ -20,7 +20,9 @@ rtmp {
             allow play 127.0.0.0/8;
             deny play all;
             live on;
+            meta copy;
             wait_video on;
+${pushedServers}
         }
     }
 }
