@@ -30,7 +30,7 @@ export default class Ffmpeg {
 
 function createArgs(port: number, servers: string[]) {
     return [
-        "-loglevel", "error",
+        "-loglevel", "warning",
         "-i", `rtmp://127.0.0.1:${port}/live`,
         "-map_metadata", "0",
         "-copyts",

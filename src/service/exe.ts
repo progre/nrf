@@ -13,7 +13,7 @@ export default class Exe extends EventEmitter {
         this.logger = log4js.getLogger(basename(exePath));
         this.exePath = exePath;
         this.args = args;
-        this.logger.info("Server starting: ", this.exePath);
+        this.logger.info("Server starting");
         let process = spawn(
             this.exePath,
             args,
@@ -23,7 +23,7 @@ export default class Exe extends EventEmitter {
             this.logger.error("Server error", e);
         });
         process.on("close", () => {
-            this.logger.info("Server closed: ", this.exePath);
+            this.logger.info("Server closed");
             if (this.process === process) {
                 this.process = null;
             }
