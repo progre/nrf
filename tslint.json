@@ -9,6 +9,7 @@
         ],
         "member-access": false,
         "no-bitwise": false,
+        "no-invalid-this": true,
         "no-namespace": false,
         "no-reference": false,
         "no-var-requires": false,
