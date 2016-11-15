@@ -3,6 +3,7 @@
         "tslint:recommended"
     ],
     "rules": {
+        "interface-name": [true, "never-prefix"],
         "member-ordering": [
             false
         ],
