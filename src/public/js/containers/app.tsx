@@ -1,7 +1,6 @@
 import * as Redux from "redux";
 import { connect } from "react-redux";
 import Root, { } from "../components/root";
-import ActionCreators from "../actioncreators";
 import * as reducer from "../reducer";
 
 function mapStateToProps(state: reducer.State) {
@@ -9,7 +8,17 @@ function mapStateToProps(state: reducer.State) {
 }
 
 function mapDispatchToProps(dispatch: Redux.Dispatch<{}>) {
-    return new ActionCreators(dispatch);
+    return {
+        onNginxPathChange(path: string) {
+
+        },
+        onNginxPortChange(port: number) {
+
+        },
+        onFfmpegPathChange(path: string) {
+
+        }
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Root);

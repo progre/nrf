@@ -6,7 +6,6 @@ export default function FileSelectorRow(props: {
     labelText: string;
     value: string;
     onChange: (value: string) => void;
-    onPathSelectorLaunch: () => void;
 }) {
     let innerId = uuid.v4();
     return (
@@ -24,7 +23,6 @@ export default function FileSelectorRow(props: {
                     inputId={innerId}
                     value={props.value}
                     onChange={value => props.onChange(value)}
-                    onPathSelectorLaunch={() => props.onPathSelectorLaunch()}
                     />
             </div>
         </div>

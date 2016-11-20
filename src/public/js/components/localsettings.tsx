@@ -7,10 +7,8 @@ export interface Props {
     nginxPath: string;
     nginxPort: number;
     ffmpegPath: string;
-    onNginxPathSelectorLaunch: () => void;
     onNginxPathChange: (path: string) => void;
     onNginxPortChange: (port: number) => void;
-    onFfmpegPathSelectorLaunch: () => void;
     onFfmpegPathChange: (path: string) => void;
 }
 
@@ -25,7 +23,6 @@ export default class LocalSettings extends React.Component<Props, {}> {
                     labelText="Path to nginx"
                     value={this.props.nginxPath}
                     onChange={value => this.props.onNginxPathChange(value)}
-                    onPathSelectorLaunch={() => this.props.onNginxPathSelectorLaunch()}
                     />
             </div>
             <div className="row">
@@ -33,7 +30,6 @@ export default class LocalSettings extends React.Component<Props, {}> {
                     labelText="Path to ffmpeg"
                     value={this.props.ffmpegPath}
                     onChange={value => this.props.onNginxPathChange(value)}
-                    onPathSelectorLaunch={() => this.props.onNginxPathSelectorLaunch()}
                     />
             </div>
             <div className="row">

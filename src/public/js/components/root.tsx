@@ -15,10 +15,8 @@ export interface Props {
         fms: string;
         key: string;
     }[];
-    onNginxPathSelectorLaunch: () => void;
     onNginxPathChange: (path: string) => void;
     onNginxPortChange: (port: number) => void;
-    onFfmpegPathSelectorLaunch: () => void;
     onFfmpegPathChange: (path: string) => void;
 }
 
@@ -29,10 +27,8 @@ export default function Root(props: Props) {
                 nginxPath={props.local.nginxPath}
                 nginxPort={props.local.nginxPort}
                 ffmpegPath={props.local.ffmpegPath}
-                onNginxPathSelectorLaunch={() => props.onNginxPathSelectorLaunch()}
                 onNginxPathChange={path => props.onNginxPathChange(path)}
                 onNginxPortChange={port => props.onNginxPortChange(port)}
-                onFfmpegPathSelectorLaunch={() => props.onFfmpegPathSelectorLaunch()}
                 onFfmpegPathChange={path => props.onFfmpegPathChange(path)}
                 />
             <ServiceSettings
