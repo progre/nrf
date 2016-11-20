@@ -21,7 +21,7 @@ module.exports = [
         common,
         {
             entry: {
-                index: ["babel-polyfill", "./src/public/js/index.ts?"]
+                index: ["babel-polyfill", "./src/public/js/index.tsx"]
             },
             module: {
                 loaders: [

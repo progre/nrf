@@ -4,16 +4,45 @@ let initialState = {
     local: {
         nginxPath: "",
         nginxPort: 0,
-        nginxRunning: false,
         ffmpegPath: "",
-        ffmpegRunning: false
     },
     services: <{
         name: string;
         enabled: boolean;
         fms: string;
         key: string;
-    }[]>[]
+    }[]>[
+        {
+            name: "twitch",
+            enabled: false,
+            fms: "",
+            key: ""
+        },
+        {
+            name: "peercaststation",
+            enabled: false,
+            fms: "",
+            key: ""
+        },
+        {
+            name: "livecodingtv",
+            enabled: false,
+            fms: "",
+            key: ""
+        },
+        {
+            name: "niconico",
+            enabled: false,
+            fms: "",
+            key: ""
+        },
+        {
+            name: "other",
+            enabled: false,
+            fms: "",
+            key: ""
+        }
+    ]
 };
 
 export type State = typeof initialState;

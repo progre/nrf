@@ -4,15 +4,14 @@ import { render } from "react-dom";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import reducer from "./reducer";
+import App from "./containers/app";
 
 async function main() {
     render(
         <Provider store={createStore(reducer)}>
-            <div>
-                hello world
-            </div>
+            <App/>
         </Provider>,
-        document.getElementById("root") !
+        document.getElementsByTagName("main")[0]
     );
 }
 
