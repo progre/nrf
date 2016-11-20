@@ -9,6 +9,7 @@ let common = {
     devtool: isProduction
         ? null
         : "#inline-eval-source-map",
+    externals: /^(?!\.)/,
     plugin: isProduction
         ? [failPlugin]
         : [],
@@ -36,7 +37,8 @@ module.exports = [
                 ]
             },
             output: {
-                filename: "lib/public/js/[name].js"
+                filename: "lib/public/js/[name].js",
+                libraryTarget: "commonjs2"
             },
             plugins: common.plugin.concat([
                 new CopyWebpackPlugin(
@@ -65,7 +67,6 @@ module.exports = [
                 index: ["babel-polyfill", "./src/index.ts"],
                 "test/test": ["babel-polyfill", "./src/test/test.ts"]
             },
-            externals: /^(?!\.)/,
             module: {
                 loaders: [{
                     test: /\.tsx?$/,
