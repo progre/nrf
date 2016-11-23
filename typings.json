@@ -6,11 +6,11 @@
     "github-electron": "registry:dt/github-electron#1.2.5+20160624085047",
     "log4js": "registry:dt/log4js#0.0.0+20160608042355",
     "mocha": "registry:dt/mocha#2.2.5+20160720003353",
-    "nedb": "registry:dt/nedb#0.0.0+20160505185910",
     "power-assert": "registry:dt/power-assert#1.4.1+20160924120522",
     "power-assert-formatter": "registry:dt/power-assert-formatter#1.4.1+20160924120522"
   },
   "dependencies": {
+    "redux-persist": "registry:npm/redux-persist#3.2.2+20160817092816",
     "thenify": "registry:npm/thenify#3.1.0+20160723033700"
   }
 }

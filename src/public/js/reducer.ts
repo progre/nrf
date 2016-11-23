@@ -1,4 +1,5 @@
 import * as redux from "redux";
+import * as actions from "./actions";
 
 let initialState = {
     local: {
@@ -49,6 +50,12 @@ export type State = typeof initialState;
 
 function local(state = initialState.local, action: redux.Action & { payload: any }) {
     switch (action.type) {
+        case actions.SET_NGINX_PATH:
+            return Object.assign({}, state, { nginxPath: action.payload });
+        case actions.SET_NGINX_PORT:
+            return Object.assign({}, state, { nginxPort: action.payload });
+        case actions.SET_FFMPEG_PATH:
+            return Object.assign({}, state, { ffmgegPath: action.payload });
         default:
             return state;
     }
@@ -56,6 +63,18 @@ function local(state = initialState.local, action: redux.Action & { payload: any
 
 function services(state = initialState.services, action: redux.Action & { payload: any }) {
     switch (action.type) {
+        case actions.SET_ENABLED:
+            let itemOne = state.filter(x => x.name === action.payload.name);
+            let item = itemOne.length === 0
+            ? {
+                name: action.payload.name,
+
+                };
+            if () {
+                itemOne[0]
+            }
+            let newState = state.filter(x => x.name !== action.payload.name).concat();
+            return Object.assign({}, state, { enabled: action.payload });
         default:
             return state;
     }

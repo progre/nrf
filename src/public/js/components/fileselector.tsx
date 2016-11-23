@@ -1,5 +1,6 @@
 import { platform } from "os";
-import { dialog } from "electron";
+import { remote } from "electron";
+const dialog = remote.dialog;
 import * as React from "react";
 
 export default function FileSelector(props: {

@@ -7,8 +7,12 @@
   "dependencies": {
     "babel-polyfill": "^6.16.0",
     "log4js": "^1.0.1",
-    "nedb": "^1.8.0",
     "node-uuid": "^1.4.7",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-redux": "^4.4.5",
+    "redux": "^3.6.0",
+    "redux-persist": "^4.0.0-beta1",
     "thenify": "^3.2.1"
   },
   "devDependencies": {
@@ -26,10 +30,6 @@
     "mocha": "^3.1.2",
     "node-fetch": "^1.6.3",
     "power-assert": "^1.4.1",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2",
-    "react-redux": "^4.4.5",
-    "redux": "^3.6.0",
     "source-map-support": "^0.4.6",
     "ts-loader": "^1.0.0",
     "tslint": "^4.0.0",
