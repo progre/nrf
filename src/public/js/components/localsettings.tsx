@@ -29,7 +29,7 @@ export default class LocalSettings extends React.Component<Props, {}> {
                 <FileSelectorRow
                     labelText="Path to ffmpeg"
                     value={this.props.ffmpegPath}
-                    onChange={value => this.props.onNginxPathChange(value)}
+                    onChange={value => this.props.onFfmpegPathChange(value)}
                     />
             </div>
             <div className="row">
@@ -95,7 +95,7 @@ export default class LocalSettings extends React.Component<Props, {}> {
 
     private getFMSURL() {
         let port = this.props.nginxPort;
-        if (port == null || port === 1935) {
+        if (port == null || Number.isNaN(port) || port === 0 || port === 1935) {
             return `rtmp://127.0.0.1/live`;
         } else {
             return `rtmp://127.0.0.1:${port}/live`;

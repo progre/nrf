@@ -10,7 +10,7 @@ function local(
 ) {
     state = {
         nginxPath: state.nginxPath || "",
-        nginxPort: state.nginxPort || 0,
+        nginxPort: state.nginxPort || 1935,
         ffmpegPath: state.ffmpegPath || ""
     };
     switch (action.type) {
@@ -19,7 +19,7 @@ function local(
         case actions.SET_NGINX_PORT:
             return Object.assign({}, state, { nginxPort: action.payload });
         case actions.SET_FFMPEG_PATH:
-            return Object.assign({}, state, { ffmgegPath: action.payload });
+            return Object.assign({}, state, { ffmpegPath: action.payload });
         default:
             return state;
     }

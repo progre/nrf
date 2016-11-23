@@ -44,11 +44,12 @@ export default function ServiceSettingsContents(props: {
     return (
         <div className="col-sm-8">
             <div className="row">
-                <div className="col-sm-push-3 col-sm-9">
+                <div className="push-sm-3 col-sm-9">
                     <div className="checkbox">
                         <label>
                             <input
                                 type="checkbox"
+                                style={{ marginRight: "0.5em" }}
                                 checked={props.config.enabled}
                                 onChange={e => props.onEnabledChange(
                                     (e.target as HTMLInputElement).checked)}
@@ -59,7 +60,7 @@ export default function ServiceSettingsContents(props: {
                 </div>
             </div>
             <div className="row">
-                <div className="col-sm-3 text-right">
+                <div className="col-sm-3" style={{ textAlign: "right" }}>
                     <label
                         htmlFor={fmsId}
                         className="form-control-static"
@@ -101,14 +102,14 @@ export default function ServiceSettingsContents(props: {
             {
                 props.definition.name === "peercaststation"
                     ? <div className="row">
-                        <div className="col-sm-push-3 col-sm-9">
+                        <div className="push-sm-3 col-sm-9">
                             When broadcast from locally,
-                            set <span className="selectable">{"rtmp://127.0.0.1:1944/live"}</span>
+                            set<span className="selectable" style={{ margin: "0 0.5em" }}>{"rtmp://127.0.0.1:1944/live"}</span>
                             and set same value to Stream URL at PeerCastStation.
                         </div>
                     </div>
                     : <div className="row">
-                        <div className="col-sm-3 text-right">
+                        <div className="col-sm-3" style={{ textAlign: "right" }}>
                             <label
                                 htmlFor={streamKeyId}
                                 className="form-control-static"
@@ -130,7 +131,7 @@ export default function ServiceSettingsContents(props: {
                     </div>
             }
             <div style={{ marginTop: "1em" }} className="row">
-                <div className="col-sm-12 text-right">
+                <div className="col-sm-12" style={{ textAlign: "right" }}>
                     <a
                         href={props.definition.url!}
                         target="_blank"

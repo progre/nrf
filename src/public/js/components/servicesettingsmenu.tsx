@@ -8,7 +8,7 @@ export default function ServiceSettingsMenu(props: {
     onMenuClick: (service: string) => void
 }) {
     return (
-        <div className="col-sm-4 btn-group-vertical">
+        <div className="col-sm-4 btn-group-vertical" style={{ marginBottom: 10 }}>
             {
                 props.serviceDefinitions
                     .map(x => x.name)
