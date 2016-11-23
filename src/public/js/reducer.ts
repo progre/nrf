@@ -7,41 +7,36 @@ let initialState = {
         nginxPort: 0,
         ffmpegPath: "",
     },
-    services: <{
-        name: string;
-        enabled: boolean;
-        fms: string;
-        key: string;
-    }[]>[
+    services: [
         {
             name: "twitch",
             enabled: false,
-            fms: "",
-            key: ""
+            fmsURL: "",
+            streamKey: ""
         },
         {
             name: "peercaststation",
             enabled: false,
-            fms: "",
-            key: ""
+            fmsURL: "",
+            streamKey: ""
         },
         {
             name: "livecodingtv",
             enabled: false,
-            fms: "",
-            key: ""
+            fmsURL: "",
+            streamKey: ""
         },
         {
             name: "niconico",
             enabled: false,
-            fms: "",
-            key: ""
+            fmsURL: "",
+            streamKey: ""
         },
         {
             name: "other",
             enabled: false,
-            fms: "",
-            key: ""
+            fmsURL: "",
+            streamKey: ""
         }
     ]
 };
@@ -67,8 +62,24 @@ function services(state = initialState.services, action: redux.Action & { payloa
             return replaceAndAssign(
                 state,
                 {
-                    name,
+                    name: action.payload.name,
                     enabled: action.payload.value
+                }
+            );
+        case actions.SET_FMS_URL:
+            return replaceAndAssign(
+                state,
+                {
+                    name: action.payload.name,
+                    fmsURL: action.payload.value
+                }
+            );
+        case actions.SET_STREAM_KEY:
+            return replaceAndAssign(
+                state,
+                {
+                    name: action.payload.name,
+                    streamKey: action.payload.value
                 }
             );
         default:
@@ -82,6 +93,9 @@ function replaceAndAssign(state: any, obj: any) {
         itemOne[0],
         obj
     );
+    console.log(state
+        .filter(x => x.name !== obj.name)
+        .concat(item))
     return state
         .filter(x => x.name !== obj.name)
         .concat(item);

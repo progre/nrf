@@ -8,6 +8,6 @@ export interface ServiceDefinition {
 export interface ServiceConfig {
     name: string;
     enabled: boolean;
-    fms: string;
-    key: string;
+    fmsURL: string;
+    streamKey: string;
 }

@@ -36,7 +36,7 @@ export default function ServiceSettingsContents(props: {
     definition: ServiceDefinition;
     config: ServiceConfig;
     onEnabledChange: (value: boolean) => void;
-    onFMSChange: (value: string) => void;
+    onFMSURLChange: (value: string) => void;
     onStreamKeyChange: (value: string) => void;
 }) {
     let fmsId = uuid.v4();
@@ -74,8 +74,8 @@ export default function ServiceSettingsContents(props: {
                                 style={{ height: 40 }}
                                 id={fmsId}
                                 className="form-control"
-                                value={props.config.fms}
-                                onChange={e => props.onFMSChange(
+                                value={props.config.fmsURL}
+                                onChange={e => props.onFMSURLChange(
                                     (e.target as HTMLInputElement).value)}
                                 >
                                 {
@@ -91,8 +91,8 @@ export default function ServiceSettingsContents(props: {
                                 type="text"
                                 id={fmsId}
                                 className="form-control"
-                                value={props.config.fms}
-                                onChange={e => props.onFMSChange(
+                                value={props.config.fmsURL}
+                                onChange={e => props.onFMSURLChange(
                                     (e.target as HTMLInputElement).value)}
                                 />
                     }
@@ -122,7 +122,7 @@ export default function ServiceSettingsContents(props: {
                                 type="text"
                                 id={streamKeyId}
                                 className="form-control"
-                                value={props.config.key}
+                                value={props.config.streamKey}
                                 onChange={e => props.onStreamKeyChange(
                                     (e.target as HTMLInputElement).value)}
                                 />

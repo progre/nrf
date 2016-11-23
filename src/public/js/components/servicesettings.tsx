@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ServiceConfig } from "../domains/valueobjects";
-import ServiceSettingsMenu from "./servicesettingsmenu";
 import ServiceSettingsContents from "./servicesettingscontents";
+import ServiceSettingsMenu from "./servicesettingsmenu";
 
 const SERVICES = [
     {
@@ -45,7 +45,7 @@ const SERVICES = [
 export interface Props {
     serviceConfigs: ServiceConfig[];
     onEnabledChange: (service: string, value: boolean) => void;
-    onFMSChange: (service: string, value: string) => void;
+    onFMSURLChange: (service: string, value: string) => void;
     onStreamKeyChange: (service: string, value: string) => void;
 }
 
@@ -80,9 +80,15 @@ export default class ServiceSettings extends React.Component<Props, State> {
                     <ServiceSettingsContents
                         definition={selectedDefinition}
                         config={selectedConfig}
-                        onEnabledChange={value => this.props.onEnabledChange(selected, value)}
-                        onFMSChange={value => this.props.onFMSChange(selected, value)}
-                        onStreamKeyChange={value => this.props.onStreamKeyChange(selected, value)}
+                        onEnabledChange={
+                            value => this.props.onEnabledChange(selected, value)
+                        }
+                        onFMSURLChange={
+                            value => this.props.onFMSURLChange(selected, value)
+                        }
+                        onStreamKeyChange={
+                            value => this.props.onStreamKeyChange(selected, value)
+                        }
                         />
                 </div>
             </fieldset>

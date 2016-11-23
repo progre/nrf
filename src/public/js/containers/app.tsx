@@ -20,6 +20,18 @@ function mapDispatchToProps(dispatch: Redux.Dispatch<{}>) {
 
         onFfmpegPathChange(path: string) {
             dispatch(actions.setFfmpegPath(path));
+        },
+
+        onEnabledChange(name: string, value: boolean) {
+            dispatch(actions.setEnabled(name, value));
+        },
+
+        onFMSURLChange(name: string, value: string) {
+            dispatch(actions.setFMSURL(name, value));
+        },
+
+        onStreamKeyChange(name: string, value: string) {
+            dispatch(actions.setStreamKey(name, value));
         }
     };
 }

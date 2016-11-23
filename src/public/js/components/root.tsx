@@ -9,15 +9,18 @@ export interface Props {
         nginxPort: number;
         ffmpegPath: string;
     };
-    services: {
+    services: Array<{
         name: string;
         enabled: boolean;
-        fms: string;
-        key: string;
-    }[];
+        fmsURL: string;
+        streamKey: string;
+    }>;
     onNginxPathChange: (path: string) => void;
     onNginxPortChange: (port: number) => void;
     onFfmpegPathChange: (path: string) => void;
+    onEnabledChange: (name: string, value: boolean) => void;
+    onFMSURLChange: (name: string, value: string) => void;
+    onStreamKeyChange: (name: string, value: string) => void;
 }
 
 export default function Root(props: Props) {
@@ -33,9 +36,9 @@ export default function Root(props: Props) {
                 />
             <ServiceSettings
                 serviceConfigs={props.services}
-                onEnabledChange={() => { } }
-                onFMSChange={() => { } }
-                onStreamKeyChange={() => { } }
+                onEnabledChange={(name, value) => props.onEnabledChange(name, value)}
+                onFMSURLChange={props.onFMSURLChange}
+                onStreamKeyChange={props.onStreamKeyChange}
                 />
             <Footer needRestart={false} onRestart={() => { } } />
         </div>
