@@ -1,10 +1,10 @@
 import * as Redux from "redux";
 import { connect } from "react-redux";
-import Root, { } from "../components/root";
+import Root, { Props } from "../components/root";
 import * as reducer from "../reducer";
 import * as actions from "../actions";
 
-function mapStateToProps(state: reducer.State) {
+function mapStateToProps(state: Props) {
     return state;
 }
 

@@ -1,7 +1,7 @@
 import * as React from "react";
+import Footer from "./footer";
 import LocalSettings from "./localsettings";
 import ServiceSettings from "./servicesettings";
-import Footer from "./footer";
 
 export interface Props {
     local: {
@@ -36,7 +36,7 @@ export default function Root(props: Props) {
                 />
             <ServiceSettings
                 serviceConfigs={props.services}
-                onEnabledChange={(name, value) => props.onEnabledChange(name, value)}
+                onEnabledChange={props.onEnabledChange}
                 onFMSURLChange={props.onFMSURLChange}
                 onStreamKeyChange={props.onStreamKeyChange}
                 />

@@ -1,49 +1,18 @@
 import * as redux from "redux";
 import * as actions from "./actions";
+import { Props } from "./components/root";
 
-let initialState = {
-    local: {
-        nginxPath: "",
-        nginxPort: 0,
-        ffmpegPath: "",
-    },
-    services: [
-        {
-            name: "twitch",
-            enabled: false,
-            fmsURL: "",
-            streamKey: ""
-        },
-        {
-            name: "peercaststation",
-            enabled: false,
-            fmsURL: "",
-            streamKey: ""
-        },
-        {
-            name: "livecodingtv",
-            enabled: false,
-            fmsURL: "",
-            streamKey: ""
-        },
-        {
-            name: "niconico",
-            enabled: false,
-            fmsURL: "",
-            streamKey: ""
-        },
-        {
-            name: "other",
-            enabled: false,
-            fmsURL: "",
-            streamKey: ""
-        }
-    ]
-};
+let props: Props;
 
-export type State = typeof initialState;
-
-function local(state = initialState.local, action: redux.Action & { payload: any }) {
+function local(
+    state: typeof props.local = <any>{},
+    action: redux.Action & { payload: any }
+) {
+    state = {
+        nginxPath: state.nginxPath || "",
+        nginxPort: state.nginxPort || 0,
+        ffmpegPath: state.ffmpegPath || ""
+    };
     switch (action.type) {
         case actions.SET_NGINX_PATH:
             return Object.assign({}, state, { nginxPath: action.payload });
@@ -56,49 +25,43 @@ function local(state = initialState.local, action: redux.Action & { payload: any
     }
 }
 
-function services(state = initialState.services, action: redux.Action & { payload: any }) {
+function services(
+    state: typeof props.services = <any>[],
+    action: redux.Action & { payload: any }
+) {
+    let newState = refreshState(
+        state,
+        ["twitch", "peercaststation", "livecodingtv", "niconico", "other"]
+    );
+    let service = (action.payload && action.payload.name)
+        ? newState.find(x => x.name === action.payload.name) !
+        : <any>null;
     switch (action.type) {
         case actions.SET_ENABLED:
-            return replaceAndAssign(
-                state,
-                {
-                    name: action.payload.name,
-                    enabled: action.payload.value
-                }
-            );
+            service.enabled = action.payload.value;
+            break;
         case actions.SET_FMS_URL:
-            return replaceAndAssign(
-                state,
-                {
-                    name: action.payload.name,
-                    fmsURL: action.payload.value
-                }
-            );
+            service.fmsURL = action.payload.value;
+            break;
         case actions.SET_STREAM_KEY:
-            return replaceAndAssign(
-                state,
-                {
-                    name: action.payload.name,
-                    streamKey: action.payload.value
-                }
-            );
+            service.streamKey = action.payload.value;
+            break;
         default:
-            return state;
+            break;
     }
+    return newState;
 }
 
-function replaceAndAssign(state: any, obj: any) {
-    let itemOne = state.filter(x => x.name === obj.name);
-    let item = Object.assign({},
-        itemOne[0],
-        obj
-    );
-    console.log(state
-        .filter(x => x.name !== obj.name)
-        .concat(item))
-    return state
-        .filter(x => x.name !== obj.name)
-        .concat(item);
+function refreshState(state: typeof props.services, services: string[]) {
+    return services.map(x => {
+        let old = state.filter(y => y.name === x)[0] || {};
+        return {
+            name: x,
+            enabled: old.enabled || false,
+            fmsURL: old.fmsURL || "",
+            streamKey: old.streamKey || ""
+        };
+    });
 }
 
 export default redux.combineReducers({ local, services });

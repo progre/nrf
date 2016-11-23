@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ServiceDefinition, ServiceConfig } from "../domains/valueobjects";
+import { ServiceConfig, ServiceDefinition } from "../domains/valueobjects";
 
 export default function ServiceSettingsMenu(props: {
     serviceDefinitions: ServiceDefinition[],

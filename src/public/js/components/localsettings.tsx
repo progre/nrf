@@ -1,6 +1,6 @@
+import * as uuid from "node-uuid";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import * as uuid from "node-uuid";
 import FileSelectorRow from "./fileselectorrow";
 
 export interface Props {
