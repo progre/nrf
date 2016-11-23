@@ -64,20 +64,27 @@ function local(state = initialState.local, action: redux.Action & { payload: any
 function services(state = initialState.services, action: redux.Action & { payload: any }) {
     switch (action.type) {
         case actions.SET_ENABLED:
-            let itemOne = state.filter(x => x.name === action.payload.name);
-            let item = itemOne.length === 0
-            ? {
-                name: action.payload.name,
-
-                };
-            if () {
-                itemOne[0]
-            }
-            let newState = state.filter(x => x.name !== action.payload.name).concat();
-            return Object.assign({}, state, { enabled: action.payload });
+            return replaceAndAssign(
+                state,
+                {
+                    name,
+                    enabled: action.payload.value
+                }
+            );
         default:
             return state;
     }
+}
+
+function replaceAndAssign(state: any, obj: any) {
+    let itemOne = state.filter(x => x.name === obj.name);
+    let item = Object.assign({},
+        itemOne[0],
+        obj
+    );
+    return state
+        .filter(x => x.name !== obj.name)
+        .concat(item);
 }
 
 export default redux.combineReducers({ local, services });
