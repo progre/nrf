@@ -1,8 +1,9 @@
 import * as Redux from "redux";
 import { connect } from "react-redux";
 import Root, { Props } from "../components/root";
-import * as reducer from "../reducer";
-import * as actions from "../actions";
+import * as localActions from "../actions/localactions";
+import * as serviceActions from "../actions/serviceactions";
+import * as footerActions from "../actions/footeractions";
 
 function mapStateToProps(state: Props) {
     return state;
@@ -11,27 +12,35 @@ function mapStateToProps(state: Props) {
 function mapDispatchToProps(dispatch: Redux.Dispatch<{}>) {
     return {
         onNginxPathChange(path: string) {
-            dispatch(actions.setNginxPath(path));
+            dispatch(localActions.setNginxPath(path));
+            dispatch(footerActions.setToNeedApply(true));
         },
 
         onNginxPortChange(port: number) {
-            dispatch(actions.setNginxPort(port));
+            dispatch(localActions.setNginxPort(port));
+            dispatch(footerActions.setToNeedApply(true));
         },
 
         onFfmpegPathChange(path: string) {
-            dispatch(actions.setFfmpegPath(path));
+            dispatch(localActions.setFfmpegPath(path));
+            dispatch(footerActions.setToNeedApply(true));
         },
-
         onEnabledChange(name: string, value: boolean) {
-            dispatch(actions.setEnabled(name, value));
+            dispatch(serviceActions.setEnabled(name, value));
+            dispatch(footerActions.setToNeedApply(true));
         },
 
         onFMSURLChange(name: string, value: string) {
-            dispatch(actions.setFMSURL(name, value));
+            dispatch(serviceActions.setFMSURL(name, value));
+            dispatch(footerActions.setToNeedApply(true));
         },
 
         onStreamKeyChange(name: string, value: string) {
-            dispatch(actions.setStreamKey(name, value));
+            dispatch(serviceActions.setStreamKey(name, value));
+            dispatch(footerActions.setToNeedApply(true));
+        },
+        onApplyClick() {
+            dispatch(footerActions.setToNeedApply(false));
         }
     };
 }

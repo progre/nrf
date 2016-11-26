@@ -15,12 +15,13 @@ export interface Props {
         fmsURL: string;
         streamKey: string;
     }>;
-    onNginxPathChange: (path: string) => void;
-    onNginxPortChange: (port: number) => void;
-    onFfmpegPathChange: (path: string) => void;
-    onEnabledChange: (name: string, value: boolean) => void;
-    onFMSURLChange: (name: string, value: string) => void;
-    onStreamKeyChange: (name: string, value: string) => void;
+    onNginxPathChange(path: string): void;
+    onNginxPortChange(port: number): void;
+    onFfmpegPathChange(path: string): void;
+    onEnabledChange(name: string, value: boolean): void;
+    onFMSURLChange(name: string, value: string): void;
+    onStreamKeyChange(name: string, value: string): void;
+    onApplyClick(): void;
 }
 
 export default function Root(props: Props) {
@@ -30,9 +31,9 @@ export default function Root(props: Props) {
                 nginxPath={props.local.nginxPath}
                 nginxPort={props.local.nginxPort}
                 ffmpegPath={props.local.ffmpegPath}
-                onNginxPathChange={path => props.onNginxPathChange(path)}
-                onNginxPortChange={port => props.onNginxPortChange(port)}
-                onFfmpegPathChange={path => props.onFfmpegPathChange(path)}
+                onNginxPathChange={props.onNginxPathChange}
+                onNginxPortChange={props.onNginxPortChange}
+                onFfmpegPathChange={props.onFfmpegPathChange}
                 />
             <ServiceSettings
                 serviceConfigs={props.services}
@@ -40,7 +41,7 @@ export default function Root(props: Props) {
                 onFMSURLChange={props.onFMSURLChange}
                 onStreamKeyChange={props.onStreamKeyChange}
                 />
-            <Footer needRestart={false} onRestart={() => { } } />
+            <Footer needRestart={false} onRestart={props.onApplyClick} />
         </div>
     );
 }

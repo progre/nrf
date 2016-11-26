@@ -67,7 +67,7 @@ export default class ServiceSettings extends React.Component<Props, State> {
         let selectedDefinition = SERVICES.find(x => x.name === selected) !;
         let selectedConfig = this.props.serviceConfigs.find(x => x.name === selected) !;
         return (
-            <fieldset>
+            <fieldset style={{ marginTop: "2em" }}>
                 <legend>Service settings</legend>
                 <div className="row">
                     <ServiceSettingsMenu

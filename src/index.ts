@@ -14,7 +14,7 @@ async function main() {
     app.on("window-all-closed", app.quit.bind(app));
     let win = new BrowserWindow({
         width: 800,
-        height: 600,
+        height: 800,
         resizable: true,
         show: true
     });
