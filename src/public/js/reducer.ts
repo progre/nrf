@@ -4,15 +4,27 @@ import { Props } from "./components/root";
 
 let props: Props;
 
+export function createInitialState(storedState: any) {
+    let oldStoredState = storedState || {};
+    let oldLocal = oldStoredState.local || {};
+    let oldServices = oldStoredState.services || {};
+    return {
+        local: {
+            nginxPath: oldLocal.nginxPath || "",
+            nginxPort: oldLocal.nginxPort || 1935,
+            ffmpegPath: oldLocal.ffmpegPath || ""
+        },
+        services: refreshState(
+            oldServices,
+            ["twitch", "peercaststation", "livecodingtv", "niconico", "other"]
+        )
+    };
+}
+
 function local(
     state: typeof props.local = <any>{},
     action: redux.Action & { payload: any }
 ) {
-    state = {
-        nginxPath: state.nginxPath || "",
-        nginxPort: state.nginxPort || 1935,
-        ffmpegPath: state.ffmpegPath || ""
-    };
     switch (action.type) {
         case actions.SET_NGINX_PATH:
             return Object.assign({}, state, { nginxPath: action.payload });
@@ -29,27 +41,26 @@ function services(
     state: typeof props.services = <any>[],
     action: redux.Action & { payload: any }
 ) {
-    let newState = refreshState(
-        state,
-        ["twitch", "peercaststation", "livecodingtv", "niconico", "other"]
-    );
-    let service = (action.payload && action.payload.name)
-        ? newState.find(x => x.name === action.payload.name) !
-        : <any>null;
+    let service = action.payload != null && action.payload.name != null
+        ? state.find(x => x.name === action.payload.name) !
+        : <never>null;
     switch (action.type) {
-        case actions.SET_ENABLED:
-            service.enabled = action.payload.value;
-            break;
-        case actions.SET_FMS_URL:
-            service.fmsURL = action.payload.value;
-            break;
-        case actions.SET_STREAM_KEY:
-            service.streamKey = action.payload.value;
-            break;
+        case actions.SET_ENABLED: {
+            let newService = Object.assign({}, service, { enable: action.payload.value });
+            return state.filter(x => x.name !== newService.name).concat(newService);
+        }
+        case actions.SET_FMS_URL: {
+            let newService = Object.assign({}, service, { fmsURL: action.payload.value });
+            return state.filter(x => x.name !== newService.name).concat(newService);
+        }
+        case actions.SET_STREAM_KEY: {
+            let newService = Object.assign({}, service, { streamKey: action.payload.value });
+            return state.filter(x => x.name !== newService.name).concat(newService);
+        }
         default:
             break;
     }
-    return newState;
+    return state;
 }
 
 function refreshState(state: typeof props.services, services: string[]) {
