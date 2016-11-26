@@ -63,6 +63,9 @@ export default class ServiceSettings extends React.Component<Props, State> {
     }
 
     render() {
+        if (!Array.isArray(this.props.serviceConfigs)) {
+            throw new Error();
+        }
         let selected = this.state.selectedService;
         let selectedDefinition = SERVICES.find(x => x.name === selected) !;
         let selectedConfig = this.props.serviceConfigs.find(x => x.name === selected) !;

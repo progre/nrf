@@ -57,7 +57,7 @@ function local(
 }
 
 function services(
-    state: typeof props.services = <any>{ configs: [] },
+    state: typeof props.services = <any>[],
     action: redux.Action & { payload: any }
 ) {
     let service = action.payload != null && action.payload.name != null
@@ -65,19 +65,16 @@ function services(
         : <never>null;
     switch (action.type) {
         case serviceActions.SET_ENABLED: {
-            let newService = Object.assign({}, service, { enable: action.payload.value });
-            let configs = state.filter(x => x.name !== newService.name).concat(newService);
-            return Object.assign({}, state, { configs });
+            let newService = Object.assign({}, service, { enabled: action.payload.value });
+            return state.filter(x => x.name !== newService.name).concat(newService);
         }
         case serviceActions.SET_FMS_URL: {
             let newService = Object.assign({}, service, { fmsURL: action.payload.value });
-            let configs = state.filter(x => x.name !== newService.name).concat(newService);
-            return Object.assign({}, state, { configs });
+            return state.filter(x => x.name !== newService.name).concat(newService);
         }
         case serviceActions.SET_STREAM_KEY: {
             let newService = Object.assign({}, service, { streamKey: action.payload.value });
-            let configs = state.filter(x => x.name !== newService.name).concat(newService);
-            return Object.assign({}, state, { configs });
+            return state.filter(x => x.name !== newService.name).concat(newService);
         }
         default:
             break;

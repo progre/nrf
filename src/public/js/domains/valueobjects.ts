@@ -5,9 +5,16 @@ export interface ServiceDefinition {
     label: string;
 }
 
+export interface LocalConfig {
+    nginxPath: string;
+    nginxPort: number;
+    ffmpegPath: string;
+}
+
 export interface ServiceConfig {
     name: string;
     enabled: boolean;
     fmsURL: string;
     streamKey: string;
+    pushBy: "nginx" | "ffmpeg";
 }

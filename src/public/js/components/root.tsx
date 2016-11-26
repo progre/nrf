@@ -2,19 +2,11 @@ import * as React from "react";
 import Footer from "./footer";
 import LocalSettings from "./localsettings";
 import ServiceSettings from "./servicesettings";
+import { LocalConfig, ServiceConfig } from "../domains/valueobjects";
 
 export interface Props {
-    local: {
-        nginxPath: string;
-        nginxPort: number;
-        ffmpegPath: string;
-    };
-    services: Array<{
-        name: string;
-        enabled: boolean;
-        fmsURL: string;
-        streamKey: string;
-    }>;
+    local: LocalConfig;
+    services: ServiceConfig[];
     footer: {
         needApply: boolean;
     };
@@ -24,10 +16,20 @@ export interface Props {
     onEnabledChange(name: string, value: boolean): void;
     onFMSURLChange(name: string, value: string): void;
     onStreamKeyChange(name: string, value: string): void;
-    onApplyClick(): void;
+    apply(localConfig: LocalConfig, serviceConfigs: ServiceConfig[]): void;
 }
 
-export default function Root(props: Props) {
+export default class Root extends React.Component<Props, {}> {
+    componentWillMount() {
+        this.props.apply(this.props.local, this.props.services);
+    }
+
+    render() {
+        return UI(this.props);
+    }
+}
+
+function UI(props: Props) {
     return (
         <div className="container-fluid">
             <LocalSettings
@@ -44,7 +46,10 @@ export default function Root(props: Props) {
                 onFMSURLChange={props.onFMSURLChange}
                 onStreamKeyChange={props.onStreamKeyChange}
                 />
-            <Footer needApply={props.footer.needApply} onApply={props.onApplyClick} />
+            <Footer
+                needApply={props.footer.needApply}
+                onApply={() => props.apply(props.local, props.services)}
+                />
         </div>
     );
 }

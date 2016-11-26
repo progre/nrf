@@ -104,7 +104,13 @@ export default function ServiceSettingsContents(props: {
                     ? <div className="row">
                         <div className="push-sm-3 col-sm-9">
                             When broadcast from locally,
-                            set<span className="selectable" style={{ margin: "0 0.5em" }}>{"rtmp://127.0.0.1:1944/live"}</span>
+                            set
+                            <span
+                                className="selectable"
+                                style={{ margin: "0 0.5em" }}
+                                >
+                                {"rtmp://127.0.0.1:1944/live"}
+                            </span>
                             and set same value to Stream URL at PeerCastStation.
                         </div>
                     </div>
@@ -114,7 +120,7 @@ export default function ServiceSettingsContents(props: {
                                 htmlFor={streamKeyId}
                                 className="form-control-static"
                                 >
-                                Stream key
+                                Stream key:
                             </label>
                         </div>
                         <div className="col-sm-9">

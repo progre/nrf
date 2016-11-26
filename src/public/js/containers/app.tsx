@@ -1,9 +1,13 @@
 import * as Redux from "redux";
 import { connect } from "react-redux";
-import Root, { Props } from "../components/root";
 import * as localActions from "../actions/localactions";
 import * as serviceActions from "../actions/serviceactions";
 import * as footerActions from "../actions/footeractions";
+import Root, { Props } from "../components/root";
+import { Application } from "../domains/entities";
+import { LocalConfig, ServiceConfig } from "../domains/valueobjects";
+
+let application = new Application();
 
 function mapStateToProps(state: Props) {
     return state;
@@ -39,7 +43,9 @@ function mapDispatchToProps(dispatch: Redux.Dispatch<{}>) {
             dispatch(serviceActions.setStreamKey(name, value));
             dispatch(footerActions.setToNeedApply(true));
         },
-        onApplyClick() {
+
+        apply(localConfig: LocalConfig, serviceConfigs: ServiceConfig[]) {
+            application.apply(localConfig, serviceConfigs);
             dispatch(footerActions.setToNeedApply(false));
         }
     };
