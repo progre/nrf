@@ -23,7 +23,6 @@ async function main() {
         </Provider>,
         document.getElementsByTagName("main")[0]
     );
-    let a = 0;
 }
 
 main().catch(e => console.error(e.stack || e));
