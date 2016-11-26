@@ -4,17 +4,22 @@
     ],
     "rules": {
         "arrow-parens": false,
-        "interface-name": [true, "never-prefix"],
+        "interface-name": [
+            true,
+            "never-prefix"
+        ],
         "member-ordering": [
             false
         ],
         "member-access": false,
         "no-bitwise": false,
         "no-invalid-this": true,
-        "no-namespace": false,
         "no-reference": false,
         "no-var-requires": false,
         "object-literal-sort-keys": false,
+        "ordered-imports": [
+            false
+        ],
         "trailing-comma": [
             true,
             "never"
