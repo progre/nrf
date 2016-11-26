@@ -15,6 +15,9 @@ export interface Props {
         fmsURL: string;
         streamKey: string;
     }>;
+    footer: {
+        needApply: boolean;
+    };
     onNginxPathChange(path: string): void;
     onNginxPortChange(port: number): void;
     onFfmpegPathChange(path: string): void;
@@ -41,7 +44,7 @@ export default function Root(props: Props) {
                 onFMSURLChange={props.onFMSURLChange}
                 onStreamKeyChange={props.onStreamKeyChange}
                 />
-            <Footer needRestart={false} onRestart={props.onApplyClick} />
+            <Footer needApply={props.footer.needApply} onApply={props.onApplyClick} />
         </div>
     );
 }

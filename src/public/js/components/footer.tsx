@@ -1,8 +1,8 @@
 import * as React from "react";
 
 export default function Footer(props: {
-    needRestart: boolean;
-    onRestart: () => void;
+    needApply: boolean;
+    onApply: () => void;
 }) {
     return (
         <div>
@@ -12,10 +12,10 @@ export default function Footer(props: {
                     <div className="col-sm-12">
                         <button
                             type="button"
-                            onClick={() => props.onRestart()}
+                            onClick={() => props.onApply()}
                             className={[
                                 "btn",
-                                props.needRestart ? "btn-primary" : "btn-secondary"
+                                props.needApply ? "btn-primary" : "btn-secondary"
                             ].join(" ")}
                             >
                             Apply settings
@@ -23,7 +23,14 @@ export default function Footer(props: {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-sm-12">
+                    <div
+                        className="col-sm-12"
+                        style={
+                            props.needApply
+                                ? {}
+                                : { display: "none" }
+                        }
+                        >
                         When you apply the settings, the started broadcast stops.
                     </div>
                 </div>
