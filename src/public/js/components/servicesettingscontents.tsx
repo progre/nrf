@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as uuid from "node-uuid";
-import { ServiceDefinition, ServiceConfig } from "../domains/valueobjects";
+import { ServiceDefinition, ServiceConfig } from "../../../domains/valueobjects";
 
 const TWITCH_INGESTS = [
     { name: "Twitch Main", url: "live.twitch.tv" },

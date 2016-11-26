@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ServiceConfig } from "../domains/valueobjects";
+import { ServiceConfig } from "../../../domains/valueobjects";
 import ServiceSettingsContents from "./servicesettingscontents";
 import ServiceSettingsMenu from "./servicesettingsmenu";
 

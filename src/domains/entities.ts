@@ -1,7 +1,5 @@
-import { remote } from "electron";
-const app = remote.app;
-import * as _process from "process";
-const process: typeof _process = remote.require("process");
+import { app } from "electron";
+import * as process from "process";
 import * as path from "path";
 import Ffmpeg from "./services/ffmpeg";
 import Nginx from "./services/nginx";
