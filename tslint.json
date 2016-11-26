@@ -22,7 +22,10 @@
         ],
         "trailing-comma": [
             true,
-            "never"
+            {
+                "multiline": "never",
+                "singleline": "never"
+            }
         ],
         "variable-name": [
             true,
