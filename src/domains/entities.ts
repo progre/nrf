@@ -16,6 +16,15 @@ export class Application {
         this.visitor.pageview("/").send();
     }
 
+    close() {
+        if (this.nginx != null) {
+            this.nginx.stop();
+        }
+        if (this.ffmpeg != null) {
+            this.ffmpeg.stop();
+        }
+    }
+
     apply(localConfig: LocalConfig, serviceConfigs: ServiceConfig[]) {
         for (let conf of serviceConfigs.filter(x => x.enabled)) {
             this.visitor.event("Settings", "Apply", conf.fmsURL, conf.pushBy === "nginx" ? 0 : 1).send();

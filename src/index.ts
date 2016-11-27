@@ -11,15 +11,17 @@ log4js.configure({
 
 async function main() {
     await new Promise((resolve, reject) => app.once("ready", resolve));
-    app.on("window-all-closed", app.quit.bind(app));
+    let application = new Application();
+    app.on("window-all-closed", () => {
+        application.close();
+        app.quit();
+    });
     let win = new BrowserWindow({
         width: 800,
-        height: 800,
-        resizable: true,
+        height: 900,
         show: true
     });
     win.loadURL(`file://${__dirname}/public/index.html`);
-    let application = new Application();
     ipcMain.on(
         "apply",
         (event: any, obj: { localConfig: LocalConfig; serviceConfigs: ServiceConfig[]; }) => {
