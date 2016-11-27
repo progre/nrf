@@ -16,6 +16,7 @@ export interface Props {
     onEnabledChange(name: string, value: boolean): void;
     onFMSURLChange(name: string, value: string): void;
     onStreamKeyChange(name: string, value: string): void;
+    onPushByChange(name: string, value: string): void;
     apply(localConfig: LocalConfig, serviceConfigs: ServiceConfig[]): void;
 }
 
@@ -45,6 +46,7 @@ function UI(props: Props) {
                 onEnabledChange={props.onEnabledChange}
                 onFMSURLChange={props.onFMSURLChange}
                 onStreamKeyChange={props.onStreamKeyChange}
+                onPushByChange={props.onPushByChange}
                 />
             <Footer
                 needApply={props.footer.needApply}

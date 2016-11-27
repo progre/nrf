@@ -38,9 +38,11 @@ export default function ServiceSettingsContents(props: {
     onEnabledChange: (value: boolean) => void;
     onFMSURLChange: (value: string) => void;
     onStreamKeyChange: (value: string) => void;
+    onPushByChange: (value: string) => void;
 }) {
     let fmsId = uuid.v4();
     let streamKeyId = uuid.v4();
+    let pushById = uuid.v4();
     return (
         <div className="col-sm-8">
             <div className="row">
@@ -60,82 +62,56 @@ export default function ServiceSettingsContents(props: {
                 </div>
             </div>
             <div className="row">
-                <div className="col-sm-3" style={{ textAlign: "right" }}>
-                    <label
-                        htmlFor={fmsId}
-                        className="form-control-static"
-                        >
-                        FMS URL:
-                    </label>
-                </div>
+                <Label htmlFor={fmsId} text="FMS URL" />
                 <div className="col-sm-9">
                     {
                         props.definition.name === "twitch"
-                            ? <select
-                                style={{ height: 40 }}
+                            ? <TwitchServerSelector
                                 id={fmsId}
-                                className="form-control"
                                 value={props.config.fmsURL}
-                                onChange={e => props.onFMSURLChange(
-                                    (e.target as HTMLInputElement).value)}
-                                >
-                                {
-                                    TWITCH_INGESTS.map(ingest =>
-                                        <option key={ingest.name} value={ingest.url}>
-                                            {ingest.name}
-                                        </option>
-                                    )
-                                }
-                            </select>
-                            : <input
-                                style={{ width: "100%" }}
-                                type="text"
+                                onFMSURLChange={props.onFMSURLChange}
+                                />
+                            : <TextBox
                                 id={fmsId}
-                                className="form-control"
                                 value={props.config.fmsURL}
-                                onChange={e => props.onFMSURLChange(
-                                    (e.target as HTMLInputElement).value)}
+                                onValueChange={props.onFMSURLChange}
                                 />
                     }
                 </div>
             </div>
-            {
-                props.definition.name === "peercaststation"
-                    ? <div className="row">
-                        <div className="push-sm-3 col-sm-9">
-                            When broadcast from locally,
-                            set
-                            <span
-                                className="selectable"
-                                style={{ margin: "0 0.5em" }}
-                                >
-                                {"rtmp://127.0.0.1:1944/live"}
-                            </span>
-                            and set same value to Stream URL at PeerCastStation.
-                        </div>
-                    </div>
-                    : <div className="row">
-                        <div className="col-sm-3" style={{ textAlign: "right" }}>
-                            <label
-                                htmlFor={streamKeyId}
-                                className="form-control-static"
-                                >
-                                Stream key:
-                            </label>
-                        </div>
-                        <div className="col-sm-9">
-                            <input
-                                style={{ width: "100%" }}
-                                type="text"
-                                id={streamKeyId}
-                                className="form-control"
-                                value={props.config.streamKey}
-                                onChange={e => props.onStreamKeyChange(
-                                    (e.target as HTMLInputElement).value)}
-                                />
-                        </div>
-                    </div>
-            }
+            <div className="row">
+                {
+                    props.definition.name === "peercaststation"
+                        ? <PeerCastInformation />
+                        : (
+                            <div>
+                                <Label htmlFor={streamKeyId} text="Stream key" />
+                                <div className="col-sm-9">
+                                    <TextBox
+                                        id={streamKeyId}
+                                        value={props.config.streamKey}
+                                        onValueChange={props.onStreamKeyChange}
+                                        />
+                                </div>
+                            </div>
+                        )
+                }
+            </div>
+            <div className="row">
+                <Label htmlFor={pushById} text="Push by" />
+                <div className="col-sm-9">
+                    <ComboBox
+                        id={pushById}
+                        values={
+                            ["Nginx", "FFmpeg"]
+                                .map(x => ({ key: x, value: x.toLowerCase() }))
+                        }
+                        selectedValue={props.config.pushBy}
+                        onValueChange={props.onPushByChange}
+                        disabled={props.definition.name !== "other"}
+                        />
+                </div>
+            </div>
             <div style={{ marginTop: "1em" }} className="row">
                 <div className="col-sm-12" style={{ textAlign: "right" }}>
                     <a
@@ -147,6 +123,93 @@ export default function ServiceSettingsContents(props: {
                     </a>
                 </div>
             </div>
+        </div>
+    );
+}
+
+function Label(props: { htmlFor: string; text: string }) {
+    return (
+        <div className="col-sm-3" style={{ textAlign: "right" }}>
+            <label
+                htmlFor={props.htmlFor}
+                className="form-control-static"
+                >
+                {props.text}:
+            </label>
+        </div>
+    );
+}
+
+function TextBox(props: {
+    id: string;
+    value: string;
+    onValueChange: (value: string) => void;
+}) {
+    return <input
+        style={{ width: "100%" }}
+        type="text"
+        id={props.id}
+        className="form-control"
+        value={props.value}
+        onChange={e => props.onValueChange(
+            (e.target as HTMLInputElement).value)}
+        />;
+}
+
+function TwitchServerSelector(props: {
+    id: string;
+    value: string;
+    onFMSURLChange: (value: string) => void;
+}) {
+    return <ComboBox
+        id={props.id}
+        values={TWITCH_INGESTS.map(x => ({ key: x.name, value: x.url }))}
+        selectedValue={props.value}
+        onValueChange={props.onFMSURLChange}
+        disabled={false}
+        />;
+}
+
+function ComboBox(props: {
+    id: string;
+    values: Array<{ key: string; value: string; }>;
+    selectedValue: string;
+    onValueChange: (value: string) => void;
+    disabled: boolean;
+}) {
+    return (
+        <select
+            style={{ height: 40 }}
+            id={props.id}
+            className="form-control"
+            value={props.selectedValue}
+            onChange={e => props.onValueChange(
+                (e.target as HTMLInputElement).value
+            )}
+            disabled={props.disabled}
+            >
+            {
+                props.values.map(ingest =>
+                    <option key={ingest.key} value={ingest.value}>
+                        {ingest.key}
+                    </option>
+                )
+            }
+        </select>
+    );
+}
+
+function PeerCastInformation() {
+    return (
+        <div className="push-sm-3 col-sm-9">
+            When broadcast from locally, set
+            <span
+                className="selectable"
+                style={{ margin: "0 0.5em" }}
+                >
+                {"rtmp://127.0.0.1:1944/live"}
+            </span>
+            and set same value to Stream URL at PeerCastStation.
         </div>
     );
 }

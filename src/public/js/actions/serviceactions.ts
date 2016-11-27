@@ -21,3 +21,11 @@ export function setStreamKey(name: string, value: string) {
         payload: { name, value }
     };
 }
+
+export const SET_PUSH_BY = "SET_PUSH_BY";
+export function setPushBy(name: string, value: string) {
+    return {
+        type: SET_PUSH_BY,
+        payload: { name, value }
+    };
+}

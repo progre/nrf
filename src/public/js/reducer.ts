@@ -1,4 +1,5 @@
 import * as redux from "redux";
+import { SERVICES } from "../../domains/repos";
 import * as localActions from "./actions/localactions";
 import * as serviceActions from "./actions/serviceactions";
 import * as footerActions from "./actions/footeractions";
@@ -20,7 +21,7 @@ export function createInitialState(storedState: any) {
         },
         services: refreshState(
             oldServices,
-            ["twitch", "peercaststation", "livecodingtv", "niconico", "other"]
+            SERVICES
         ),
         footer: {
             needApply: false
@@ -28,14 +29,15 @@ export function createInitialState(storedState: any) {
     };
 }
 
-function refreshState(state: typeof props.services, services: string[]) {
+function refreshState(state: typeof props.services, services: typeof SERVICES) {
     return services.map(x => {
-        let old = state.filter(y => y.name === x)[0] || {};
+        let old = state.filter(y => y.name === x.name)[0] || {};
         return {
-            name: x,
+            name: x.name,
             enabled: old.enabled || false,
             fmsURL: old.fmsURL || "",
-            streamKey: old.streamKey || ""
+            streamKey: old.streamKey || "",
+            pushBy: x.pushBy || old.pushBy || "ffmpeg" // 初期値優先 無ければFFmpeg
         };
     });
 }
@@ -74,6 +76,10 @@ function services(
         }
         case serviceActions.SET_STREAM_KEY: {
             let newService = Object.assign({}, service, { streamKey: action.payload.value });
+            return state.filter(x => x.name !== newService.name).concat(newService);
+        }
+        case serviceActions.SET_PUSH_BY: {
+            let newService = Object.assign({}, service, { pushBy: action.payload.value });
             return state.filter(x => x.name !== newService.name).concat(newService);
         }
         default:

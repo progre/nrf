@@ -42,6 +42,11 @@ function mapDispatchToProps(dispatch: Redux.Dispatch<{}>) {
             dispatch(footerActions.setToNeedApply(true));
         },
 
+        onPushByChange(name: string, value: string) {
+            dispatch(serviceActions.setPushBy(name, value));
+            dispatch(footerActions.setToNeedApply(true));
+        },
+
         apply(localConfig: LocalConfig, serviceConfigs: ServiceConfig[]) {
             ipcRenderer.send("apply", { localConfig, serviceConfigs });
             dispatch(footerActions.setToNeedApply(false));
