@@ -17,23 +17,26 @@ export class Application {
     private start(localConfig: LocalConfig, serviceConfigs: ServiceConfig[]) {
         let workDir = app.getPath("userData");
         let rootDir = path.normalize(path.dirname(process.mainModule!.filename) + "\\..");
+        let enables = serviceConfigs.filter(x => x.enabled);
+        if (enables.length <= 0) {
+            return;
+        }
+        let nginxServices = enables.filter(x => x.pushBy === "nginx");
         this.nginx = new Nginx(rootDir, workDir);
         this.nginx.start(
             localConfig.nginxPath,
             localConfig.nginxPort,
-            serviceConfigs
-                .filter(x => x.pushBy === "nginx")
-                .filter(x => x.enabled)
-                .map(x => `${x.fmsURL}/${x.streamKey}`)
+            nginxServices.map(x => `${x.fmsURL}/${x.streamKey}`)
         );
+        let ffmpegServices = enables.filter(x => x.pushBy === "ffmpeg");
+        if (ffmpegServices.length <= 0) {
+            return;
+        }
         this.ffmpeg = new Ffmpeg();
         this.ffmpeg.start(
             localConfig.ffmpegPath,
             localConfig.nginxPort,
-            serviceConfigs
-                .filter(x => x.pushBy === "ffmpeg")
-                .filter(x => x.enabled)
-                .map(x => `${x.fmsURL}/${x.streamKey}`)
+            ffmpegServices.map(x => `${x.fmsURL}/${x.streamKey}`)
         );
     }
 

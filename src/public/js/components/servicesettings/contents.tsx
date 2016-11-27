@@ -45,6 +45,7 @@ export default function Contents(props: {
                                 />
                             : <TextBox
                                 id={fmsId}
+                                placeholder="rtmp://..."
                                 value={props.config.fmsURL}
                                 onValueChange={props.onFMSURLChange}
                                 />
@@ -114,6 +115,7 @@ function Label(props: { htmlFor: string; text: string }) {
 
 function TextBox(props: {
     id: string;
+    placeholder?: string;
     value: string;
     onValueChange: (value: string) => void;
 }) {
@@ -123,6 +125,7 @@ function TextBox(props: {
         id={props.id}
         className="form-control"
         value={props.value}
+        placeholder={props.placeholder}
         onChange={e => props.onValueChange(
             (e.target as HTMLInputElement).value)}
         />;
