@@ -13,7 +13,8 @@
     "react-redux": "^4.4.5",
     "redux": "^3.6.0",
     "redux-persist": "^4.0.0-beta1",
-    "thenify": "^3.2.1"
+    "thenify": "^3.2.1",
+    "universal-analytics": "^0.4.8"
   },
   "devDependencies": {
     "@types/electron": "^1.4.27",
@@ -22,6 +23,7 @@
     "@types/react": "^0.14.47",
     "@types/react-dom": "^0.14.18",
     "@types/react-redux": "^4.4.32",
+    "@types/universal-analytics": "^0.3.27",
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
     "babel-preset-es2015": "^6.18.0",

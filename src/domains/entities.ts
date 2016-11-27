@@ -1,15 +1,25 @@
 import { app } from "electron";
 import * as process from "process";
 import * as path from "path";
+import * as _ua from "universal-analytics";
+const ua: _ua = require("universal-analytics");
 import Ffmpeg from "./services/ffmpeg";
 import Nginx from "./services/nginx";
 import { LocalConfig, ServiceConfig } from "../domains/valueobjects";
 
 export class Application {
+    private visitor = ua("UA-43486767-18").debug();
     private nginx: Nginx | null;
     private ffmpeg: Ffmpeg | null;
 
+    constructor() {
+        this.visitor.pageview("/").send();
+    }
+
     apply(localConfig: LocalConfig, serviceConfigs: ServiceConfig[]) {
+        for (let conf of serviceConfigs.filter(x => x.enabled)) {
+            this.visitor.event("Settings", "Apply", conf.fmsURL, conf.pushBy === "nginx" ? 0 : 1).send();
+        }
         this.stop();
         this.start(localConfig, serviceConfigs);
     }
