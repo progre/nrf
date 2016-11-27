@@ -8,7 +8,7 @@ import Nginx from "./services/nginx";
 import { LocalConfig, ServiceConfig } from "../domains/valueobjects";
 
 export class Application {
-    private visitor = ua("UA-43486767-18").debug();
+    private visitor = ua("UA-43486767-18");
     private nginx: Nginx | null;
     private ffmpeg: Ffmpeg | null;
 
