@@ -49,6 +49,9 @@ function mapDispatchToProps(dispatch: Redux.Dispatch<{}>) {
 
         apply(localConfig: LocalConfig, serviceConfigs: ServiceConfig[]) {
             ipcRenderer.send("apply", { localConfig, serviceConfigs });
+            for (let conf of serviceConfigs.filter(x => x.enabled)) {
+                ga("send", "event", "Settings", "Apply", conf.fmsURL, conf.pushBy);
+            }
             dispatch(footerActions.setToNeedApply(false));
         }
     };
