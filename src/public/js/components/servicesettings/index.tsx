@@ -1,8 +1,8 @@
 import * as React from "react";
-import { ServiceConfig } from "../../../domains/valueobjects";
-import { SERVICES } from "../../../domains/repos";
-import ServiceSettingsContents from "./servicesettingscontents";
-import ServiceSettingsMenu from "./servicesettingsmenu";
+import { ServiceConfig } from "../../../../domains/valueobjects";
+import { SERVICES } from "../../../../domains/repos";
+import Contents from "./contents";
+import Menu from "./menu";
 
 export interface Props {
     serviceConfigs: ServiceConfig[];
@@ -36,14 +36,14 @@ export default class ServiceSettings extends React.Component<Props, State> {
             <fieldset style={{ marginTop: "2em" }}>
                 <legend>Service settings</legend>
                 <div className="row">
-                    <ServiceSettingsMenu
+                    <Menu
                         serviceDefinitions={SERVICES}
                         serviceConfigs={this.props.serviceConfigs}
                         selectedService={this.state.selectedService}
                         onMenuClick={service =>
                             this.setState({ selectedService: service })}
                         />
-                    <ServiceSettingsContents
+                    <Contents
                         definition={selectedDefinition}
                         config={selectedConfig}
                         onEnabledChange={

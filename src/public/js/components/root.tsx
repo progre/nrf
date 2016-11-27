@@ -2,7 +2,7 @@ import * as React from "react";
 import { LocalConfig, ServiceConfig } from "../../../domains/valueobjects";
 import Footer from "./footer";
 import LocalSettings from "./localsettings";
-import ServiceSettings from "./servicesettings";
+import ServiceSettings from "./servicesettings/index";
 
 export interface Props {
     local: LocalConfig;

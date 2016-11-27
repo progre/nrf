@@ -20,14 +20,14 @@ export default class LocalSettings extends React.Component<Props, {}> {
             <legend>Local settings</legend>
             <div className="row">
                 <FileSelectorRow
-                    labelText="Path to nginx"
+                    labelText="Path to Nginx"
                     value={this.props.nginxPath}
                     onChange={value => this.props.onNginxPathChange(value)}
                     />
             </div>
             <div className="row">
                 <FileSelectorRow
-                    labelText="Path to ffmpeg"
+                    labelText="Path to FFmpeg"
                     value={this.props.ffmpegPath}
                     onChange={value => this.props.onFfmpegPathChange(value)}
                     />

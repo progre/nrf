@@ -14,6 +14,13 @@ export const SERVICES = [
         pushBy: "nginx"
     },
     {
+        name: "abemafresh",
+        icon: "https://abemafresh.tv/assets/1479961350/favicon.ico",
+        url: "https://abemafresh.tv/",
+        label: "FRESH! by AbemaTV",
+        pushBy: null
+    },
+    {
         name: "cavetube",
         icon: "https://www.cavelis.net/favicon.ico",
         url: "https://www.cavelis.net/",
@@ -35,10 +42,24 @@ export const SERVICES = [
         pushBy: null
     },
     {
-        name: "other",
+        name: "other1",
         icon: "",
         url: "",
-        label: "Other",
+        label: "Other 1",
+        pushBy: null
+    },
+    {
+        name: "other2",
+        icon: "",
+        url: "",
+        label: "Other 2",
+        pushBy: null
+    },
+    {
+        name: "other3",
+        icon: "",
+        url: "",
+        label: "Other 3",
         pushBy: null
     }
 ];
