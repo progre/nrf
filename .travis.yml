@@ -16,9 +16,9 @@ deploy:
   api_key:
     secure: gR73q5LWucvky6ki6J5GEr6SjcEouurRo1+iaevyFFXSfMejG9pYXmI0/61CQWn+smKzUo3yeJLikIGSjFQOjkg/Z5iXfRCLbL43ZO1ZhPMK79p3AwL/bY1PIwU0Pe7ybwfmgVsiayTdZDUP0g2m4XasIaYdMu/ECg0X8aw2OmsK6smEQQ7t0y//Q79rz261l9/7BkFlEpsRWIcqR1qdzH8LK/slaNNANmXFwMGJN9X9ueBpt1AU/Mk00blZ+AZ/uEQUUKZ4+o1EPoXS3RfWiF7MFzt55uPuMO9NoTIMCPYzTjwZPf+63uexQErr6x3GQobmLJQqUm1y6oF9vtTU5d+9FaL6qN4z7P9o0eiTws8UZLHd4eDrGhOTrmk551KzcJY/qr9ABDp8cYPzVoNB69BcqxbmtL+ypP2w1Jhu+bXJkgoEG/b0L1IFs9cjY/fk5HU4MdQzY5dAmLZJGmH0c+9A4sKygMZoZqykpPz8ZGsaf7NoZqIrAPvYGN92vKE2QZR0lMVVtYvpA97ZCa3eBdO8fSlSiYGK8W5d0mZJr6jLIQbfY8/Fl41v1a2Kybp+e8+TonO+GTk59hLdLI8AiWX4brU+Q2u+7Y/+QR+KZ3Q7qhd2yKT1KiKAgLzrHm333yz7L6fgQ+O5UmsOCQYToASYWUn/vwSdMUBCB9ajuxw=
   file:
-    - chatreader-linux.zip
-    - chatreader-mac.zip
-    - chatreader-win.zip
+    - nrf-linux.zip
+    - nrf-mac.zip
+    - nrf-win.zip
   prerelease: true
   on:
     tags: true
