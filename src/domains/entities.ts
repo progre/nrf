@@ -26,7 +26,7 @@ export class Application {
 
     private start(localConfig: LocalConfig, serviceConfigs: ServiceConfig[]) {
         let workDir = app.getPath("userData");
-        let rootDir = path.normalize(path.dirname(process.mainModule!.filename) + "\\..");
+        let rootDir = path.normalize(path.dirname(process.mainModule!.filename) + "/..");
         let enables = serviceConfigs.filter(x => x.enabled);
         if (enables.length <= 0) {
             return;
