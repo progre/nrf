@@ -14,6 +14,13 @@ export const SERVICES = [
         pushBy: "nginx"
     },
     {
+        name: "YouTube",
+        icon: "https://s.ytimg.com/yts/img/favicon_32-vfl8NGn4k.png",
+        url: "https://www.youtube.com/",
+        label: "YouTube",
+        pushBy: "ffmpeg"
+    },
+    {
         name: "abemafresh",
         icon: "https://abemafresh.tv/assets/1479961350/favicon.ico",
         url: "https://abemafresh.tv/",
