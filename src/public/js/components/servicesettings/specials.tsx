@@ -38,7 +38,7 @@ export function TwitchServerSelector(props: {
 }) {
     return <ComboBox
         id={props.id}
-        values={TWITCH_INGESTS.map(x => ({ key: x.name, value: x.url }))}
+        values={TWITCH_INGESTS.map(x => ({ key: x.name, value: "rtmp://" + x.url }))}
         selectedValue={props.value}
         onValueChange={props.onFMSURLChange}
         disabled={false}

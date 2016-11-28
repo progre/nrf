@@ -45,7 +45,7 @@ export class Application {
         this.nginx.start(
             localConfig.nginxPath,
             localConfig.nginxPort,
-            nginxServices.map(x => `${x.fmsURL}/${x.streamKey}`)
+            nginxServices.map(x => join(x.fmsURL, x.streamKey))
         );
         let ffmpegServices = enables.filter(x => x.pushBy === "ffmpeg");
         if (ffmpegServices.length <= 0) {
@@ -55,7 +55,7 @@ export class Application {
         this.ffmpeg.start(
             localConfig.ffmpegPath,
             localConfig.nginxPort,
-            ffmpegServices.map(x => `${x.fmsURL}/${x.streamKey}`)
+            ffmpegServices.map(x => join(x.fmsURL, x.streamKey))
         );
     }
 
@@ -69,4 +69,14 @@ export class Application {
             this.ffmpeg = null;
         }
     }
+}
+
+function join(fmsURL: string, streamKey: string) {
+    if (!fmsURL.endsWith("/")) {
+        fmsURL += "/";
+    }
+    if (streamKey.startsWith("/")) {
+        streamKey = streamKey.slice(1);
+    }
+    return fmsURL + streamKey;
 }
