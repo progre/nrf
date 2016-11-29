@@ -9,6 +9,8 @@ export interface Props {
     services: ServiceConfig[];
     footer: {
         needApply: boolean;
+        nginx: boolean | null;
+        ffmpeg: boolean | null;
     };
     onNginxPathChange(path: string): void;
     onNginxPortChange(port: number): void;
@@ -50,6 +52,8 @@ function UI(props: Props) {
                 />
             <Footer
                 needApply={props.footer.needApply}
+                nginx={props.footer.nginx}
+                ffmpeg={props.footer.ffmpeg}
                 onApply={() => props.apply(props.local, props.services)}
                 />
         </div>

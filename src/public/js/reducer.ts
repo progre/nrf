@@ -24,7 +24,9 @@ export function createInitialState(storedState: any) {
             SERVICES
         ),
         footer: {
-            needApply: false
+            needApply: false,
+            nginx: <boolean | null>false,
+            ffmpeg: <boolean | null>false
         }
     };
 }
@@ -95,6 +97,11 @@ function footer(
     switch (action.type) {
         case footerActions.SET_NEED_APPLY:
             return Object.assign({}, state, { needApply: action.payload });
+        case footerActions.SET_SUB_PROCESS_STATUS:
+            return Object.assign({}, state, {
+                nginx: action.payload.nginx,
+                ffmpeg: action.payload.ffmpeg
+            });
         default:
             return state;
     }

@@ -1,15 +1,18 @@
 import * as fs from "fs";
+import { EventEmitter } from "events";
 import * as log4js from "log4js";
 import Exe from "./exe";
 const logger = log4js.getLogger();
 
-export default class Nginx {
+export default class Nginx extends EventEmitter {
     private exe = new Exe();
 
     constructor(private rootDir: string, private workDir: string) {
+        super();
+        this.exe.on("close", () => this.emit("close"));
     }
 
-    get isAlive() { return this.exe.isAlive; };
+    get isAlive() { return this.exe.isAlive; }
 
     start(exePath: string, port: number, servers: string[]) {
         (async () => {

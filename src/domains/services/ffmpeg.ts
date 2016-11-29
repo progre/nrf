@@ -1,6 +1,7 @@
+import { EventEmitter } from "events";
 import Exe from "./exe";
 
-export default class Ffmpeg {
+export default class Ffmpeg extends EventEmitter {
     private exe = new Exe();
 
     private onStopHandler = () => {
@@ -9,6 +10,11 @@ export default class Ffmpeg {
             3000
         );
     };
+
+    constructor() {
+        super();
+        this.exe.on("close", () => this.emit("close"));
+    }
 
     get isAlive() { return this.exe.isAlive; };
 
