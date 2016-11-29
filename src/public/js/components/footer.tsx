@@ -12,10 +12,12 @@ export default function Footer(props: {
             <fieldset>
                 <div className="row">
                     <div className="push-sm-1 col-sm-3">
-                        Nginx <Status value={props.nginx} />
+                        <span style={{ marginRight: "1em" }}>Nginx</span>
+                        <Status value={props.nginx} />
                     </div>
                     <div className="col-sm-3">
-                        FFmpeg <Status value={props.ffmpeg} />
+                        <span style={{ marginRight: "1em" }}>FFmpeg</span>
+                        <Status value={props.ffmpeg} />
                     </div>
                     <div className="col-sm-5" style={{ textAlign: "right" }}>
                         <button
@@ -49,8 +51,8 @@ export default function Footer(props: {
 
 function Status(props: { value: boolean | null }) {
     switch (props.value) {
-        case true: return <i className="fa fa-check-circle" />;
-        case false: return <i className="fa fa-exclamation-circle" />;
+        case true: return <i className="fa fa-check-circle" style={{ color: "green" }} />;
+        case false: return <i className="fa fa-exclamation-circle" style={{ color: "red" }} />;
         case null: return <i className="fa fa-moon-o" />;
         default: throw new Error();
     }
