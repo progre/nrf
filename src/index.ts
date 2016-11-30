@@ -16,7 +16,7 @@ async function main() {
         height: 900,
         show: true
     });
-    let application = new Application(win.webContents);
+    let application = await Application.create(win.webContents);
     app.on("window-all-closed", () => {
         application.close();
         app.quit();
