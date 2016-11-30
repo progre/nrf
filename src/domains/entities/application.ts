@@ -1,7 +1,6 @@
 import { app, BrowserWindow } from "electron";
 import * as process from "process";
 import * as path from "path";
-const machineId = require("node-machine-id").machineId;
 import * as _ua from "universal-analytics";
 const ua: _ua = require("universal-analytics");
 import Ffmpeg from "../services/ffmpeg";
@@ -9,17 +8,12 @@ import Nginx from "../services/nginx";
 import { LocalConfig, ServiceConfig } from "../valueobjects";
 
 export default class Application {
-    private visitor: _ua.Client;
+    private visitor = ua("UA-43486767-18");
     private nginx: Nginx | null;
     private ffmpeg: Ffmpeg | null;
     private currentServiceConfigs: ServiceConfig[] | null;
 
-    static async create(webContents: typeof BrowserWindow.prototype.webContents) {
-        return new this(webContents, await machineId());
-    }
-
-    constructor(private webContents: typeof BrowserWindow.prototype.webContents, id: string) {
-        this.visitor = ua("UA-43486767-18", id);
+    constructor(private webContents: typeof BrowserWindow.prototype.webContents) {
         this.visitor.pageview("/").send();
     }
 
