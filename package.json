@@ -6,8 +6,8 @@
   "bugs": "https://github.com/progre/nrf/issues",
   "dependencies": {
     "babel-polyfill": "^6.16.0",
-    "electron-machine-id": "^1.0.9",
     "log4js": "^1.0.1",
+    "node-machine-id": "^1.1.2",
     "node-uuid": "^1.4.7",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",

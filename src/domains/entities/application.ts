@@ -1,7 +1,7 @@
 import { app, BrowserWindow } from "electron";
 import * as process from "process";
 import * as path from "path";
-const machineId = require("electron-machine-id").machineId;
+const machineId = require("node-machine-id").machineId;
 import * as _ua from "universal-analytics";
 const ua: _ua = require("universal-analytics");
 import Ffmpeg from "../services/ffmpeg";
