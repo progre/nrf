@@ -9,6 +9,7 @@ export default class Nginx extends EventEmitter {
 
     constructor(private rootDir: string, private workDir: string) {
         super();
+        this.exe.on("spawn", () => this.emit("spawn"));
         this.exe.on("close", () => this.emit("close"));
     }
 

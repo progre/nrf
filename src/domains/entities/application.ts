@@ -60,12 +60,12 @@ export default class Application {
         }
         this.stop();
         this.start(localConfig, serviceConfigs);
+        this.sendChildProcessStatus();
     }
 
     private start(localConfig: LocalConfig, serviceConfigs: ServiceConfig[]) {
         let enables = serviceConfigs.filter(x => x.enabled);
         if (enables.length <= 0) {
-            this.sendChildProcessStatus();
             return;
         }
         this.currentServiceConfigs = enables;
@@ -75,13 +75,15 @@ export default class Application {
         if (ffmpegAvailables.length > 0) {
             this.startFfmpeg(localConfig, ffmpegAvailables);
         }
-        this.sendChildProcessStatus();
     }
 
     private startNginx(localConfig: LocalConfig, nginxAvailables: ServiceConfig[]) {
         let workDir = app.getPath("userData");
         let rootDir = path.normalize(path.dirname(process.mainModule!.filename) + "/..");
         this.nginx = new Nginx(rootDir, workDir);
+        this.nginx.on("spawn", () => {
+            this.sendChildProcessStatus();
+        });
         this.nginx.on("close", () => {
             this.sendChildProcessStatus();
         });
@@ -94,6 +96,9 @@ export default class Application {
 
     private startFfmpeg(localConfig: LocalConfig, ffmpegAvailables: ServiceConfig[]) {
         this.ffmpeg = new Ffmpeg();
+        this.ffmpeg.on("spawn", () => {
+            this.sendChildProcessStatus();
+        });
         this.ffmpeg.on("close", () => {
             this.sendChildProcessStatus();
         });
@@ -125,15 +130,13 @@ export default class Application {
             return;
         }
         this.webContents.send("childprocessstatuschange", {
-            nginx: this.getChildProcessStatus(this.nginx, "nginx"),
-            ffmpeg: this.getChildProcessStatus(this.ffmpeg, "ffmpeg")
+            nginx: this.nginx != null && this.nginx.isAlive ? true
+                : (this.currentServiceConfigs || []).length > 0 ? false
+                    : null,
+            ffmpeg: this.ffmpeg != null && this.ffmpeg.isAlive ? true
+                : (this.currentServiceConfigs || []).some(x => x.pushBy === "ffmpeg") ? false
+                    : null
         });
-    }
-
-    private getChildProcessStatus(exe: { isAlive: boolean } | null, name: string) {
-        return exe != null && exe.isAlive ? true
-            : this.currentServiceConfigs != null && this.currentServiceConfigs.some(x => x.pushBy === name) ? false
-                : null;
     }
 }
 

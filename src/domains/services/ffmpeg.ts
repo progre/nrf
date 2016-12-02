@@ -13,6 +13,7 @@ export default class Ffmpeg extends EventEmitter {
 
     constructor() {
         super();
+        this.exe.on("spawn", () => this.emit("spawn"));
         this.exe.on("close", () => this.emit("close"));
     }
 
