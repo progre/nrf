@@ -1,7 +1,7 @@
 {
   "name": "nrf",
   "description": "Next RTMP relay Frontend.",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "author": "progre",
   "bugs": "https://github.com/progre/nrf/issues",
   "dependencies": {
