@@ -19,6 +19,9 @@ fetch("https://api.github.com/repos/electron/electron/releases/latest")
             .then(() => execPackageAndZip(version, "tmp", "dest", "darwin", "x64", "src/res/icon.icns"))
             .then(() => execPackageAndZip(version, "tmp", "dest", "win32", "ia32", "src/res/icon_256.ico"))
             .then(() => execPackageAndZip(version, "tmp", "dest", "linux", "x64", null));
+    })
+    .catch(e => {
+        console.error(e);
     });
 
 function execPackageAndZip(version, cwd, path, platform, arch, icon) {
