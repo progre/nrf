@@ -13,7 +13,7 @@ async function main() {
     await new Promise((resolve, reject) => app.once("ready", resolve));
     let win = new BrowserWindow({
         width: 800,
-        height: 900,
+        height: 950,
         show: true
     });
     let application = await Application.create(win.webContents);

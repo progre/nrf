@@ -28,6 +28,13 @@ export const SERVICES = [
         pushBy: null
     },
     {
+        name: "openrec",
+        icon: "https://www.openrec.tv/favicon.ico",
+        url: "https://www.openrec.tv/",
+        label: "OPENREC.tv",
+        pushBy: null
+    },
+    {
         name: "cavetube",
         icon: "https://www.cavelis.net/favicon.ico",
         url: "https://www.cavelis.net/",
