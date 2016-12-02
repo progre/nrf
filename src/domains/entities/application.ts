@@ -28,7 +28,11 @@ export default class Application {
 
     apply(localConfig: LocalConfig, serviceConfigs: ServiceConfig[]) {
         for (let conf of serviceConfigs.filter(x => x.enabled)) {
-            this.visitor.event("Settings", "Apply", conf.fmsURL, conf.pushBy === "nginx" ? 0 : 1).send();
+            let server = (conf.fmsURL.match(/(rtmp:\/\/.+?(?:\/|$))/) || [])[1];
+            if (server == null) {
+                continue;
+            }
+            this.visitor.event("Settings", "Apply", server, conf.pushBy === "nginx" ? 0 : 1).send();
         }
         this.stop();
         this.start(localConfig, serviceConfigs);
