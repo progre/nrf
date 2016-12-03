@@ -37,11 +37,17 @@ function refreshState(state: typeof props.services, services: typeof SERVICES) {
         return {
             name: x.name,
             enabled: old.enabled || false,
-            fmsURL: old.fmsURL || "",
+            fmsURL: getFMSURLOrDefault(x.name, old.fmsURL || ""),
             streamKey: old.streamKey || "",
             pushBy: x.pushBy || old.pushBy || "ffmpeg" // 初期値優先 無ければFFmpeg
         };
     });
+}
+
+function getFMSURLOrDefault(serviceName: string, oldFmsURL: string) {
+    return serviceName === "twitch" && oldFmsURL.length === 0
+        ? "rtmp://live.twitch.tv/app/"
+        : oldFmsURL;
 }
 
 function local(
