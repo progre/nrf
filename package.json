@@ -14,6 +14,7 @@
     "redux": "^3.6.0",
     "redux-persist": "^4.0.0-beta1",
     "thenify": "^3.2.1",
+    "tldjs": "^1.7.0",
     "universal-analytics": "^0.4.8"
   },
   "devDependencies": {
@@ -23,6 +24,7 @@
     "@types/react": "^0.14.47",
     "@types/react-dom": "^0.14.18",
     "@types/react-redux": "^4.4.32",
+    "@types/tldjs": "^1.7.1",
     "@types/universal-analytics": "^0.3.27",
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",

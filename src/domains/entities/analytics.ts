@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as uuid from "node-uuid";
 import * as _ua from "universal-analytics";
 const ua: _ua = require("universal-analytics");
+import * as tld from "tldjs";
 import { ServiceConfig } from "../valueobjects";
 
 export default class Analytics {
@@ -39,7 +40,7 @@ export default class Analytics {
         let list = serviceConfigs
             .filter(x => x.enabled)
             .map(x => ({
-                server: (x.fmsURL.match(/(rtmp:\/\/.+?(?:\/|$))/) || [])[1],
+                server: <string>tld.getDomain(x.fmsURL),
                 pushBy: x.pushBy
             }))
             .filter(x => x.server != null);
