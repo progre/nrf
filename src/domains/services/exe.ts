@@ -19,7 +19,6 @@ export default class Exe extends EventEmitter {
             args,
             { cwd: dirname(this.exePath) }
         );
-        this.emit("spawn");
         process.on("error", (e: any) => {
             this.logger.error("Server error", e);
         });
@@ -39,6 +38,7 @@ export default class Exe extends EventEmitter {
             this.logger.error(process.stderr.read());
         });
         this.process = process;
+        this.emit("spawn");
     }
 
     restart() {
