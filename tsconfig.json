@@ -1,11 +1,14 @@
 {
     "compilerOptions": {
         "jsx": "react",
-        "module": "commonjs",
+        "lib": [
+            "dom",
+            "es2015"
+        ],
         "noUnusedLocals": true,
         "skipLibCheck": true,
         "strictNullChecks": true,
-        "target": "es2015"
+        "target": "es5"
     },
     "exclude": [
         "node_modules",

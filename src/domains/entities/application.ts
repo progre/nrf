@@ -15,6 +15,9 @@ export default class Application {
         private webContents: typeof BrowserWindow.prototype.webContents,
         private analytics: Analytics
     ) {
+        if (webContents == null || analytics == null) {
+            throw new Error();
+        }
     }
 
     close() {

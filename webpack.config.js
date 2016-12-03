@@ -21,18 +21,14 @@ module.exports = [
         common,
         {
             entry: {
-                index: ["babel-polyfill", "./src/public/js/index.tsx"]
+                index: "./src/public/js/index.tsx"
             },
             externals: /^electron$/,
             module: {
                 loaders: [
                     {
-                        test: /\.js$/,
-                        loader: "babel-loader?presets[]=es2015"
-                    },
-                    {
                         test: /\.tsx?$/,
-                        loader: "babel-loader?presets[]=es2015!ts-loader"
+                        loader: "ts-loader"
                     }
                 ]
             },
@@ -67,14 +63,14 @@ module.exports = [
         common,
         {
             entry: {
-                index: ["babel-polyfill", "./src/index.ts"],
-                "test/test": ["babel-polyfill", "./src/test/test.ts"]
+                index: "./src/index.ts",
+                "test/test": "./src/test/test.ts"
             },
             externals: /^(?!\.)/,
             module: {
                 loaders: [{
                     test: /\.tsx?$/,
-                    loader: "babel-loader?presets[]=modern-node!ts-loader"
+                    loader: "ts-loader"
                 }]
             },
             node: {

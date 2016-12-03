@@ -17,7 +17,8 @@ async function main() {
         height: 950,
         show: true
     });
-    let application = new Application(win.webContents, await Analytics.create());
+    let analytics = await Analytics.create(); // コンパイラーのバグで式の中にawaitを入れると正しく出力されない
+    let application = new Application(win.webContents, analytics);
     app.on("window-all-closed", () => {
         application.close();
         app.quit();
