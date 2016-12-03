@@ -11,6 +11,9 @@ script:
 - npm run release-build
 - npm run test
 - npm run package
+before_deploy:
+- npm run test
+- npm run package
 deploy:
   provider: releases
   api_key:
