@@ -8,7 +8,7 @@ import { ServiceConfig } from "../valueobjects";
 
 export default class Analytics {
     private visitor: _ua.Client;
-    // private applies: Map<string, Date>;
+    private applies = new Map<string, Date>();
 
     static async create() {
         let path = app.getPath("userData") + "/id";
@@ -45,6 +45,13 @@ export default class Analytics {
             }))
             .filter(x => x.server != null);
         for (let item of list) {
+            let mapKey = item.server + "-" + item.pushBy;
+            let before = this.applies.get(mapKey);
+            let now = new Date();
+            this.applies.set(mapKey, now);
+            if (before != null && now.getDate() < before.getDate() + 1 * 60 * 60 * 1000) {
+                continue;
+            }
             this.visitor.event(
                 "Settings",
                 "Apply",
