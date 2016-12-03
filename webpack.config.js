@@ -9,7 +9,6 @@ let common = {
     devtool: isProduction
         ? null
         : "#inline-eval-source-map",
-    externals: /^(?!\.)/,
     plugin: isProduction
         ? [failPlugin]
         : [],
@@ -24,6 +23,7 @@ module.exports = [
             entry: {
                 index: ["babel-polyfill", "./src/public/js/index.tsx"]
             },
+            externals: /^electron$/,
             module: {
                 loaders: [
                     {
@@ -70,6 +70,7 @@ module.exports = [
                 index: ["babel-polyfill", "./src/index.ts"],
                 "test/test": ["babel-polyfill", "./src/test/test.ts"]
             },
+            externals: /^(?!\.)/,
             module: {
                 loaders: [{
                     test: /\.tsx?$/,
