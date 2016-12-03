@@ -1,44 +1,20 @@
 import { app, BrowserWindow } from "electron";
-import * as fs from "fs";
-import * as uuid from "node-uuid";
 import * as process from "process";
 import * as path from "path";
-import * as _ua from "universal-analytics";
-const ua: _ua = require("universal-analytics");
 import Ffmpeg from "../services/ffmpeg";
 import Nginx from "../services/nginx";
 import { LocalConfig, ServiceConfig } from "../valueobjects";
+import Analytics from "./analytics";
 
 export default class Application {
-    private visitor: _ua.Client;
     private nginx: Nginx | null;
     private ffmpeg: Ffmpeg | null;
     private currentServiceConfigs: ServiceConfig[] | null;
 
-    static async create(webContents: typeof BrowserWindow.prototype.webContents) {
-        let path = app.getPath("userData") + "/id";
-        let id = await new Promise<string>((resolve, reject) => {
-            fs.readFile(path, "UTF-8", (err, data) => {
-                if (err == null) {
-                    resolve(data);
-                    return;
-                }
-                let newId = uuid.v4();
-                fs.writeFile(path, newId, err2 => {
-                    if (err2 == null) {
-                        resolve(newId);
-                        return;
-                    }
-                    reject(err2);
-                });
-            });
-        });
-        return new this(webContents, id);
-    }
-
-    private constructor(private webContents: typeof BrowserWindow.prototype.webContents, id: string) {
-        this.visitor = ua("UA-43486767-18", id);
-        this.visitor.pageview("/").send();
+    constructor(
+        private webContents: typeof BrowserWindow.prototype.webContents,
+        private analytics: Analytics
+    ) {
     }
 
     close() {
@@ -51,13 +27,7 @@ export default class Application {
     }
 
     apply(localConfig: LocalConfig, serviceConfigs: ServiceConfig[]) {
-        for (let conf of serviceConfigs.filter(x => x.enabled)) {
-            let server = (conf.fmsURL.match(/(rtmp:\/\/.+?(?:\/|$))/) || [])[1];
-            if (server == null) {
-                continue;
-            }
-            this.visitor.event("Settings", "Apply", server, conf.pushBy === "nginx" ? 0 : 1).send();
-        }
+        this.analytics.send(serviceConfigs);
         this.stop();
         this.start(localConfig, serviceConfigs);
         this.sendChildProcessStatus();

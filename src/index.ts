@@ -2,6 +2,7 @@
 try { require("source-map-support").install(); } catch (e) { /* empty */ }
 import * as log4js from "log4js";
 import { app, BrowserWindow, ipcMain } from "electron";
+import Analytics from "./domains/entities/analytics";
 import Application from "./domains/entities/application";
 import { LocalConfig, ServiceConfig } from "./domains/valueobjects";
 
@@ -16,7 +17,7 @@ async function main() {
         height: 950,
         show: true
     });
-    let application = await Application.create(win.webContents);
+    let application = new Application(win.webContents, await Analytics.create());
     app.on("window-all-closed", () => {
         application.close();
         app.quit();
