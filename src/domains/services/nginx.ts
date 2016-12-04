@@ -7,22 +7,23 @@ const logger = log4js.getLogger();
 export default class Nginx extends EventEmitter {
     private exe = new Exe();
 
-    constructor(private rootDir: string, private workDir: string) {
+    constructor(private rootPath: string, private workPath: string) {
         super();
         this.exe.on("spawn", () => this.emit("spawn"));
         this.exe.on("close", () => this.emit("close"));
     }
 
     get isAlive() { return this.exe.isAlive; }
+    get exePath() { return this.exe.exePath; }
 
     start(exePath: string, port: number, servers: string[]) {
         (async () => {
             if (exePath == null || exePath.length === 0) {
                 exePath = "nginx";
             }
-            let confPath = this.workDir + "/nginx.conf";
+            let confPath = this.workPath + "/nginx.conf";
             if (port != null) {
-                let templatePath = this.rootDir + "/lib/res/nginx.conf.template";
+                let templatePath = getTemplatePath(this.rootPath);
                 await createConfFile(templatePath, port, servers, confPath);
             }
             this.exe.start(exePath, ["-c", confPath]);
@@ -32,6 +33,10 @@ export default class Nginx extends EventEmitter {
 
     restart = this.exe.restart.bind(this.exe);
     stop = this.exe.stop.bind(this.exe);
+}
+
+export function getTemplatePath(rootPath: string) {
+    return rootPath + "/lib/res/nginx.conf.template";
 }
 
 async function createConfFile(

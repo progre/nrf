@@ -5,8 +5,11 @@ import Ffmpeg from "../services/ffmpeg";
 import Nginx from "../services/nginx";
 import { LocalConfig, ServiceConfig } from "../valueobjects";
 import Analytics from "./analytics";
+import * as problemFinder from "./problemfinder";
 
 export default class Application {
+    private readonly rootPath = path.normalize(path.dirname(process.mainModule!.filename) + "/..");
+    private readonly workPath = app.getPath("userData");
     private nginx: Nginx | null;
     private ffmpeg: Ffmpeg | null;
     private currentServiceConfigs: ServiceConfig[] | null;
@@ -51,9 +54,7 @@ export default class Application {
     }
 
     private startNginx(localConfig: LocalConfig, nginxAvailables: ServiceConfig[]) {
-        let workDir = app.getPath("userData");
-        let rootDir = path.normalize(path.dirname(process.mainModule!.filename) + "/..");
-        this.nginx = new Nginx(rootDir, workDir);
+        this.nginx = new Nginx(this.rootPath, this.workPath);
         this.nginx.on("spawn", () => {
             this.sendChildProcessStatus();
         });
@@ -95,20 +96,30 @@ export default class Application {
     }
 
     requestChildProcessStatus() {
-        this.sendChildProcessStatus();
+        return this.sendChildProcessStatus();
     }
 
-    private sendChildProcessStatus() {
+    private async sendChildProcessStatus() {
         if (this.webContents.isDestroyed()) {
             return;
         }
         this.webContents.send("childprocessstatuschange", {
-            nginx: this.nginx != null && this.nginx.isAlive ? true
-                : (this.currentServiceConfigs || []).length > 0 ? false
+            nginx: this.nginx != null && this.nginx.isAlive
+                ? true
+                : (this.currentServiceConfigs || []).length > 0
+                    ? false
                     : null,
-            ffmpeg: this.ffmpeg != null && this.ffmpeg.isAlive ? true
-                : (this.currentServiceConfigs || []).some(x => x.pushBy === "ffmpeg") ? false
-                    : null
+            nginxErrorReasons: this.nginx == null || this.nginx.isAlive
+                ? []
+                : await problemFinder.findNginxProblem(this.nginx.exePath || "", this.rootPath),
+            ffmpeg: this.ffmpeg != null && this.ffmpeg.isAlive
+                ? true
+                : (this.currentServiceConfigs || []).some(x => x.pushBy === "ffmpeg")
+                    ? false
+                    : null,
+            ffmpegErrorReasons: this.ffmpeg == null || this.ffmpeg.isAlive
+                ? []
+                : await problemFinder.findFfmpegProblem(this.ffmpeg.exePath || "")
         });
     }
 }

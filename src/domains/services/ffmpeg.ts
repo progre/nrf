@@ -18,6 +18,7 @@ export default class Ffmpeg extends EventEmitter {
     }
 
     get isAlive() { return this.exe.isAlive; };
+    get exePath() { return this.exe.exePath; }
 
     start(exePath: string, port: number, servers: string[]) {
         if (exePath == null || exePath.length === 0) {

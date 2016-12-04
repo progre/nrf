@@ -10,7 +10,9 @@ export interface Props {
     footer: {
         needApply: boolean;
         nginx: boolean | null;
+        nginxErrorReasons: string[];
         ffmpeg: boolean | null;
+        ffmpegErrorReasons: string[];
     };
     onNginxPathChange(path: string): void;
     onNginxPortChange(port: number): void;
@@ -53,7 +55,9 @@ function UI(props: Props) {
             <Footer
                 needApply={props.footer.needApply}
                 nginx={props.footer.nginx}
+                nginxErrorReasons={props.footer.nginxErrorReasons}
                 ffmpeg={props.footer.ffmpeg}
+                ffmpegErrorReasons={props.footer.ffmpegErrorReasons}
                 onApply={() => props.apply(props.local, props.services)}
                 />
         </div>

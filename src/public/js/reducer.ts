@@ -26,7 +26,9 @@ export function createInitialState(storedState: any) {
         footer: {
             needApply: false,
             nginx: <boolean | null>false,
-            ffmpeg: <boolean | null>false
+            nginxErrorReasons: <string[]>[],
+            ffmpeg: <boolean | null>false,
+            ffmpegErrorReasons: <string[]>[]
         }
     };
 }
@@ -106,7 +108,9 @@ function footer(
         case footerActions.SET_SUB_PROCESS_STATUS:
             return Object.assign({}, state, {
                 nginx: action.payload.nginx,
-                ffmpeg: action.payload.ffmpeg
+                nginxErrorReasons: action.payload.nginxErrorReasons,
+                ffmpeg: action.payload.ffmpeg,
+                ffmpegErrorReasons: action.payload.ffmpegErrorReasons
             });
         default:
             return state;

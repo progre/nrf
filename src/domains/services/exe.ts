@@ -5,7 +5,7 @@ import * as log4js from "log4js";
 
 export default class Exe extends EventEmitter {
     private logger: log4js.Logger;
-    private exePath: string | null; // restart用
+    exePath: string | null; // restart用
     private args: string[] | null;
     private process: ChildProcess | null;
 
