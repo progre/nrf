@@ -5,6 +5,7 @@ import { app, BrowserWindow, ipcMain } from "electron";
 import Analytics from "./domains/entities/analytics";
 import Application from "./domains/entities/application";
 import { LocalConfig, ServiceConfig } from "./domains/valueobjects";
+import { initMacMenu } from "./macmenu";
 
 log4js.configure({
     appenders: [{ type: "console", layout: { type: "basic" } }]
@@ -19,6 +20,7 @@ async function main() {
     });
     let analytics = await Analytics.create(); // コンパイラーのバグで式の中にawaitを入れると正しく出力されない
     let application = new Application(win.webContents, analytics);
+    initMacMenu();
     app.on("window-all-closed", () => {
         application.close();
         app.quit();
