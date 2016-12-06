@@ -1,7 +1,8 @@
+import { platform } from "os";
 import { app, Menu } from "electron";
 
 export function initMacMenu() {
-    if (process.platform !== "darwin") {
+    if (platform() !== "darwin") {
         return;
     }
     let template = [{
