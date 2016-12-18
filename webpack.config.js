@@ -13,7 +13,7 @@ let common = {
         ? [failPlugin]
         : [],
     resolve: { extensions: ["", ".ts", ".tsx", ".js"] },
-    ts: { compilerOptions: { "sourceMap": !isProduction } }
+    ts: { compilerOptions: { "sourceMap": !isProduction } },
 };
 
 module.exports = [
@@ -21,22 +21,22 @@ module.exports = [
         common,
         {
             entry: {
-                index: ["babel-polyfill", "./src/public/js/index.ts"]
+                index: ["babel-polyfill", "./src/public/js/index.ts"],
             },
             module: {
                 loaders: [
                     {
                         test: /\.js$/,
-                        loader: "babel-loader?presets[]=es2015"
+                        loader: "babel-loader?presets[]=es2015",
                     },
                     {
                         test: /\.tsx?$/,
-                        loader: "babel-loader?presets[]=es2015!ts-loader"
-                    }
-                ]
+                        loader: "babel-loader?presets[]=es2015!ts-loader",
+                    },
+                ],
             },
             output: {
-                filename: "lib/public/js/[name].js"
+                filename: "lib/public/js/[name].js",
             },
             plugins: common.plugin.concat([
                 new CopyWebpackPlugin(
@@ -45,37 +45,37 @@ module.exports = [
                         ignore: [
                             "test/",
                             "*.ts",
-                            "*.tsx"
-                        ]
+                            "*.tsx",
+                        ],
                     }),
             ])
                 .concat(isProduction
                     ? [
                         new webpack.optimize.UglifyJsPlugin({
-                            output: { comments: uglifySaveLicense }
-                        })
+                            output: { comments: uglifySaveLicense },
+                        }),
                     ]
-                    : [])
-        }
+                    : []),
+        },
     ),
     Object.assign({},
         common,
         {
             entry: {
                 index: ["babel-polyfill", "./src/index.ts"],
-                "test/test": ["babel-polyfill", "./src/test/test.ts"]
+                "test/test": ["babel-polyfill", "./src/test/test.ts"],
             },
             externals: /^(?!\.)/,
             module: {
                 loaders: [{
                     test: /\.tsx?$/,
-                    loader: "babel-loader?presets[]=modern-node!ts-loader"
-                }]
+                    loader: "babel-loader?presets[]=modern-node!ts-loader",
+                }],
             },
             output: {
                 filename: "lib/[name].js",
-                libraryTarget: "commonjs2"
-            }
-        }
-    )
+                libraryTarget: "commonjs2",
+            },
+        },
+    ),
 ];

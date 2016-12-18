@@ -38,9 +38,9 @@
   "private": true,
   "repository": "https://github.com/progre/template-typescript.git",
   "scripts": {
-    "build": "cross-env NODE_ENV=development webpack --progress",
+    "build": "cross-env NODE_ENV=production webpack --progress",
+    "debug-build": "cross-env NODE_ENV=development webpack --progress",
     "postinstall": "typings install || echo Skipped.",
-    "release-build": "cross-env NODE_ENV=production webpack --progress",
     "test": "mocha lib/test/",
     "watch": "cross-env NODE_ENV=development webpack --progress --watch"
   }
