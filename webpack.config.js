@@ -75,7 +75,7 @@ module.exports = [
                         })
                     ]
                     : []),
-            target: "web"
+            target: "electron-renderer"
         }
     ),
     Object.assign({},
@@ -102,7 +102,7 @@ module.exports = [
                 filename: "lib/[name].js",
                 libraryTarget: "commonjs2"
             },
-            target: "node"
+            target: "electron-main"
         }
     )
 ];
