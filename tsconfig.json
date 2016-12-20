@@ -7,6 +7,9 @@
         "strictNullChecks": true,
         "target": "es2015"
     },
+    "files": [
+        "typings/index.d.ts"
+    ],
     "exclude": [
         "node_modules",
         "typings"
