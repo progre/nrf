@@ -7,13 +7,27 @@ const isProduction = process.env.NODE_ENV === "production";
 
 let common = {
     devtool: isProduction
-        ? null
-        : "#inline-eval-source-map",
+        ? false
+        : "inline-source-map",
     plugins: isProduction
         ? [failPlugin]
         : [],
     resolve: { extensions: [".ts", ".tsx", ".js"] }
 };
+
+let tsLoader = {
+    loader: "ts-loader",
+    options: {
+        compilerOptions: { "sourceMap": !isProduction }
+    }
+};
+
+function babelLoader(targets) {
+    return {
+        loader: "babel-loader",
+        options: { presets: [["env", { targets }]] }
+    };
+}
 
 module.exports = [
     Object.assign({},
@@ -27,18 +41,14 @@ module.exports = [
                     {
                         test: /\.js$/,
                         use: [
-                            { loader: "babel-loader?presets[]=es2015" }
+                            babelLoader({ browsers: ["last 2 versions"] })
                         ]
                     },
                     {
                         test: /\.tsx?$/,
                         use: [
-                            { loader: "babel-loader?presets[]=es2015" },
-                            {
-                                loader: "ts-loader", options: {
-                                    compilerOptions: { "sourceMap": !isProduction }
-                                }
-                            }
+                            babelLoader({ browsers: ["last 2 versions"] }),
+                            tsLoader
                         ]
                     }
                 ]
@@ -63,7 +73,8 @@ module.exports = [
                             output: { comments: uglifySaveLicense }
                         })
                     ]
-                    : [])
+                    : []),
+            target: "web"
         }
     ),
     Object.assign({},
@@ -75,15 +86,19 @@ module.exports = [
             },
             externals: /^(?!\.)/,
             module: {
-                loaders: [{
+                rules: [{
                     test: /\.tsx?$/,
-                    loader: "babel-loader?presets[]=modern-node!ts-loader"
+                    use: [
+                        babelLoader({ node: 6 }),
+                        tsLoader
+                    ]
                 }]
             },
             output: {
                 filename: "lib/[name].js",
                 libraryTarget: "commonjs2"
-            }
+            },
+            target: "node"
         }
     )
 ];
