@@ -9,12 +9,10 @@ let common = {
     devtool: isProduction
         ? null
         : "#inline-eval-source-map",
-    externals: /^(?!\.)/,
-    plugin: isProduction
+    plugins: isProduction
         ? [failPlugin]
         : [],
-    resolve: { extensions: ["", ".ts", ".tsx", ".js"] },
-    ts: { compilerOptions: { "sourceMap": !isProduction } }
+    resolve: { extensions: [".ts", ".tsx", ".js"] }
 };
 
 module.exports = [
@@ -25,14 +23,23 @@ module.exports = [
                 index: ["babel-polyfill", "./src/public/js/index.ts"]
             },
             module: {
-                loaders: [
+                rules: [
                     {
                         test: /\.js$/,
-                        loader: "babel-loader?presets[]=es2015"
+                        use: [
+                            { loader: "babel-loader?presets[]=es2015" }
+                        ]
                     },
                     {
                         test: /\.tsx?$/,
-                        loader: "babel-loader?presets[]=es2015!ts-loader"
+                        use: [
+                            { loader: "babel-loader?presets[]=es2015" },
+                            {
+                                loader: "ts-loader", options: {
+                                    compilerOptions: { "sourceMap": !isProduction }
+                                }
+                            }
+                        ]
                     }
                 ]
             },
@@ -40,7 +47,7 @@ module.exports = [
                 filename: "lib/public/js/[name].js",
                 libraryTarget: "commonjs2"
             },
-            plugins: common.plugin.concat([
+            plugins: common.plugins.concat([
                 new CopyWebpackPlugin(
                     [{ from: "src/public/", to: "lib/public/" }],
                     {
@@ -49,7 +56,7 @@ module.exports = [
                             "*.ts",
                             "*.tsx"
                         ]
-                    }),
+                    })
             ])
                 .concat(isProduction
                     ? [
@@ -67,6 +74,7 @@ module.exports = [
                 index: ["babel-polyfill", "./src/index.ts"],
                 "test/test": ["babel-polyfill", "./src/test/test.ts"]
             },
+            externals: /^(?!\.)/,
             module: {
                 loaders: [{
                     test: /\.tsx?$/,
