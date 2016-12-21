@@ -16,6 +16,7 @@
     "babel-preset-env": "^1.1.4",
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^3.1.3",
+    "electron": "^1.4.13",
     "electron-packager": "^8.3.0",
     "mocha": "^3.2.0",
     "node-fetch": "^1.6.3",
@@ -47,6 +48,7 @@
     "debug-build": "cross-env NODE_ENV=development webpack --progress",
     "package": "node pack.js",
     "postinstall": "typings install || echo Skipped.",
+    "start": "electron .",
     "test": "mocha lib/test/",
     "watch": "cross-env NODE_ENV=development webpack --progress --watch"
   }

@@ -2,6 +2,7 @@ const webpack = require("webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const failPlugin = require("webpack-fail-plugin");
 const uglifySaveLicense = require("uglify-save-license");
+const electronVersion = require("./package.json").devDependencies.electron.slice(1);
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -36,18 +37,19 @@ module.exports = [
             entry: {
                 index: ["babel-polyfill", "./src/public/js/index.ts"]
             },
+            externals: /^electron$/,
             module: {
                 rules: [
                     {
                         test: /\.js$/,
                         use: [
-                            babelLoader({ browsers: ["last 2 versions"] })
+                            babelLoader({ electron: electronVersion })
                         ]
                     },
                     {
                         test: /\.tsx?$/,
                         use: [
-                            babelLoader({ browsers: ["last 2 versions"] }),
+                            babelLoader({ electron: electronVersion }),
                             tsLoader
                         ]
                     }
@@ -90,7 +92,7 @@ module.exports = [
                 rules: [{
                     test: /\.tsx?$/,
                     use: [
-                        babelLoader({ node: 6 }),
+                        babelLoader({ electron: electronVersion }),
                         tsLoader
                     ]
                 }]
