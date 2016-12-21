@@ -69,14 +69,7 @@ module.exports = [
                             "*.tsx"
                         ]
                     })
-            ])
-                .concat(isProduction
-                    ? [
-                        new webpack.optimize.UglifyJsPlugin({
-                            output: { comments: uglifySaveLicense }
-                        })
-                    ]
-                    : []),
+            ]),
             target: "electron-renderer"
         }
     ),
