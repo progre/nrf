@@ -2,19 +2,33 @@ const webpack = require("webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const failPlugin = require("webpack-fail-plugin");
 const uglifySaveLicense = require("uglify-save-license");
+const electronVersion = require("./package.json").devDependencies.electron.slice(1);
 
 const isProduction = process.env.NODE_ENV === "production";
 
 let common = {
     devtool: isProduction
-        ? null
-        : "#inline-eval-source-map",
-    plugin: isProduction
+        ? false
+        : "inline-source-map",
+    plugins: isProduction
         ? [failPlugin]
         : [],
-    resolve: { extensions: ["", ".ts", ".tsx", ".js"] },
-    ts: { compilerOptions: { "sourceMap": !isProduction } }
+    resolve: { extensions: [".ts", ".tsx", ".js"] }
 };
+
+let tsLoader = {
+    loader: "ts-loader",
+    options: {
+        compilerOptions: { "sourceMap": !isProduction }
+    }
+};
+
+function babelLoader(targets) {
+    return {
+        loader: "babel-loader",
+        options: { presets: [["env", { targets }]] }
+    };
+}
 
 module.exports = [
     Object.assign({},
@@ -25,10 +39,19 @@ module.exports = [
             },
             externals: /^electron$/,
             module: {
-                loaders: [
+                rules: [
+                    {
+                        test: /\.js$/,
+                        use: [
+                            babelLoader({ electron: electronVersion })
+                        ]
+                    },
                     {
                         test: /\.tsx?$/,
-                        loader: "ts-loader"
+                        use: [
+                            babelLoader({ electron: electronVersion }),
+                            tsLoader
+                        ]
                     }
                 ]
             },
@@ -36,7 +59,7 @@ module.exports = [
                 filename: "lib/public/js/[name].js",
                 libraryTarget: "commonjs2"
             },
-            plugins: common.plugin.concat([
+            plugins: common.plugins.concat([
                 new CopyWebpackPlugin(
                     [
                         { from: "src/public/", to: "lib/public/" },
@@ -48,15 +71,9 @@ module.exports = [
                             "*.ts",
                             "*.tsx"
                         ]
-                    }),
-            ])
-                .concat(isProduction
-                    ? [
-                        new webpack.optimize.UglifyJsPlugin({
-                            output: { comments: uglifySaveLicense }
-                        })
-                    ]
-                    : [])
+                    })
+            ]),
+            target: "electron-renderer"
         }
     ),
     Object.assign({},
@@ -68,9 +85,12 @@ module.exports = [
             },
             externals: /^(?!\.)/,
             module: {
-                loaders: [{
+                rules: [{
                     test: /\.tsx?$/,
-                    loader: "ts-loader"
+                    use: [
+                        babelLoader({ electron: electronVersion }),
+                        tsLoader
+                    ]
                 }]
             },
             node: {
@@ -79,7 +99,8 @@ module.exports = [
             output: {
                 filename: "lib/[name].js",
                 libraryTarget: "commonjs2"
-            }
+            },
+            target: "electron-main"
         }
     )
 ];

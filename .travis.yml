@@ -3,14 +3,14 @@ dist: trusty
 language: node_js
 node_js: 6
 before_script:
-- sudo rm /etc/apt/sources.list.d/google-chrome.list
-- sudo dpkg --add-architecture i386
-- sudo apt-get update
-- sudo apt-get install -y wine1.6
+  - sudo rm /etc/apt/sources.list.d/google-chrome.list
+  - sudo dpkg --add-architecture i386
+  - sudo apt-get update
+  - sudo apt-get install -y wine1.6
 script:
-- npm run release-build
-- npm run test
-- npm run package
+  - npm run build
+  - npm run test
+  - npm run package
 deploy:
   provider: releases
   api_key:
