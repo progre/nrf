@@ -2,6 +2,7 @@
     "compilerOptions": {
         "jsx": "react",
         "module": "commonjs",
+        "noImplicitAny": true,
         "noUnusedLocals": true,
         "skipLibCheck": true,
         "strictNullChecks": true,
