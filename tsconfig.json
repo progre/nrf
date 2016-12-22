@@ -5,6 +5,7 @@
             "dom",
             "es2015"
         ],
+        "noImplicitAny": true,
         "noUnusedLocals": true,
         "skipLibCheck": true,
         "strictNullChecks": true,

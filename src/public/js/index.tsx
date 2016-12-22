@@ -1,4 +1,3 @@
-/// <reference path="../../../typings/index.d.ts" />
 import * as React from "react";
 import { ipcRenderer } from "electron";
 import { setSubProcessStatus } from "./actions/footeractions";
@@ -14,9 +13,9 @@ async function main() {
         reducer,
         undefined,
         autoRehydrate({
-            stateReconciler: (state, inboundState, reducedState) =>
-                createInitialState(inboundState)
-        } as any)
+            stateReconciler: (state: any, inboundState: any, reducedState: any) =>
+                createInitialState(inboundState),
+        } as any),
     );
     await new Promise(resolve => persistStore(store, {}, resolve));
 
@@ -25,7 +24,7 @@ async function main() {
             arg.nginx,
             arg.nginxErrorReasons,
             arg.ffmpeg,
-            arg.ffmpegErrorReasons
+            arg.ffmpegErrorReasons,
         ));
     });
 
@@ -33,7 +32,7 @@ async function main() {
         <Provider store={store}>
             <App />
         </Provider>,
-        document.getElementsByTagName("main")[0]
+        document.getElementsByTagName("main")[0],
     );
 
     ipcRenderer.send("requestchildprocessstatus");
