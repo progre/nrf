@@ -14,9 +14,6 @@
         "strictNullChecks": true,
         "target": "esnext"
     },
-    "files": [
-        "typings/index.d.ts"
-    ],
     "exclude": [
         "node_modules",
         "typings"
