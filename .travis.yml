@@ -9,5 +9,5 @@ before_script:
   - sudo apt-get install -y wine1.6
 script:
   - npm run build
-  - npm run test
+  - npm test
   - npm run package
