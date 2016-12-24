@@ -15,17 +15,21 @@ let common = {
     resolve: { extensions: [".ts", ".tsx", ".js"] }
 };
 
-let tsLoader = {
-    loader: "ts-loader",
-    options: {
-        compilerOptions: { "sourceMap": !isProduction }
-    }
-};
-
-function babelLoader(targets) {
+function tsModule(targets) {
     return {
-        loader: "babel-loader",
-        options: { presets: [["env", { targets }]] }
+        rules: [{
+            test: /\.tsx?$/,
+            use: [
+                {
+                    loader: "babel-loader",
+                    options: { presets: [["env", { targets }]] }
+                },
+                {
+                    loader: "ts-loader",
+                    options: { compilerOptions: { sourceMap: !isProduction } }
+                }
+            ]
+        }]
     };
 }
 
@@ -36,23 +40,7 @@ module.exports = [
             entry: {
                 index: ["babel-polyfill", "./src/public/js/index.ts"]
             },
-            module: {
-                rules: [
-                    {
-                        test: /\.js$/,
-                        use: [
-                            babelLoader({ browsers: ["last 2 versions"] })
-                        ]
-                    },
-                    {
-                        test: /\.tsx?$/,
-                        use: [
-                            babelLoader({ browsers: ["last 2 versions"] }),
-                            tsLoader
-                        ]
-                    }
-                ]
-            },
+            module: tsModule({ browsers: ["last 2 versions"] }),
             output: {
                 filename: "lib/public/js/[name].js"
             },
@@ -85,15 +73,7 @@ module.exports = [
                 "test/test": ["babel-polyfill", "./src/test/test.ts"]
             },
             externals: /^(?!\.)/,
-            module: {
-                rules: [{
-                    test: /\.tsx?$/,
-                    use: [
-                        babelLoader({ node: 6 }),
-                        tsLoader
-                    ]
-                }]
-            },
+            module: tsModule({ node: 6 }),
             output: {
                 filename: "lib/[name].js",
                 libraryTarget: "commonjs2"
