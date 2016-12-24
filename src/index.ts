@@ -1,4 +1,3 @@
-/// <reference path="../typings/index.d.ts" />
 try { require("source-map-support").install(); } catch (e) { /* empty */ }
 import module from "./module";
 
