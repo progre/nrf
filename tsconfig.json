@@ -6,7 +6,7 @@
         "noUnusedLocals": true,
         "skipLibCheck": true,
         "strictNullChecks": true,
-        "target": "es2015"
+        "target": "esnext"
     },
     "files": [
         "typings/index.d.ts"
