@@ -1,3 +1,4 @@
+/// <reference path="../typings/index.d.ts" />
 try { require("source-map-support").install(); } catch (e) { /* empty */ }
 import module from "./module";
 const log4js = require("log4js");
