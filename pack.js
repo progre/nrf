@@ -40,7 +40,7 @@ function execPackageAndZip(version, cwd, path, platform, arch, icon) {
             out: cwd
         })
         .then(printStdout)
-        .then(() => exec(`zip -qry ../${APP_NAME}-${os}.zip .`, { cwd: zipPath }))
+        .then(() => exec(`zip -qry ../${appName}-${os}.zip .`, { cwd: zipPath }))
         .then(printStdout);
 }
 

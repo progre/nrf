@@ -16,17 +16,21 @@ let common = {
     resolve: { extensions: [".ts", ".tsx", ".js"] }
 };
 
-let tsLoader = {
-    loader: "ts-loader",
-    options: {
-        compilerOptions: { "sourceMap": !isProduction }
-    }
-};
-
-function babelLoader(targets) {
+function tsModule(targets) {
     return {
-        loader: "babel-loader",
-        options: { presets: [["env", { targets }]] }
+        rules: [{
+            test: /\.tsx?$/,
+            use: [
+                {
+                    loader: "babel-loader",
+                    options: { presets: [["env", { targets }]] }
+                },
+                {
+                    loader: "ts-loader",
+                    options: { compilerOptions: { sourceMap: !isProduction } }
+                }
+            ]
+        }]
     };
 }
 
@@ -38,23 +42,7 @@ module.exports = [
                 index: "./src/public/js/index.tsx"
             },
             externals: /^electron$/,
-            module: {
-                rules: [
-                    {
-                        test: /\.js$/,
-                        use: [
-                            babelLoader({ electron: electronVersion })
-                        ]
-                    },
-                    {
-                        test: /\.tsx?$/,
-                        use: [
-                            babelLoader({ electron: electronVersion }),
-                            tsLoader
-                        ]
-                    }
-                ]
-            },
+            module: tsModule({ electron: electronVersion }),
             output: {
                 filename: "lib/public/js/[name].js",
                 libraryTarget: "commonjs2"
@@ -84,15 +72,7 @@ module.exports = [
                 "test/test": "./src/test/test.ts"
             },
             externals: /^(?!\.)/,
-            module: {
-                rules: [{
-                    test: /\.tsx?$/,
-                    use: [
-                        babelLoader({ electron: electronVersion }),
-                        tsLoader
-                    ]
-                }]
-            },
+            module: tsModule({ electron: electronVersion }),
             node: {
                 __dirname: false
             },
