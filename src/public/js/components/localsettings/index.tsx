@@ -2,6 +2,7 @@ import * as uuid from "node-uuid";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import FileSelectorRow from "./fileselectorrow";
+import CopyRow from "./copyrow";
 
 export interface Props {
     nginxPath: string;
@@ -15,7 +16,6 @@ export interface Props {
 export default class LocalSettings extends React.Component<Props, {}> {
     render() {
         let portId = uuid.v4();
-        let fmsURLId = uuid.v4();
         return <fieldset>
             <legend>Local settings</legend>
             <div className="row">
@@ -54,36 +54,10 @@ export default class LocalSettings extends React.Component<Props, {}> {
             </div>
             <hr />
             <div className="row">
-                <div className="col-sm-3" style={{ textAlign: "right" }}>
-                    <label htmlFor={fmsURLId} className="form-control-static">
-                        FMS URL:
-                    </label>
-                </div>
-                <div className="col-sm-6">
-                    <div className="input-group">
-                        <input
-                            id={fmsURLId}
-                            className="form-control selectable"
-                            ref="input"
-                            type="text"
-                            readOnly
-                            style={{ width: "100%" }}
-                            value={this.getFMSURL()}
-                            />
-                        <span className="input-group-btn">
-                            <button
-                                type="button"
-                                className="btn btn-secondary"
-                                onClick={() => this.copyFMSURL()}
-                                >
-                                <i className="fa fa-files-o" />
-                                <span style={{ marginLeft: "0.5em" }}>
-                                    Copy
-                                </span>
-                            </button>
-                        </span>
-                    </div>
-                </div>
+                <CopyRow
+                    labelText="FMS URL"
+                    value={this.getFMSURL()}
+                    />
             </div>
             <div className="row">
                 <div className="push-sm-3 col-sm-9">
@@ -100,13 +74,5 @@ export default class LocalSettings extends React.Component<Props, {}> {
         } else {
             return `rtmp://127.0.0.1:${port}/live`;
         }
-    }
-
-    private copyFMSURL() {
-        /* tslint:disable:no-string-literal */
-        let input = ReactDOM.findDOMNode(this.refs["input"]) as HTMLInputElement;
-        /* tslint:enable */
-        input.select();
-        document.execCommand("copy");
     }
 }
