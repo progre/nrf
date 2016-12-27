@@ -1,6 +1,5 @@
 import * as uuid from "node-uuid";
 import * as React from "react";
-import * as ReactDOM from "react-dom";
 import FileSelectorRow from "./fileselectorrow";
 import CopyRow from "./copyrow";
 
