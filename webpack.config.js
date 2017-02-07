@@ -9,6 +9,10 @@ let common = {
     devtool: isProduction
         ? false
         : "inline-source-map",
+    node: {
+        __filename: true,
+        __dirname: true
+    },
     plugins: isProduction
         ? [failPlugin]
         : [],
@@ -22,7 +26,15 @@ function tsModule(targets) {
             use: [
                 {
                     loader: "babel-loader",
-                    options: { presets: [["env", { targets }]] }
+                    options: {
+                        presets: [["env", { targets }]],
+                        plugins: isProduction
+                            ? undefined
+                            : [[
+                                "babel-plugin-espower",
+                                { "embedAst": true }
+                            ]]
+                    }
                 },
                 {
                     loader: "ts-loader",
@@ -44,24 +56,26 @@ module.exports = [
             output: {
                 filename: "lib/public/js/[name].js"
             },
-            plugins: common.plugins.concat([
-                new CopyWebpackPlugin(
-                    [{ from: "src/public/", to: "lib/public/" }],
-                    {
-                        ignore: [
-                            "test/",
-                            "*.ts",
-                            "*.tsx"
-                        ]
-                    })
-            ])
+            plugins: common.plugins
+                .concat([
+                    new CopyWebpackPlugin(
+                        [{ from: "src/public/", to: "lib/public/" }],
+                        {
+                            ignore: [
+                                "test/",
+                                "*.ts",
+                                "*.tsx"
+                            ]
+                        })
+                ])
                 .concat(isProduction
                     ? [
                         new webpack.optimize.UglifyJsPlugin({
                             output: { comments: uglifySaveLicense }
                         })
                     ]
-                    : []),
+                    : []
+                ),
             target: "web"
         }
     ),
