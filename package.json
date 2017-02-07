@@ -1,9 +1,9 @@
 {
-  "name": "template-typescript",
+  "name": "typescript-boilerplate",
   "description": "Project template.",
   "version": "1.0.0",
   "author": "progre",
-  "bugs": "https://github.com/progre/template-typescript/issues",
+  "bugs": "https://github.com/progre/typescript-boilerplate/issues",
   "dependencies": {
     "babel-polyfill": "^6.20.0"
   },
@@ -28,13 +28,13 @@
   "files": [
     "lib"
   ],
-  "homepage": "https://github.com/progre/template-typescript/",
+  "homepage": "https://github.com/progre/typescript-boilerplate/",
   "keywords": [
     "template"
   ],
   "main": "lib/index.js",
   "private": true,
-  "repository": "https://github.com/progre/template-typescript.git",
+  "repository": "https://github.com/progre/typescript-boilerplate.git",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress",
     "debug-build": "cross-env NODE_ENV=development webpack --progress",
