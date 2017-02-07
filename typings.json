@@ -1,6 +1,5 @@
 {
-  "name": "template-typescript",
-  "version": false,
+  "name": "typescript-boilerplate",
   "dependencies": {},
   "globalDependencies": {
     "empower": "registry:dt/empower#1.2.1+20160924120522",

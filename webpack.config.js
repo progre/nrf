@@ -10,6 +10,10 @@ let common = {
     devtool: isProduction
         ? false
         : "inline-source-map",
+    node: {
+        __filename: true,
+        __dirname: true
+    },
     plugins: isProduction
         ? [failPlugin]
         : [],
@@ -23,7 +27,15 @@ function tsModule(targets) {
             use: [
                 {
                     loader: "babel-loader",
-                    options: { presets: [["env", { targets }]] }
+                    options: {
+                        presets: [["env", { targets }]],
+                        plugins: isProduction
+                            ? undefined
+                            : [[
+                                "babel-plugin-espower",
+                                { "embedAst": true }
+                            ]]
+                    }
                 },
                 {
                     loader: "ts-loader",
