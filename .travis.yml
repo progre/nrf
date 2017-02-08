@@ -2,5 +2,6 @@ sudo: false
 language: node_js
 node_js: 6
 script:
+  - npm run debug-build
   - npm run build
   - npm test
