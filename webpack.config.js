@@ -27,13 +27,18 @@ function tsModule(targets) {
                 {
                     loader: "babel-loader",
                     options: {
-                        presets: [["env", { targets }]],
-                        plugins: isProduction
-                            ? undefined
-                            : [[
-                                "babel-plugin-espower",
-                                { "embedAst": true }
-                            ]]
+                        env: {
+                            delelopment: {
+                                plugins: [[
+                                    "babel-plugin-espower",
+                                    { "embedAst": true }
+                                ]]
+                            },
+                            production: {
+                                presets: ["babili"]
+                            }
+                        },
+                        presets: [["env", { targets }]]
                     }
                 },
                 {
