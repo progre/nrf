@@ -1,9 +1,10 @@
 {
   "name": "typescript-boilerplate",
-  "description": "Project template.",
+  "description": "Boilerplate for TypeScript project.",
   "version": "1.0.0",
-  "author": "progre",
-  "bugs": "https://github.com/progre/typescript-boilerplate/issues",
+  "bugs": {
+    "url": "https://github.com/progre/typescript-boilerplate/issues"
+  },
   "dependencies": {
     "babel-polyfill": "^6.22.0",
     "log4js": "^1.1.0"
@@ -14,6 +15,7 @@
     "babel-core": "^6.22.1",
     "babel-loader": "^6.2.10",
     "babel-plugin-espower": "^2.3.2",
+    "babel-preset-babili": "0.0.11",
     "babel-preset-env": "^1.1.8",
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^3.1.4",
@@ -33,16 +35,17 @@
     "webpack-fail-plugin": "^1.0.5"
   },
   "files": [
-    "lib"
+    "lib",
+    "LICENSE"
   ],
-  "homepage": "https://github.com/progre/typescript-boilerplate/",
-  "keywords": [
-    "electron",
-    "template"
-  ],
+  "homepage": "https://github.com/progre/typescript-boilerplate#readme",
+  "license": "Unlicense",
   "main": "lib/index.js",
   "private": true,
-  "repository": "https://github.com/progre/typescript-boilerplate.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/progre/typescript-boilerplate.git"
+  },
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress",
     "debug-build": "cross-env NODE_ENV=development webpack --progress",
