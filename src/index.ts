@@ -1,11 +1,6 @@
 try { require("source-map-support").install(); } catch (e) { /* empty */ }
 import module from "./module";
-import * as log4js from "log4js";
 import { app, BrowserWindow } from "electron";
-
-log4js.configure({
-    appenders: [{ type: "console", layout: { type: "basic" } }]
-});
 
 async function main() {
     await new Promise((resolve, reject) => app.once("ready", resolve));
@@ -20,4 +15,4 @@ async function main() {
     module();
 }
 
-main().catch(e => log4js.getLogger().error(e.stack || e));
+main().catch(e => console.error(e.stack || e));
