@@ -1,8 +1,8 @@
-try { require("source-map-support").install(); } catch (e) { /* empty */ }
-import module from "./module";
+try { require('source-map-support').install(); } catch (e) { /* NOP */ }
+import module from './module';
 
 async function main() {
-    module();
+  module();
 }
 
 main().catch(e => console.error(e.stack || e));

@@ -1,7 +1,7 @@
-import module from "./module";
+import module from './module';
 
 async function main() {
-    module();
+  module();
 }
 
 main();
