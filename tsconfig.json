@@ -5,7 +5,7 @@
       "es2017",
       "dom",
       "dom.iterable",
-      "scripthost"
+      "webworker"
     ],
     "module": "commonjs",
     "noImplicitAny": true,
