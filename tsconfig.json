@@ -4,8 +4,7 @@
     "lib": [
       "es2017",
       "dom",
-      "dom.iterable",
-      "webworker"
+      "dom.iterable"
     ],
     "module": "commonjs",
     "noImplicitAny": true,
