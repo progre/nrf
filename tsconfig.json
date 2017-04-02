@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "lib",
     "jsx": "react",
     "lib": [
       "es2017",
