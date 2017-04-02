@@ -52,5 +52,6 @@
     "postinstall": "typings install || echo Skipped.",
     "test": "mocha lib/test/",
     "watch": "cross-env NODE_ENV=development webpack --progress --watch"
-  }
+  },
+  "typings": "lib/index.d.ts"
 }
