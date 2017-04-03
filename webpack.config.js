@@ -28,7 +28,7 @@ function tsModule(targets) {
           loader: "babel-loader",
           options: {
             env: {
-              delelopment: {
+              development: {
                 plugins: [[
                   "babel-plugin-espower",
                   { "embedAst": true }
