@@ -23,6 +23,9 @@
     "no-reserved-keywords": false,
     "no-single-line-block-comment": false,
     "no-string-based-set-timeout": false,
-    "no-var-requires": false
+    "no-var-requires": false,
+    "typedef": [
+      false
+    ]
   }
 }
