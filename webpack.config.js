@@ -16,7 +16,10 @@ let common = {
   plugins: isProduction
     ? [failPlugin]
     : [],
-  resolve: { extensions: [".ts", ".tsx", ".js"] }
+  resolve: { extensions: [".ts", ".tsx", ".js"] },
+  watchOptions: {
+    ignored: /node_modules|lib/
+  }
 };
 
 function tsModule(targets) {
