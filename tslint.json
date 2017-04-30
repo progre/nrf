@@ -13,11 +13,15 @@
       "never-prefix"
     ],
     "member-access": false,
+    "member-ordering": [
+      false
+    ],
     "mocha-no-side-effect-code": false,
     "missing-jsdoc": false,
     "no-any": false,
     "no-default-export": false,
     "no-http-string": false,
+    "no-parameter-properties": false,
     "no-relative-imports": false,
     "no-require-imports": false,
     "no-reserved-keywords": false,
