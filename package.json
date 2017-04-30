@@ -21,7 +21,9 @@
     "babel-preset-env": "^1.4.0",
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^4.0.0",
+    "del-cli": "^0.2.1",
     "mocha": "^3.3.0",
+    "npm-run-all": "^4.0.2",
     "power-assert": "^1.4.2",
     "source-map-support": "^0.4.14",
     "ts-loader": "^2.0.3",
@@ -46,8 +48,10 @@
     "url": "git+https://github.com/progre/typescript-boilerplate.git"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --progress",
+    "build": "run-p clean release-build",
+    "clean": "del lib",
     "debug-build": "cross-env NODE_ENV=development webpack --progress",
+    "release-build": "cross-env NODE_ENV=production webpack --progress",
     "test": "mocha lib/test/",
     "watch": "cross-env NODE_ENV=development webpack --progress --watch"
   },
