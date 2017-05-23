@@ -17,7 +17,7 @@
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
     "babel-plugin-espower": "^2.3.2",
-    "babel-preset-babili": "^0.0.12",
+    "babel-preset-babili": "^0.1.2",
     "babel-preset-env": "^1.4.0",
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^4.0.0",
