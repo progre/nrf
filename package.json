@@ -21,7 +21,7 @@
     "babel-preset-env": "^1.4.0",
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^4.0.0",
-    "del-cli": "^0.2.1",
+    "del-cli": "^1.0.0",
     "mocha": "^3.3.0",
     "npm-run-all": "^4.0.2",
     "power-assert": "^1.4.2",
