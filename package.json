@@ -6,32 +6,41 @@
     "url": "https://github.com/progre/typescript-boilerplate/issues"
   },
   "dependencies": {
-    "babel-polyfill": "^6.22.0"
+    "babel-polyfill": "^6.23.0"
   },
   "devDependencies": {
     "@types/electron": "^1.4.31",
-    "@types/node": "^7.0.5",
-    "babel-core": "^6.22.1",
-    "babel-loader": "^6.2.10",
+    "@types/empower": "^1.2.30",
+    "@types/mocha": "^2.2.40",
+    "@types/node": "^7.0.12",
+    "@types/power-assert": "^1.4.29",
+    "@types/power-assert-formatter": "^1.4.28",
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
     "babel-plugin-espower": "^2.3.2",
-    "babel-preset-babili": "0.0.11",
-    "babel-preset-env": "^1.1.8",
+    "babel-preset-babili": "^0.1.2",
+    "babel-preset-env": "^1.4.0",
     "copy-webpack-plugin": "^4.0.1",
-    "cross-env": "^3.1.4",
+    "cross-env": "^5.0.0",
+    "del-cli": "^1.0.0",
     "electron": "^1.4.15",
     "electron-packager": "^8.5.1",
-    "mocha": "^3.2.0",
+    "mocha": "^3.4.0",
     "node-fetch": "^1.6.3",
+    "npm-run-all": "^4.0.2",
     "power-assert": "^1.4.2",
-    "source-map-support": "^0.4.11",
+    "source-map-support": "^0.4.14",
     "thenify": "^3.2.1",
-    "ts-loader": "^2.0.0",
-    "tslint": "^4.4.2",
-    "typescript": "^2.1.5",
+    "ts-loader": "^2.0.3",
+    "tslint": "^5.3.2",
+    "tslint-config-airbnb": "^5.0.1",
+    "tslint-microsoft-contrib": "^5.0.0",
+    "tsutils": "1.6.0",
+    "typescript": "^2.3.1",
     "typings": "^2.1.0",
     "uglify-save-license": "^0.4.1",
-    "webpack": "^2.2.1",
-    "webpack-fail-plugin": "^1.0.5"
+    "webpack": "^2.4.1",
+    "webpack-fail-plugin": "^1.0.6"
   },
   "files": [
     "lib",
@@ -46,12 +55,15 @@
     "url": "git+https://github.com/progre/typescript-boilerplate.git"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --progress",
+    "build": "run-p clean release-build",
+    "clean": "del lib",
     "debug-build": "cross-env NODE_ENV=development webpack --progress",
     "package": "node pack.js",
     "postinstall": "typings install || echo Skipped.",
     "start": "electron .",
+    "release-build": "cross-env NODE_ENV=production webpack --progress",
     "test": "mocha lib/test/",
     "watch": "cross-env NODE_ENV=development webpack --progress --watch"
-  }
+  },
+  "typings": "lib/index.d.ts"
 }
