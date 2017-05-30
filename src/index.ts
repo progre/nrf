@@ -1,4 +1,4 @@
-try { require("source-map-support").install(); } catch (e) { /* empty */ }
+try { require('source-map-support').install(); } catch (e) { /* NOP */ }
 import * as log4js from "log4js";
 import { app, BrowserWindow, ipcMain } from "electron";
 import Analytics from "./domains/entities/analytics";
