@@ -1,41 +1,41 @@
-import * as React from "react";
-import { ipcRenderer } from "electron";
-import { setSubProcessStatus } from "./actions/footeractions";
-import { render } from "react-dom";
-import { createStore } from "redux";
-import { persistStore, autoRehydrate } from "redux-persist";
-import { Provider } from "react-redux";
-import reducer, { createInitialState } from "./reducer";
-import App from "./containers/app";
+import { ipcRenderer } from 'electron';
+import * as React from 'react';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { autoRehydrate, persistStore } from 'redux-persist';
+import { setSubProcessStatus } from './actions/footeractions';
+import reducer, { createInitialState } from './reducer';
+import App from './containers/app';
 
 async function main() {
-    let store = createStore(
-        reducer,
-        undefined,
-        autoRehydrate({
-            stateReconciler: (state: any, inboundState: any, reducedState: any) =>
-                createInitialState(inboundState),
-        } as any),
-    );
-    await new Promise(resolve => persistStore(store, {}, resolve));
+  const store = createStore(
+    reducer,
+    undefined,
+    autoRehydrate({
+      stateReconciler: (state: any, inboundState: any, reducedState: any) =>
+        createInitialState(inboundState),
+    } as any),
+  );
+  await new Promise(resolve => persistStore(store, {}, resolve));
 
-    ipcRenderer.on("childprocessstatuschange", (e, arg) => {
-        store.dispatch(setSubProcessStatus(
-            arg.nginx,
-            arg.nginxErrorReasons,
-            arg.ffmpeg,
-            arg.ffmpegErrorReasons,
-        ));
-    });
+  ipcRenderer.on('childprocessstatuschange', (e, arg) => {
+    store.dispatch(setSubProcessStatus(
+      arg.nginx,
+      arg.nginxErrorReasons,
+      arg.ffmpeg,
+      arg.ffmpegErrorReasons,
+    ));
+  });
 
-    render(
-        <Provider store={store}>
-            <App />
-        </Provider>,
-        document.getElementsByTagName("main")[0],
-    );
+  render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementsByTagName('main')[0],
+  );
 
-    ipcRenderer.send("requestchildprocessstatus");
+  ipcRenderer.send('requestchildprocessstatus');
 }
 
 main().catch(e => console.error(e.stack || e));
