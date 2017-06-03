@@ -6,7 +6,9 @@
     "url": "https://github.com/progre/typescript-boilerplate/issues"
   },
   "dependencies": {
-    "babel-polyfill": "^6.23.0"
+    "babel-polyfill": "^6.23.0",
+    "husky": "^0.13.4",
+    "validate-commit-msg": "^2.12.1"
   },
   "devDependencies": {
     "@types/empower": "^1.2.30",
@@ -51,6 +53,7 @@
   "scripts": {
     "build": "run-p clean release-build",
     "clean": "del lib",
+    "commitmsg": "validate-commit-msg",
     "debug-build": "cross-env NODE_ENV=development webpack --progress",
     "release-build": "cross-env NODE_ENV=production webpack --progress",
     "test": "mocha lib/test/",
