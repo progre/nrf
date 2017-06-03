@@ -6,9 +6,7 @@
     "url": "https://github.com/progre/typescript-boilerplate/issues"
   },
   "dependencies": {
-    "babel-polyfill": "^6.23.0",
-    "husky": "^0.13.4",
-    "validate-commit-msg": "^2.12.1"
+    "babel-polyfill": "^6.23.0"
   },
   "devDependencies": {
     "@types/electron": "^1.4.31",
@@ -27,6 +25,7 @@
     "del-cli": "^1.0.0",
     "electron": "^1.6.10",
     "electron-packager": "^8.5.1",
+    "husky": "^0.13.4",
     "mocha": "^3.4.2",
     "node-fetch": "^1.6.3",
     "npm-run-all": "^4.0.2",
@@ -40,6 +39,7 @@
     "tsutils": "1.6.0",
     "typescript": "^2.3.4",
     "uglify-save-license": "^0.4.1",
+    "validate-commit-msg": "^2.12.1",
     "webpack": "^2.6.1",
     "webpack-fail-plugin": "^1.0.6"
   },
