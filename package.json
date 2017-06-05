@@ -18,6 +18,7 @@
   "devDependencies": {
     "@types/electron": "^1.4.31",
     "@types/empower": "^1.2.30",
+    "@types/log4js": "^0.0.32",
     "@types/mocha": "^2.2.41",
     "@types/node": "^7.0.23",
     "@types/node-uuid": "0.0.28",
@@ -26,6 +27,7 @@
     "@types/react": "^0.14.47",
     "@types/react-dom": "^0.14.18",
     "@types/react-redux": "^4.4.32",
+    "@types/redux-persist": "^4.3.1",
     "@types/tldjs": "^1.7.1",
     "@types/universal-analytics": "^0.3.27",
     "@types/which": "^1.0.28",
