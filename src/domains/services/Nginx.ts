@@ -19,9 +19,10 @@ export default class Nginx extends EventEmitter {
   start(exePath: string, port: number, servers: string[]) {
     (async () => {
       if (exePath == null || exePath.length === 0) {
+        // tslint:disable-next-line:no-param-reassign
         exePath = 'nginx';
       }
-      const confPath = this.workPath + '/nginx.conf';
+      const confPath = `${this.workPath}/nginx.conf`;
       if (port != null) {
         const templatePath = getTemplatePath(this.rootPath);
         await createConfFile(templatePath, port, servers, confPath);
@@ -56,7 +57,7 @@ async function createConfFile(
   });
   const conf = createConf(template, port, pushedServers);
   await new Promise((resolve, reject) => {
-    fs.writeFile(confPath, conf, err => {
+    fs.writeFile(confPath, conf, (err) => {
       if (err != null) {
         reject(err);
         return;
@@ -67,7 +68,9 @@ async function createConfFile(
 }
 
 function createConf(template: string, port: number, pushedServers: string[]) {
+  // tslint:disable:no-param-reassign no-invalid-template-strings
   template = template.replace('${port}', port.toString());
   template = template.replace('${pushedServers}', pushedServers.map(x => `push ${x};`).join('\n'));
   return template;
+  // tslint:enable:no-param-reassign no-invalid-template-strings
 }

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 export function ComboBox(props: {
   id: string;
-  values: Array<{ key: string; value: string; }>;
+  values: ReadonlyArray<{ key: string; value: string; }>;
   selectedValue: string;
   onValueChange(value: string): void;
   disabled: boolean;
@@ -13,8 +13,9 @@ export function ComboBox(props: {
       id={props.id}
       className="form-control"
       value={props.selectedValue}
+      // tslint:disable-next-line:react-this-binding-issue
       onChange={e => props.onValueChange(
-        (e.target as HTMLInputElement).value
+        (e.target as HTMLInputElement).value,
       )}
       disabled={props.disabled}
     >
@@ -22,7 +23,7 @@ export function ComboBox(props: {
         props.values.map(ingest =>
           <option key={ingest.key} value={ingest.value}>
             {ingest.key}
-          </option>
+          </option>,
         )
       }
     </select>

@@ -22,6 +22,7 @@ export default class LocalSettings extends React.Component<Props, {}> {
           <FileSelectorRow
             labelText="Path to Nginx"
             value={this.props.nginxPath}
+            // tslint:disable-next-line:react-this-binding-issue
             onChange={value => this.props.onNginxPathChange(value)}
           />
         </div>
@@ -29,11 +30,12 @@ export default class LocalSettings extends React.Component<Props, {}> {
           <FileSelectorRow
             labelText="Path to FFmpeg"
             value={this.props.ffmpegPath}
+            // tslint:disable-next-line:react-this-binding-issue
             onChange={value => this.props.onFfmpegPathChange(value)}
           />
         </div>
         <div className="row">
-          <div className="col-sm-3" style={{ textAlign: "right" }}>
+          <div className="col-sm-3" style={{ textAlign: 'right' }}>
             <label htmlFor={portId} className="form-control-static">
               Port:
             </label>
@@ -46,7 +48,8 @@ export default class LocalSettings extends React.Component<Props, {}> {
               min="1"
               max="65535"
               className="form-control"
-              value={"" + this.props.nginxPort}
+              value={`${this.props.nginxPort}`}
+              // tslint:disable-next-line:react-this-binding-issue
               onChange={e => this.props.onNginxPortChange(
                 Number.parseInt((e.target as HTMLInputElement).value))}
             />

@@ -25,6 +25,7 @@ export default function Contents(props: {
                 type="checkbox"
                 style={{ marginRight: '0.5em' }}
                 checked={props.config.enabled}
+                // tslint:disable-next-line:react-this-binding-issue
                 onChange={e => props.onEnabledChange(
                   (e.target as HTMLInputElement).checked)}
               />
@@ -45,7 +46,7 @@ export default function Contents(props: {
               />
               : <TextBox
                 id={fmsId}
-                placeholder='rtmp://...'
+                placeholder="rtmp://..."
                 value={props.config.fmsURL}
                 onValueChange={props.onFMSURLChange}
               />
@@ -90,6 +91,7 @@ export default function Contents(props: {
           <a
             href={props.definition.url!}
             target="_blank"
+            rel="noopener noreferrer"
             className="selectable"
           >
             {props.definition.url}
@@ -126,6 +128,7 @@ function TextBox(props: {
     className="form-control"
     value={props.value}
     placeholder={props.placeholder}
+    // tslint:disable-next-line:react-this-binding-issue
     onChange={e => props.onValueChange(
       (e.target as HTMLInputElement).value)}
   />;

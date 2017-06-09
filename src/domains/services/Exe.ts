@@ -17,7 +17,7 @@ export default class Exe extends EventEmitter {
     const process = spawn(
       this.exePath,
       args,
-      { cwd: dirname(this.exePath) }
+      { cwd: dirname(this.exePath) },
     );
     process.on('error', (e: any) => {
       this.logger.error('Server error', e);

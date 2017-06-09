@@ -126,9 +126,11 @@ export default class Application {
 
 function join(fmsURL: string, streamKey: string) {
   if (!fmsURL.endsWith('/')) {
+    // tslint:disable-next-line:no-param-reassign
     fmsURL += '/';
   }
   if (streamKey.startsWith('/')) {
+    // tslint:disable-next-line:no-param-reassign
     streamKey = streamKey.slice(1);
   }
   return fmsURL + streamKey;

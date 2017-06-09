@@ -21,7 +21,7 @@ export default class ServiceSettings extends React.Component<Props, State> {
     super();
 
     this.state = {
-      selectedService: SERVICES[0].name
+      selectedService: SERVICES[0].name,
     };
   }
 
@@ -40,6 +40,7 @@ export default class ServiceSettings extends React.Component<Props, State> {
             serviceDefinitions={SERVICES}
             serviceConfigs={this.props.serviceConfigs}
             selectedService={this.state.selectedService}
+            // tslint:disable-next-line:react-this-binding-issue
             onMenuClick={service =>
               this.setState({ selectedService: service })}
           />
@@ -47,15 +48,19 @@ export default class ServiceSettings extends React.Component<Props, State> {
             definition={selectedDefinition}
             config={selectedConfig}
             onEnabledChange={
+              // tslint:disable-next-line:react-this-binding-issue
               value => this.props.onEnabledChange(selected, value)
             }
             onFMSURLChange={
+              // tslint:disable-next-line:react-this-binding-issue
               value => this.props.onFMSURLChange(selected, value)
             }
             onStreamKeyChange={
+              // tslint:disable-next-line:react-this-binding-issue
               value => this.props.onStreamKeyChange(selected, value)
             }
             onPushByChange={
+              // tslint:disable-next-line:react-this-binding-issue
               value => this.props.onPushByChange(selected, value)
             }
           />

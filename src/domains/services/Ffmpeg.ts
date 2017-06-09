@@ -4,24 +4,27 @@ import Exe from './Exe';
 export default class Ffmpeg extends EventEmitter {
   private exe = new Exe();
 
-  private onStopHandler = () => {
+  private onStopHandler() {
     setTimeout(
       () => this.exe.restart(),
       3000,
     );
-  };
+  }
 
   constructor() {
     super();
+
+    this.onStopHandler = this.onStopHandler.bind(this);
     this.exe.on('spawn', () => this.emit('spawn'));
     this.exe.on('close', () => this.emit('close'));
   }
 
-  get isAlive() { return this.exe.isAlive; };
+  get isAlive() { return this.exe.isAlive; }
   get exePath() { return this.exe.exePath; }
 
   start(exePath: string, port: number, servers: string[]) {
     if (exePath == null || exePath.length === 0) {
+      // tslint:disable-next-line:no-param-reassign
       exePath = 'ffmpeg';
     }
     this.exe.on('close', this.onStopHandler);
@@ -46,6 +49,6 @@ function createArgs(port: number, servers: string[]) {
     '-map', '0',
     '-codec', 'copy',
     '-f', 'tee',
-    servers.map(x => `[f=flv]${x}`).join('|')
+    servers.map(x => `[f=flv]${x}`).join('|'),
   ];
 }

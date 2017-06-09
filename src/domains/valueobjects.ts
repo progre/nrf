@@ -1,8 +1,6 @@
 import { SERVICES } from './repos';
 
-const ONE_SERVICE = SERVICES[0];
-
-export type ServiceDefinition = typeof ONE_SERVICE;
+export type ServiceDefinition = typeof SERVICES[0];
 
 export interface LocalConfig {
   nginxPath: string;

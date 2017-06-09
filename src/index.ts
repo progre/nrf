@@ -7,7 +7,7 @@ import { LocalConfig, ServiceConfig } from './domains/valueobjects';
 import { initMacMenu } from './macmenu';
 
 log4js.configure({
-  appenders: [{ type: 'console', layout: { type: 'basic' } }]
+  appenders: [{ type: 'console', layout: { type: 'basic' } }],
 });
 
 async function main() {

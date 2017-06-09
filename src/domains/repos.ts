@@ -1,14 +1,16 @@
 export const SERVICES = [
   {
     name: 'twitch',
-    icon: 'http://www.twitch.tv/favicon.ico',
-    url: 'http://www.twitch.tv/',
+    icon: 'https://www.twitch.tv/favicon.ico',
+    url: 'https://www.twitch.tv/',
     label: 'Twitch',
     pushBy: null,
   },
   {
     name: 'peercaststation',
+    // tslint:disable-next-line:no-http-string
     icon: 'http://127.0.0.1:7144/html/favicon.ico',
+    // tslint:disable-next-line:no-http-string
     url: 'http://www.pecastation.org/',
     label: 'PeerCastStation',
     pushBy: 'nginx',
@@ -50,8 +52,8 @@ export const SERVICES = [
   },
   {
     name: 'niconico',
-    icon: 'http://www.nicovideo.jp/favicon.ico',
-    url: 'http://live.nicovideo.jp/',
+    icon: 'https://www.nicovideo.jp/favicon.ico',
+    url: 'https://live.nicovideo.jp/',
     label: 'niconico',
     pushBy: null,
   },

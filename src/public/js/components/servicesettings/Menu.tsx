@@ -12,7 +12,7 @@ export default function Menu(props: {
       {
         props.serviceDefinitions
           .map(x => x.name)
-          .map(name => {
+          .map((name) => {
             const definition = props.serviceDefinitions.find(x => x.name === name)!;
             const config = props.serviceConfigs.find(x => x.name === name)!;
             return (
@@ -38,7 +38,7 @@ function MenuItem(props: {
 }) {
   return (
     <button
-      className={'btn text-left ' + (props.primary ? 'btn-primary' : 'btn-secondary')}
+      className={`btn text-left ${(props.primary ? 'btn-primary' : 'btn-secondary')}`}
       onClick={props.onClick}
     >
       <span style={{ width: 16, height: 16, float: 'left' }}>
@@ -46,7 +46,8 @@ function MenuItem(props: {
           src={props.serviceDefinition.icon!}
           width="16"
           height="16"
-          onError={e => { e.currentTarget.style.display = 'none'; }}
+          // tslint:disable-next-line:react-this-binding-issue
+          onError={(e) => { e.currentTarget.style.display = 'none'; }}
         />
       </span>
       <span style={{ marginLeft: '0.5em', float: 'left' }}>

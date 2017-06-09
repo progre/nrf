@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { LocalConfig, ServiceConfig } from '../../../domains/valueobjects';
 import Footer from './Footer';
-import LocalSettings from './localsettings/index';
-import ServiceSettings from './servicesettings/index';
+import LocalSettings from './LocalSettings';
+import ServiceSettings from './ServiceSettings';
 
 export interface Props {
   local: LocalConfig;
@@ -58,6 +58,7 @@ function UI(props: Props) {
         nginxErrorReasons={props.footer.nginxErrorReasons}
         ffmpeg={props.footer.ffmpeg}
         ffmpegErrorReasons={props.footer.ffmpegErrorReasons}
+        // tslint:disable-next-line:react-this-binding-issue
         onApply={() => props.apply(props.local, props.services)}
       />
     </div>

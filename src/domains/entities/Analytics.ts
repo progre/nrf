@@ -18,8 +18,8 @@ export default class Analytics {
           resolve(data);
           return;
         }
-        let newId = uuid.v4();
-        fs.writeFile(path, newId, err2 => {
+        const newId = uuid.v4();
+        fs.writeFile(path, newId, (err2) => {
           if (err2 == null) {
             resolve(newId);
             return;

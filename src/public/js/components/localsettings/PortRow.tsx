@@ -21,7 +21,7 @@ export default function CopyRow(props: {
           min="1"
           max="65535"
           className="form-control"
-          value={"" + props.value}
+          value={props.value}
           onChange={e => props.onPortChange(
             Number.parseInt((e.target as HTMLInputElement).value),
           )}

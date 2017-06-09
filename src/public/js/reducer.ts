@@ -5,7 +5,7 @@ import * as localActions from './actions/localactions';
 import * as serviceActions from './actions/serviceactions';
 import { Props } from './components/root';
 
-let props: Props;
+declare const props: Props;
 
 export function createInitialState(storedState: any) {
   const oldStoredState = storedState || {};
@@ -54,7 +54,7 @@ function getFMSURLOrDefault(serviceName: string, oldFmsURL: string) {
 
 function local(
   state: typeof props.local = <any>[],
-  action: redux.Action & { payload: any }
+  action: redux.Action & { payload: any },
 ) {
   switch (action.type) {
     case localActions.SET_NGINX_PATH:
@@ -100,7 +100,7 @@ function services(
 
 function footer(
   state: typeof props.local = <any>{},
-  action: redux.Action & { payload: any }
+  action: redux.Action & { payload: any },
 ) {
   switch (action.type) {
     case footerActions.SET_NEED_APPLY:
@@ -110,7 +110,7 @@ function footer(
         nginx: action.payload.nginx,
         nginxErrorReasons: action.payload.nginxErrorReasons,
         ffmpeg: action.payload.ffmpeg,
-        ffmpegErrorReasons: action.payload.ffmpegErrorReasons
+        ffmpegErrorReasons: action.payload.ffmpegErrorReasons,
       });
     default:
       return state;

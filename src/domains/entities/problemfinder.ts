@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import * as thenify from 'thenify';
+const thenify = require('thenify');
 const stat = thenify(fs.stat);
 import * as WhichStatic from 'which';
 const which = thenify(WhichStatic);
@@ -8,6 +8,7 @@ import * as nginx from '../services/nginx';
 export async function findNginxProblem(exePath: string, rootPath: string) {
   const reasons = [];
   if (exePath == null || exePath.length === 0) {
+    // tslint:disable-next-line:no-param-reassign
     exePath = 'nginx';
   }
   try {
@@ -32,6 +33,7 @@ export async function findNginxProblem(exePath: string, rootPath: string) {
 export async function findFfmpegProblem(exePath: string) {
   const reasons = [];
   if (exePath == null || exePath.length === 0) {
+    // tslint:disable-next-line:no-param-reassign
     exePath = 'ffmpeg';
   }
   try {

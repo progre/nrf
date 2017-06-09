@@ -24,10 +24,11 @@ export default function Footer(props: {
           <div className="col-sm-5" style={{ textAlign: 'right' }}>
             <button
               type="button"
+              // tslint:disable-next-line:react-this-binding-issue
               onClick={() => props.onApply()}
               className={[
                 'btn',
-                props.needApply ? 'btn-primary' : 'btn-secondary'
+                props.needApply ? 'btn-primary' : 'btn-secondary',
               ].join(' ')}
             >
               Apply settings

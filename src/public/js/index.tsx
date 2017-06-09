@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { autoRehydrate, persistStore } from 'redux-persist';
 import { setSubProcessStatus } from './actions/footeractions';
+import App from './containers/App';
 import reducer, { createInitialState } from './reducer';
-import App from './containers/app';
 
 async function main() {
   const store = createStore(
