@@ -12,7 +12,7 @@ let common = {
     : "inline-source-map",
   node: {
     __filename: true,
-    __dirname: true
+    __dirname: false
   },
   plugins: isProduction
     ? [failPlugin]
