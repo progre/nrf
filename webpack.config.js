@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const failPlugin = require('webpack-fail-plugin');
 const uglifySaveLicense = require('uglify-save-license');
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -13,9 +12,6 @@ const common = {
     __filename: true,
     __dirname: true
   },
-  plugins: isProduction
-    ? [failPlugin]
-    : [],
   resolve: { extensions: ['.ts', '.tsx', '.js'] },
   watchOptions: {
     ignored: /node_modules|lib/
@@ -64,18 +60,17 @@ module.exports = [
       output: {
         filename: 'lib/public/js/[name].js'
       },
-      plugins: common.plugins
-        .concat([
-          new CopyWebpackPlugin(
-            [{ from: 'src/public/', to: 'lib/public/' }],
-            {
-              ignore: [
-                'test/',
-                '*.ts',
-                '*.tsx'
-              ]
-            })
-        ])
+      plugins: [
+        new CopyWebpackPlugin(
+          [{ from: 'src/public/', to: 'lib/public/' }],
+          {
+            ignore: [
+              'test/',
+              '*.ts',
+              '*.tsx'
+            ]
+          })
+      ]
         .concat(isProduction
           ? [
             new webpack.optimize.UglifyJsPlugin({
