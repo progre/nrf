@@ -1,9 +1,18 @@
 {
-  
   "extends": [
     "tslint-microsoft-contrib/recommended_ruleset.js",
     "tslint-config-airbnb"
   ],
+  "jsRules": {
+    "object-literal-sort-keys": false,
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "never",
+        "singleline": "never"
+      }
+    ]
+  },
   "rules": {
     "export-name": false,
     "function-name": false,
