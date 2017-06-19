@@ -1,5 +1,4 @@
 {
-  
   "extends": [
     "tslint-microsoft-contrib/recommended_ruleset.js",
     "tslint-config-airbnb"

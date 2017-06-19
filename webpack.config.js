@@ -6,17 +6,10 @@ const electronVersion = require('./package.json').devDependencies.electron.slice
 const isProduction = process.env.NODE_ENV === 'production';
 
 const common = {
-  devtool: isProduction
-    ? false
-    : 'inline-source-map',
-  node: {
-    __filename: true,
-    __dirname: false
-  },
+  devtool: isProduction ? false : 'inline-source-map',
+  node: { __filename: true, __dirname: false },
   resolve: { extensions: ['.ts', '.tsx', '.js'] },
-  watchOptions: {
-    ignored: /node_modules|lib/
-  }
+  watchOptions: { ignored: /node_modules|lib/ }
 };
 
 function tsModule(targets) {
@@ -29,10 +22,7 @@ function tsModule(targets) {
           options: {
             env: {
               development: {
-                plugins: [[
-                  'babel-plugin-espower',
-                  { 'embedAst': true }
-                ]]
+                plugins: [['babel-plugin-espower', { 'embedAst': true }]]
               },
               production: {
                 presets: ['babili']
@@ -58,30 +48,31 @@ module.exports = [
         index: ['babel-polyfill', './src/public/js/index.ts']
       },
       externals: /^electron$/,
-      module: tsModule({ electron: electronVersion }),
+      module: tsModule({ uglify: true }),
       output: {
         filename: 'lib/public/js/[name].js',
         libraryTarget: 'commonjs2'
       },
       plugins: [
-        new CopyWebpackPlugin(
-          [{ from: 'src/public/', to: 'lib/public/' }],
-          {
-            ignore: [
-              'test/',
-              '*.ts',
-              '*.tsx'
-            ]
-          })
-      ]
-        .concat(isProduction
-          ? [
+        ...[
+          new CopyWebpackPlugin(
+            [{ from: 'src/public/', to: 'lib/public/' }],
+            {
+              ignore: [
+                'test/',
+                '*.ts',
+                '*.tsx'
+              ]
+            })
+        ],
+        ...(
+          !isProduction ? [] : [
             new webpack.optimize.UglifyJsPlugin({
               output: { comments: uglifySaveLicense }
             })
           ]
-          : []
-        ),
+        )
+      ],
       target: 'electron-renderer'
     }
   ),
