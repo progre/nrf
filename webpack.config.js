@@ -45,7 +45,7 @@ module.exports = [
     common,
     {
       entry: {
-        index: ['babel-polyfill', './src/public/js/index.ts']
+        index: ['babel-polyfill', './src/public/js/index.tsx']
       },
       externals: /^electron$/,
       module: tsModule({ uglify: true }),
