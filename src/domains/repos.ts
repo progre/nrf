@@ -1,10 +1,19 @@
 export const SERVICES = [
   {
+    name: 'restream',
+    icon: 'https://restream.io/favicon.ico',
+    url: 'https://restream.io/',
+    label: 'Restream.io',
+    pushBy: null,
+    supportedOnRestream: false,
+  },
+  {
     name: 'twitch',
     icon: 'https://www.twitch.tv/favicon.ico',
     url: 'https://www.twitch.tv/',
     label: 'Twitch',
     pushBy: null,
+    supportedOnRestream: true,
   },
   {
     name: 'peercaststation',
@@ -14,6 +23,7 @@ export const SERVICES = [
     url: 'http://www.pecastation.org/',
     label: 'PeerCastStation',
     pushBy: 'nginx',
+    supportedOnRestream: false,
   },
   {
     name: 'youtube',
@@ -21,6 +31,7 @@ export const SERVICES = [
     url: 'https://www.youtube.com/',
     label: 'YouTube',
     pushBy: 'ffmpeg',
+    supportedOnRestream: true,
   },
   {
     name: 'fresh',
@@ -28,6 +39,7 @@ export const SERVICES = [
     url: 'https://freshlive.tv/',
     label: 'FRESH!',
     pushBy: null,
+    supportedOnRestream: false,
   },
   {
     name: 'cavetube',
@@ -35,6 +47,7 @@ export const SERVICES = [
     url: 'https://www.cavelis.net/',
     label: 'CaveTube',
     pushBy: 'ffmpeg',
+    supportedOnRestream: true,
   },
   {
     name: 'livecodingtv',
@@ -42,6 +55,7 @@ export const SERVICES = [
     url: 'https://www.livecoding.tv/',
     label: 'Livecoding.tv',
     pushBy: null,
+    supportedOnRestream: true,
   },
   {
     name: 'niconico',
@@ -49,6 +63,7 @@ export const SERVICES = [
     url: 'https://live.nicovideo.jp/',
     label: 'niconico',
     pushBy: null,
+    supportedOnRestream: true,
   },
   {
     name: 'other1',
@@ -56,6 +71,7 @@ export const SERVICES = [
     url: '',
     label: 'Other 1',
     pushBy: null,
+    supportedOnRestream: false,
   },
   {
     name: 'other2',
@@ -63,6 +79,7 @@ export const SERVICES = [
     url: '',
     label: 'Other 2',
     pushBy: null,
+    supportedOnRestream: false,
   },
   {
     name: 'other3',
@@ -70,5 +87,6 @@ export const SERVICES = [
     url: '',
     label: 'Other 3',
     pushBy: null,
+    supportedOnRestream: false,
   },
 ];
