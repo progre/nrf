@@ -19,7 +19,7 @@ async function main() {
   );
   await new Promise(resolve => persistStore(store, {}, resolve));
 
-  ipcRenderer.on('childprocessstatuschange', (e, arg) => {
+  ipcRenderer.on('childprocessstatuschange', (e: any, arg: any) => {
     store.dispatch(setSubProcessStatus(
       arg.nginx,
       arg.nginxErrorReasons,

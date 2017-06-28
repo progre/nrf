@@ -27,7 +27,7 @@ async function main() {
   win.loadURL(`file://${__dirname}/public/index.html`);
   ipcMain.on(
     'requestchildprocessstatus',
-    (e) => {
+    (e: any) => {
       application.requestChildProcessStatus();
     },
   );
