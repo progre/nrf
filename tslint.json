@@ -35,6 +35,7 @@
     "no-require-imports": false,
     "no-single-line-block-comment": false,
     "no-var-requires": false,
+    "react-a11y-role-has-required-aria-props": false,
     "react-tsx-curly-spacing": [
       true,
       "never",
