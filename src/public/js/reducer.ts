@@ -3,14 +3,14 @@ import { SERVICES } from '../../domains/repos';
 import * as footerActions from './actions/footeractions';
 import * as localActions from './actions/localactions';
 import * as serviceActions from './actions/serviceactions';
-import { Props } from './components/root';
+import { Props } from './components/Root';
 
 declare const props: Props;
 
 export function createInitialState(storedState: any) {
   const oldStoredState = storedState || {};
   const oldLocal = oldStoredState.local || {};
-  const oldServices = oldStoredState.services != null && Array.isArray(oldStoredState.services)
+  const oldServices = oldStoredState.services && Array.isArray(oldStoredState.services)
     ? oldStoredState.services
     : [];
   return {
@@ -72,7 +72,7 @@ function services(
   state: typeof props.services = <any>[],
   action: redux.Action & { payload: any },
 ) {
-  const service = action.payload != null && action.payload.name != null
+  const service = action.payload && action.payload.name
     ? state.find(x => x.name === action.payload.name)!
     : <never>null;
   switch (action.type) {
