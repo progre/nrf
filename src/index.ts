@@ -13,8 +13,8 @@ log4js.configure({
 async function main() {
   await new Promise((resolve, reject) => app.once('ready', resolve));
   const win = new BrowserWindow({
-    width: 800,
-    height: 950,
+    width: 640,
+    height: 700,
     show: true,
   });
   const analytics = await Analytics.create(); // コンパイラーのバグで式の中にawaitを入れると正しく出力されない
