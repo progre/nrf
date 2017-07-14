@@ -1,6 +1,6 @@
 export const SERVICES = [
   {
-    name: 'restream',
+    name: 'restreamio',
     icon: 'https://restream.io/favicon.ico',
     url: 'https://restream.io/',
     label: 'Restream.io',
