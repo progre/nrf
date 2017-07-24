@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { LocalConfig, ServiceConfig } from '../../../domains/valueobjects';
+import { LocalConfig, ServiceConfig } from '../../../common/types';
 import Footer from './Footer';
 import LocalSettings from './LocalSettings';
 import ServiceSettings from './ServiceSettings';

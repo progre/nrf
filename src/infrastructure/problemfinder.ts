@@ -3,7 +3,7 @@ const thenify = require('thenify');
 const stat = thenify(fs.stat);
 import * as WhichStatic from 'which';
 const which = thenify(WhichStatic);
-import * as nginx from '../services/Nginx';
+import * as nginx from './childprocesses/Nginx';
 
 export async function findNginxProblem(exePath: string, rootPath: string) {
   const reasons = [];

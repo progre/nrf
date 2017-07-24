@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ServiceConfig, ServiceDefinition } from '../../../../domains/valueobjects';
+import { ServiceConfig, ServiceDefinition } from '../../../../common/types';
 
 export default function Menu(props: {
   serviceDefinitions: ServiceDefinition[],

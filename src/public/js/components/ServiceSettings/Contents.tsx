@@ -1,6 +1,6 @@
 import * as uuid from 'node-uuid';
 import * as React from 'react';
-import { ServiceConfig, ServiceDefinition } from '../../../../domains/valueobjects';
+import { ServiceConfig, ServiceDefinition } from '../../../../common/types';
 import { ComboBox } from './commons';
 import { PeerCastInformation, TwitchServerSelector } from './specials';
 

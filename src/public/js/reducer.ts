@@ -1,5 +1,5 @@
 import * as redux from 'redux';
-import { SERVICES } from '../../domains/repos';
+import { SERVICES } from '../../domain/repos';
 import * as footerActions from './actions/footeractions';
 import * as localActions from './actions/localactions';
 import * as serviceActions from './actions/serviceactions';

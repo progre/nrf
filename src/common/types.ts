@@ -1,4 +1,4 @@
-import { SERVICES } from './repos';
+import { SERVICES } from '../domain/repos';
 
 export type ServiceDefinition = typeof SERVICES[0];
 

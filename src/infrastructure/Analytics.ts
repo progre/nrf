@@ -4,7 +4,7 @@ import * as uuid from 'node-uuid';
 import * as _ua from 'universal-analytics';
 const ua: _ua = require('universal-analytics');
 import * as tld from 'tldjs';
-import { ServiceConfig } from '../valueobjects';
+import { ServiceConfig } from '../common/types';
 
 export default class Analytics {
   private visitor: _ua.Client;

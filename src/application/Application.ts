@@ -1,11 +1,11 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as process from 'process';
-import Ffmpeg from '../services/Ffmpeg';
-import Nginx from '../services/Nginx';
-import { LocalConfig, ServiceConfig } from '../valueobjects';
-import Analytics from './Analytics';
-import * as problemFinder from './problemfinder';
+import { LocalConfig, ServiceConfig } from '../common/types';
+import Ffmpeg from '../infrastructure/./childprocesses/Ffmpeg';
+import Nginx from '../infrastructure/./childprocesses/Nginx';
+import Analytics from '../infrastructure/Analytics';
+import * as problemFinder from '../infrastructure/problemfinder';
 
 export default class Application {
   private readonly rootPath = path.normalize(`${path.dirname(process.mainModule!.filename)}/..`);

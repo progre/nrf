@@ -1,10 +1,10 @@
 try { require('source-map-support').install(); } catch (e) { /* NOP */ }
 import { app, BrowserWindow, ipcMain } from 'electron';
 import * as log4js from 'log4js';
-import Analytics from './domains/entities/Analytics';
-import Application from './domains/entities/Application';
-import { LocalConfig, ServiceConfig } from './domains/valueobjects';
-import { initMacMenu } from './macmenu';
+import Application from './application/Application';
+import { LocalConfig, ServiceConfig } from './common/types';
+import Analytics from './infrastructure/Analytics';
+import { initMacMenu } from './userinterface/macmenu';
 
 log4js.configure({
   appenders: [{ type: 'console', layout: { type: 'basic' } }],

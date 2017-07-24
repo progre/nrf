@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { SERVICES } from '../../../../domains/repos';
-import { ServiceConfig } from '../../../../domains/valueobjects';
+import { ServiceConfig } from '../../../../common/types';
+import { SERVICES } from '../../../../domain/repos';
 import Contents from './Contents';
 import Menu from './Menu';
 

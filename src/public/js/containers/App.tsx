@@ -1,7 +1,7 @@
 import { ipcRenderer } from 'electron';
 import { connect } from 'react-redux';
 import * as Redux from 'redux';
-import { LocalConfig, ServiceConfig } from '../../../domains/valueobjects';
+import { LocalConfig, ServiceConfig } from '../../../common/types';
 import * as footerActions from '../actions/footeractions';
 import * as localActions from '../actions/localactions';
 import * as serviceActions from '../actions/serviceactions';
