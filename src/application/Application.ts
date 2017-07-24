@@ -18,16 +18,16 @@ export default class Application {
     private webContents: typeof BrowserWindow.prototype.webContents,
     private analytics: Analytics,
   ) {
-    if (webContents == null || analytics == null) {
+    if (!webContents || !analytics) {
       throw new Error();
     }
   }
 
   close() {
-    if (this.nginx != null) {
+    if (this.nginx) {
       this.nginx.stop();
     }
-    if (this.ffmpeg != null) {
+    if (this.ffmpeg) {
       this.ffmpeg.stop();
     }
   }
@@ -84,11 +84,11 @@ export default class Application {
   }
 
   private stop() {
-    if (this.nginx != null) {
+    if (this.nginx) {
       this.nginx.stop();
       this.nginx = null;
     }
-    if (this.ffmpeg != null) {
+    if (this.ffmpeg) {
       this.ffmpeg.stop();
       this.ffmpeg = null;
     }
@@ -104,20 +104,20 @@ export default class Application {
       return;
     }
     this.webContents.send('childprocessstatuschange', {
-      nginx: this.nginx != null && this.nginx.isAlive
+      nginx: !!this.nginx && this.nginx.isAlive
         ? true
         : (this.currentServiceConfigs || []).length > 0
           ? false
           : null,
-      nginxErrorReasons: this.nginx == null || this.nginx.isAlive
+      nginxErrorReasons: !this.nginx || this.nginx.isAlive
         ? []
         : await problemFinder.findNginxProblem(this.nginx.exePath || '', this.rootPath),
-      ffmpeg: this.ffmpeg != null && this.ffmpeg.isAlive
+      ffmpeg: !!this.ffmpeg && this.ffmpeg.isAlive
         ? true
         : (this.currentServiceConfigs || []).some(x => x.pushBy === 'ffmpeg')
           ? false
           : null,
-      ffmpegErrorReasons: this.ffmpeg == null || this.ffmpeg.isAlive
+      ffmpegErrorReasons: !this.ffmpeg || this.ffmpeg.isAlive
         ? []
         : await problemFinder.findFfmpegProblem(this.ffmpeg.exePath || ''),
     });
