@@ -36,7 +36,7 @@ export default class Analytics {
     this.visitor.pageview('/').send();
   }
 
-  send(serviceConfigs: ServiceConfig[]) {
+  send(serviceConfigs: ReadonlyArray<ServiceConfig>) {
     const list = serviceConfigs
       .filter(x => x.enabled)
       .map(x => ({

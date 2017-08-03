@@ -2,6 +2,7 @@ import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as process from 'process';
 import { LocalConfig, ServiceConfig } from '../common/types';
+import Config from '../domain/Config';
 import Ffmpeg from '../infrastructure/./childprocesses/Ffmpeg';
 import Nginx from '../infrastructure/./childprocesses/Nginx';
 import Analytics from '../infrastructure/Analytics';
@@ -12,7 +13,7 @@ export default class Application {
   private readonly workPath = app.getPath('userData');
   private nginx: Nginx | null;
   private ffmpeg: Ffmpeg | null;
-  private currentServiceConfigs: ServiceConfig[] | null;
+  private runningConfig: Config | null;
 
   constructor(
     private webContents: typeof BrowserWindow.prototype.webContents,
@@ -32,24 +33,24 @@ export default class Application {
     }
   }
 
-  apply(localConfig: LocalConfig, serviceConfigs: ServiceConfig[]) {
-    this.analytics.send(serviceConfigs);
+  apply(config: Config) {
+    this.analytics.send(config.serviceConfigs);
     this.stop();
-    this.start(localConfig, serviceConfigs);
+    this.start(config);
     this.sendChildProcessStatus();
   }
 
-  private start(localConfig: LocalConfig, serviceConfigs: ServiceConfig[]) {
-    const enables = serviceConfigs.filter(x => x.enabled);
+  private start(config: Config) {
+    const enables = config.getBroadcastableServiceConfigs();
     if (enables.length <= 0) {
       return;
     }
-    this.currentServiceConfigs = enables;
+    this.runningConfig = config;
     const nginxAvailables = enables.filter(x => x.pushBy === 'nginx');
-    this.startNginx(localConfig, nginxAvailables);
+    this.startNginx(config.localConfig, nginxAvailables);
     const ffmpegAvailables = enables.filter(x => x.pushBy === 'ffmpeg');
     if (ffmpegAvailables.length > 0) {
-      this.startFfmpeg(localConfig, ffmpegAvailables);
+      this.startFfmpeg(config.localConfig, ffmpegAvailables);
     }
   }
 
@@ -92,7 +93,7 @@ export default class Application {
       this.ffmpeg.stop();
       this.ffmpeg = null;
     }
-    this.currentServiceConfigs = null;
+    this.runningConfig = null;
   }
 
   requestChildProcessStatus() {
@@ -103,10 +104,11 @@ export default class Application {
     if (this.webContents.isDestroyed()) {
       return;
     }
+    // true: 正常, false: エラー, null: 無効
     this.webContents.send('childprocessstatuschange', {
       nginx: !!this.nginx && this.nginx.isAlive
         ? true
-        : (this.currentServiceConfigs || []).length > 0
+        : this.runningConfig && this.runningConfig.hasAnyBroadcastableServices()
           ? false
           : null,
       nginxErrorReasons: !this.nginx || this.nginx.isAlive
@@ -114,7 +116,7 @@ export default class Application {
         : await problemFinder.findNginxProblem(this.nginx.exePath || '', this.rootPath),
       ffmpeg: !!this.ffmpeg && this.ffmpeg.isAlive
         ? true
-        : (this.currentServiceConfigs || []).some(x => x.pushBy === 'ffmpeg')
+        : this.runningConfig && this.runningConfig.hasAnyBroadcastableFfmpegServices()
           ? false
           : null,
       ffmpegErrorReasons: !this.ffmpeg || this.ffmpeg.isAlive
