@@ -34,7 +34,7 @@ export default class Application {
   }
 
   apply(config: Config) {
-    this.analytics.send(config.serviceConfigs);
+    this.analytics.send(config.getBroadcastableServiceConfigs());
     this.stop();
     this.start(config);
     this.sendChildProcessStatus();

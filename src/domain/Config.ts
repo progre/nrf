@@ -3,7 +3,7 @@ import { LocalConfig, ServiceConfig } from '../common/types';
 export default class Config {
   constructor(
     public readonly localConfig: LocalConfig,
-    public readonly serviceConfigs: ReadonlyArray<ServiceConfig>,
+    private readonly serviceConfigs: ReadonlyArray<ServiceConfig>,
   ) {
   }
 

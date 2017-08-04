@@ -37,27 +37,26 @@ export default class Analytics {
   }
 
   send(serviceConfigs: ReadonlyArray<ServiceConfig>) {
-    const list = serviceConfigs
-      .filter(x => x.enabled)
+    serviceConfigs
       .map(x => ({
         server: <string>tld.getDomain(x.fmsURL),
         pushBy: x.pushBy,
       }))
-      .filter(x => x.server != null);
-    for (const item of list) {
-      const mapKey = `${item.server}-${item.pushBy}`;
-      const before = this.applies.get(mapKey);
-      const now = new Date();
-      this.applies.set(mapKey, now);
-      if (before != null && now.getDate() < before.getDate() + 1 * 60 * 60 * 1000) {
-        continue;
-      }
-      this.visitor.event(
-        'Settings',
-        'Apply',
-        item.server,
-        item.pushBy === 'nginx' ? 0 : 1,
-      ).send();
-    }
+      .filter(x => x.server)
+      .forEach(({ server, pushBy }) => {
+        const mapKey = `${server}-${pushBy}`;
+        const before = this.applies.get(mapKey);
+        const now = new Date();
+        this.applies.set(mapKey, now);
+        if (before && now.getDate() < before.getDate() + 1 * 60 * 60 * 1000) {
+          return;
+        }
+        this.visitor.event(
+          'Settings',
+          'Apply',
+          server,
+          pushBy === 'nginx' ? 0 : 1,
+        ).send();
+      });
   }
 }

@@ -15,9 +15,9 @@ export function createInitialState(storedState: any) {
     : [];
   return {
     local: {
-      nginxPath: oldLocal.nginxPath || '',
-      nginxPort: oldLocal.nginxPort || 1935,
-      ffmpegPath: oldLocal.ffmpegPath || '',
+      nginxPath: <string>oldLocal.nginxPath || '',
+      nginxPort: <number>oldLocal.nginxPort || 1935,
+      ffmpegPath: <string>oldLocal.ffmpegPath || '',
     },
     services: refreshState(
       oldServices,
