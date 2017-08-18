@@ -21,3 +21,11 @@ export function setFfmpegPath(path: string) {
     payload: path,
   };
 }
+
+export const SET_HIDE_SERVICES_SUPPORTED_BY_RESTREAM_IO = 'SET_HIDE_SERVICES_SUPPORTED_BY_RESTREAM_IO';
+export function setHideServicesSupportedByRestreamIo(value: boolean) {
+  return {
+    type: SET_HIDE_SERVICES_SUPPORTED_BY_RESTREAM_IO,
+    payload: value,
+  };
+}

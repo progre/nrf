@@ -27,8 +27,14 @@ function mapDispatchToProps(dispatch: Redux.Dispatch<{}>) {
       dispatch(localActions.setFfmpegPath(path));
       dispatch(footerActions.setToNeedApply(true));
     },
+
     onEnabledChange(name: string, value: boolean) {
       dispatch(serviceActions.setEnabled(name, value));
+      dispatch(footerActions.setToNeedApply(true));
+    },
+
+    onHideServicesSupportedByRestreamIoChange(value: boolean) {
+      dispatch(localActions.setHideServicesSupportedByRestreamIo(value));
       dispatch(footerActions.setToNeedApply(true));
     },
 

@@ -1,6 +1,10 @@
 import * as uuid from 'node-uuid';
 import * as React from 'react';
-import { ServiceConfig, ServiceDefinition } from '../../../../common/types';
+import {
+  LocalConfig,
+  ServiceConfig,
+  ServiceDefinition,
+} from '../../../../common/types';
 import { ComboBox } from './commons';
 import { PeerCastInformation, TwitchServerSelector } from './specials';
 import TextBox from './TextBox';
@@ -8,54 +12,65 @@ import TextBox from './TextBox';
 export interface Props {
   definition: ServiceDefinition;
   config: ServiceConfig;
+  localConfig: LocalConfig;
   onEnabledChange(value: boolean): void;
+  onHideServicesSupportedByRestreamIoChange(value: boolean): void;
   onFMSURLChange(value: string): void;
   onStreamKeyChange(value: string): void;
   onPushByChange(value: string): void;
 }
 
-export default class Contents extends React.Component<Props, {}> {
-  render() {
-    return (
-      <div className="col-sm-8">
-        <div className="row">
-          <Enabler
-            enabled={this.props.config.enabled}
-            onEnabledChange={this.props.onEnabledChange}
-          />
-        </div>
-        <div className="row">
-          <FMSURL
-            definitionName={this.props.definition.name}
-            fmsURL={this.props.config.fmsURL}
-            onFMSURLChange={this.props.onFMSURLChange}
-          />
-        </div>
-        <div className="row">
-          {
-            this.props.definition.name === 'peercaststation'
-              ? <PeerCastInformation />
-              : (
-                <StreamKey
-                  streamKey={this.props.config.streamKey}
-                  onStreamKeyChange={this.props.onStreamKeyChange}
-                />
-              )
-          }
-        </div>
-        <div className="row">
-          <PushBy
-            pushBy={this.props.config.pushBy}
-            disabled={!!this.props.definition.pushBy}
-            onPushByChange={this.props.onPushByChange}
-          />
-        </div>
-        <div style={{ marginTop: '1em' }} className="row">
-          <Link url={this.props.definition.url} />
-        </div>
+export default function Contents(props: Props) {
+  return (
+    <div className="col-sm-8">
+      <div className="row">
+        <Enabler
+          enabled={props.config.enabled}
+          onEnabledChange={props.onEnabledChange}
+        />
       </div>
-    );
-  }
+      {
+        props.definition.name !== 'restreamio' ? null
+          : (
+            <div className="row">
+              <HideServicesSupportedByRestreamIo
+                enabled={props.localConfig.hideServicesSupportedByRestreamIo}
+                onChange={props.onHideServicesSupportedByRestreamIoChange}
+              />
+            </div>
+          )
+      }
+      <div className="row">
+        <FMSURL
+          definitionName={props.definition.name}
+          fmsURL={props.config.fmsURL}
+          onFMSURLChange={props.onFMSURLChange}
+        />
+      </div>
+      <div className="row">
+        {
+          props.definition.name === 'peercaststation'
+            ? <PeerCastInformation />
+            : (
+              <StreamKey
+                streamKey={props.config.streamKey}
+                onStreamKeyChange={props.onStreamKeyChange}
+              />
+            )
+        }
+      </div>
+      <div className="row">
+        <PushBy
+          pushBy={props.config.pushBy}
+          disabled={!!props.definition.pushBy}
+          onPushByChange={props.onPushByChange}
+        />
+      </div>
+      <div style={{ marginTop: '1em' }} className="row">
+        <Link url={props.definition.url} />
+      </div>
+    </div>
+  );
 }
 
 function Enabler(props: {
@@ -75,6 +90,29 @@ function Enabler(props: {
             }
           />
           <span>Enable</span>
+        </label>
+      </div>
+    </div>
+  );
+}
+
+function HideServicesSupportedByRestreamIo(props: {
+  enabled: boolean;
+  onChange(value: boolean): void;
+}) {
+  return (
+    <div className="push-sm-3 col-sm-9">
+      <div className="checkbox">
+        <label>
+          <input
+            type="checkbox"
+            style={{ marginRight: '0.5em' }}
+            checked={props.enabled}
+            onChange={
+              e => props.onChange((e.target as HTMLInputElement).checked)
+            }
+          />
+          <span>Hide services supported by Restream.io</span>
         </label>
       </div>
     </div>

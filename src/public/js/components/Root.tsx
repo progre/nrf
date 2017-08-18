@@ -18,6 +18,7 @@ export interface Props {
   onNginxPortChange(port: number): void;
   onFfmpegPathChange(path: string): void;
   onEnabledChange(name: string, value: boolean): void;
+  onHideServicesSupportedByRestreamIoChange(value: boolean): void;
   onFMSURLChange(name: string, value: string): void;
   onStreamKeyChange(name: string, value: string): void;
   onPushByChange(name: string, value: string): void;
@@ -46,8 +47,10 @@ function UI(props: Props) {
         onFfmpegPathChange={props.onFfmpegPathChange}
       />
       <ServiceSettings
+        localConfig={props.local}
         serviceConfigs={props.services}
         onEnabledChange={props.onEnabledChange}
+        onHideServicesSupportedByRestreamIoChange={props.onHideServicesSupportedByRestreamIoChange}
         onFMSURLChange={props.onFMSURLChange}
         onStreamKeyChange={props.onStreamKeyChange}
         onPushByChange={props.onPushByChange}

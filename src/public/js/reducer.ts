@@ -1,11 +1,9 @@
 import * as redux from 'redux';
+import { LocalConfig, ServiceConfig } from '../../common/types';
 import { SERVICES } from '../../domain/repos';
 import * as footerActions from './actions/footeractions';
 import * as localActions from './actions/localactions';
 import * as serviceActions from './actions/serviceactions';
-import { Props } from './components/Root';
-
-declare const props: Props;
 
 export function createInitialState(storedState: any) {
   const oldStoredState = storedState || {};
@@ -18,6 +16,9 @@ export function createInitialState(storedState: any) {
       nginxPath: <string>oldLocal.nginxPath || '',
       nginxPort: <number>oldLocal.nginxPort || 1935,
       ffmpegPath: <string>oldLocal.ffmpegPath || '',
+      hideServicesSupportedByRestreamIo: migrateHideServicesSupportedByRestreamIo(
+        oldLocal.hideServicesSupportedByRestreamIo, oldServices,
+      ),
     },
     services: refreshState(
       oldServices,
@@ -33,7 +34,11 @@ export function createInitialState(storedState: any) {
   };
 }
 
-function refreshState(state: typeof props.services, services: typeof SERVICES) {
+function migrateHideServicesSupportedByRestreamIo(old: boolean | null, oldServices: {}[]) {
+  return old || (oldServices.length !== 0 ? false : true);
+}
+
+function refreshState(state: ReadonlyArray<ServiceConfig>, services: typeof SERVICES) {
   return services.map((x) => {
     const old = state.filter(y => y.name === x.name)[0] || {};
     return {
@@ -41,7 +46,7 @@ function refreshState(state: typeof props.services, services: typeof SERVICES) {
       enabled: old.enabled || false,
       fmsURL: getFMSURLOrDefault(x.name, old.fmsURL || ''),
       streamKey: old.streamKey || '',
-      pushBy: x.pushBy || old.pushBy || 'ffmpeg', // 初期値優先 無ければFFmpeg
+      pushBy: (<'nginx' | 'ffmpeg' | null>x.pushBy) || old.pushBy || 'ffmpeg', // 初期値優先 無ければFFmpeg
     };
   });
 }
@@ -53,23 +58,28 @@ function getFMSURLOrDefault(serviceName: string, oldFmsURL: string) {
 }
 
 function local(
-  state: typeof props.local = <any>[],
+  state: LocalConfig = <any>{},
   action: redux.Action & { payload: any },
 ) {
   switch (action.type) {
     case localActions.SET_NGINX_PATH:
-      return Object.assign({}, state, { nginxPath: action.payload });
+      return { ...state, nginxPath: action.payload };
     case localActions.SET_NGINX_PORT:
-      return Object.assign({}, state, { nginxPort: action.payload });
+      return { ...state, nginxPort: action.payload };
     case localActions.SET_FFMPEG_PATH:
-      return Object.assign({}, state, { ffmpegPath: action.payload });
+      return { ...state, ffmpegPath: action.payload };
+    case localActions.SET_HIDE_SERVICES_SUPPORTED_BY_RESTREAM_IO:
+      return {
+        ...state,
+        hideServicesSupportedByRestreamIo: action.payload
+      };
     default:
       return state;
   }
 }
 
 function services(
-  state: typeof props.services = <any>[],
+  state: ReadonlyArray<ServiceConfig> = <any>[],
   action: redux.Action & { payload: any },
 ) {
   const service = action.payload && action.payload.name
@@ -99,7 +109,7 @@ function services(
 }
 
 function footer(
-  state: typeof props.local = <any>{},
+  state: LocalConfig = <any>{},
   action: redux.Action & { payload: any },
 ) {
   switch (action.type) {

@@ -10,18 +10,16 @@ export default function Menu(props: {
   return (
     <div className="col-sm-4 btn-group-vertical" style={{ marginBottom: 10 }}>
       {
-        props.serviceDefinitions
-          .map(x => x.name)
-          .map((name) => {
-            const definition = props.serviceDefinitions.find(x => x.name === name)!;
-            const config = props.serviceConfigs.find(x => x.name === name)!;
+        props.serviceConfigs
+          .map((config)=> {
+            const definition = props.serviceDefinitions.find(x => x.name === config.name)!;
             return (
               <MenuItem
                 key={definition.name}
-                primary={name === props.selectedService}
+                primary={config.name === props.selectedService}
                 serviceDefinition={definition}
                 serviceConfig={config}
-                onClick={() => props.onMenuClick(name)}
+                onClick={() => props.onMenuClick(config.name)}
               />
             );
           })

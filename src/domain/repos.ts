@@ -5,7 +5,7 @@ export const SERVICES = [
     url: 'https://restream.io/',
     label: 'Restream.io',
     pushBy: null,
-    supportedOnRestream: false,
+    supportedByRestreamIo: false,
   },
   {
     name: 'twitch',
@@ -13,7 +13,7 @@ export const SERVICES = [
     url: 'https://www.twitch.tv/',
     label: 'Twitch',
     pushBy: null,
-    supportedOnRestream: true,
+    supportedByRestreamIo: true,
   },
   {
     name: 'peercaststation',
@@ -23,7 +23,7 @@ export const SERVICES = [
     url: 'http://www.pecastation.org/',
     label: 'PeerCastStation',
     pushBy: 'nginx',
-    supportedOnRestream: false,
+    supportedByRestreamIo: false,
   },
   {
     name: 'youtube',
@@ -31,7 +31,7 @@ export const SERVICES = [
     url: 'https://www.youtube.com/',
     label: 'YouTube',
     pushBy: 'ffmpeg',
-    supportedOnRestream: true,
+    supportedByRestreamIo: true,
   },
   {
     name: 'fresh',
@@ -39,7 +39,7 @@ export const SERVICES = [
     url: 'https://freshlive.tv/',
     label: 'FRESH!',
     pushBy: null,
-    supportedOnRestream: false,
+    supportedByRestreamIo: false,
   },
   {
     name: 'cavetube',
@@ -47,7 +47,7 @@ export const SERVICES = [
     url: 'https://www.cavelis.net/',
     label: 'CaveTube',
     pushBy: 'ffmpeg',
-    supportedOnRestream: true,
+    supportedByRestreamIo: true,
   },
   {
     name: 'livecodingtv',
@@ -55,7 +55,7 @@ export const SERVICES = [
     url: 'https://www.livecoding.tv/',
     label: 'Livecoding.tv',
     pushBy: null,
-    supportedOnRestream: true,
+    supportedByRestreamIo: true,
   },
   {
     name: 'niconico',
@@ -63,7 +63,7 @@ export const SERVICES = [
     url: 'https://live.nicovideo.jp/',
     label: 'niconico',
     pushBy: null,
-    supportedOnRestream: true,
+    supportedByRestreamIo: true,
   },
   {
     name: 'other1',
@@ -71,7 +71,7 @@ export const SERVICES = [
     url: '',
     label: 'Other 1',
     pushBy: null,
-    supportedOnRestream: false,
+    supportedByRestreamIo: false,
   },
   {
     name: 'other2',
@@ -79,7 +79,7 @@ export const SERVICES = [
     url: '',
     label: 'Other 2',
     pushBy: null,
-    supportedOnRestream: false,
+    supportedByRestreamIo: false,
   },
   {
     name: 'other3',
@@ -87,6 +87,6 @@ export const SERVICES = [
     url: '',
     label: 'Other 3',
     pushBy: null,
-    supportedOnRestream: false,
+    supportedByRestreamIo: false,
   },
 ];

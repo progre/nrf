@@ -6,6 +6,7 @@ export interface LocalConfig {
   nginxPath: string;
   nginxPort: number;
   ffmpegPath: string;
+  hideServicesSupportedByRestreamIo: boolean;
 }
 
 export interface ServiceConfig {
