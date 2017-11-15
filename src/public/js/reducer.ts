@@ -38,7 +38,7 @@ function migrateHideServicesSupportedByRestreamIo(old: boolean | null, oldServic
   return old || (oldServices.length !== 0 ? false : true);
 }
 
-function refreshState(state: ReadonlyArray<ServiceConfig>, services: typeof SERVICES) {
+function refreshState(state: ReadonlyArray<ServiceConfig>, services: typeof SERVICES): ReadonlyArray<ServiceConfig> {
   return services.map((x) => {
     const old = state.filter(y => y.name === x.name)[0] || {};
     return {
@@ -85,27 +85,28 @@ function services(
   const service = action.payload && action.payload.name
     ? state.find(x => x.name === action.payload.name)!
     : <never>null;
-  switch (action.type) {
-    case serviceActions.SET_ENABLED: {
-      const newService = Object.assign({}, service, { enabled: action.payload.value });
-      return state.filter(x => x.name !== newService.name).concat(newService);
+  return sortServices((() => {
+    switch (action.type) {
+      case serviceActions.SET_ENABLED: {
+        const newService = Object.assign({}, service, { enabled: action.payload.value });
+        return state.filter(x => x.name !== newService.name).concat(newService);
+      }
+      case serviceActions.SET_FMS_URL: {
+        const newService = Object.assign({}, service, { fmsURL: action.payload.value });
+        return state.filter(x => x.name !== newService.name).concat(newService);
+      }
+      case serviceActions.SET_STREAM_KEY: {
+        const newService = Object.assign({}, service, { streamKey: action.payload.value });
+        return state.filter(x => x.name !== newService.name).concat(newService);
+      }
+      case serviceActions.SET_PUSH_BY: {
+        const newService = Object.assign({}, service, { pushBy: action.payload.value });
+        return state.filter(x => x.name !== newService.name).concat(newService);
+      }
+      default:
+        return state;
     }
-    case serviceActions.SET_FMS_URL: {
-      const newService = Object.assign({}, service, { fmsURL: action.payload.value });
-      return state.filter(x => x.name !== newService.name).concat(newService);
-    }
-    case serviceActions.SET_STREAM_KEY: {
-      const newService = Object.assign({}, service, { streamKey: action.payload.value });
-      return state.filter(x => x.name !== newService.name).concat(newService);
-    }
-    case serviceActions.SET_PUSH_BY: {
-      const newService = Object.assign({}, service, { pushBy: action.payload.value });
-      return state.filter(x => x.name !== newService.name).concat(newService);
-    }
-    default:
-      break;
-  }
-  return state;
+  })());
 }
 
 function footer(
@@ -125,6 +126,12 @@ function footer(
     default:
       return state;
   }
+}
+
+function sortServices(services: ReadonlyArray<ServiceConfig>) {
+  return SERVICES
+    .filter(x => services.some(y => x.name === y.name))
+    .map(x => services.find(y => x.name === y.name));
 }
 
 export default redux.combineReducers({ local, services, footer });
